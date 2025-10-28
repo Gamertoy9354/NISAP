@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>LOGIN</title>
+        <link rel="stylesheet" href="static/authenticate.css">
+    </head>
+    <body>
+        <div class="circle"></div>
+        <div class="lcontainer">
+            <h2>Login</h2>
+            <form action="/login" method="POST">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Login</button>
+            </form>
+            <hr>
+            <div class="options">
+                <p>Dont have an account?<br> <a href="{{ url_for('register') }}">Register here</a></p>
+                <p>forgot password?<br><a href="{{ url_for('forgot_password') }}">click here!</a></p>
+            </div>
+        </div>
+    </body>
+</html>

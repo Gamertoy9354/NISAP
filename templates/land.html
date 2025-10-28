@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SHALA</title>
+        <link rel="stylesheet" href="static\land.css">
+    </head>
+    <body>
+        <div class="navbar">
+            <a href="{{ url_for('home') }}"><button class="navbtn">Register</button></a>
+            <a href="{{ url_for('login') }}"><button class="navbtn">Login</button></a>
+            <a href="{{ url_for('forgot_password') }}"><button class="navbtn">Forgot Password</button></a>
+        </div>
+        <center><h1 style="color: white;font-size: 50px;"><b>INTRO</b></h1></center>
+        <section class="intro">
+            <div class="intro-txt">
+                <h3 class="info">this is a demo text to test</h3>
+                <h3 class="info2">the writting animation</h3>
+                <br>
+                <br>
+                <h2 class="inno">-By InnoCrew</h2>
+                <br>
+                <a href="{{ url_for('index') }}"><button class="grabber">Services</button></a>
+            </div>
+            <div class="intro-img">
+                <img class="info-img" src="static\Dimg-1.png">
+            </div>
+        </section>
+        <hr class="divider">
+        <center><h1 style="color: white;font-size: 50px;"><b>ABOUT</b></h1></center>
+        <section class="intro">
+            <div class="intro-img">
+                <img class="info-img" src="static\Dimg-2.png">
+            </div>
+            <div class="intro-txt">
+                <p class="about-txt">
+                    Shala is a platform that connects students with mentors. It is a platform that helps students to get their doubts cleared and also helps mentors to get their students cleared.
+                </p>
+            </div>
+        </section>
+        <hr class="divider">
+        <center><h1 style="color: white;font-size: 50px;"><b>TEAM</b></h1></center>
+        <section class="intro">
+            <section class="team">
+                <div class="team-member">
+                    <img class="team-img" src="static\trupal.png" alt="Team Member 1">
+                    <h3>Trupal Gamit</h3>
+                    <p>LEADER</p>
+                </div>
+                <div class="team-member">
+                    <img class="team-img" src="static\shis-2.png" alt="Team Member 1">
+                    <h3>Shis Maheta</h3>
+                    <p>Developer-1</p>
+                </div>
+                <div class="team-member">
+                    <img class="team-img" src="static\Shreyansh.png" alt="Team Member 1">
+                    <h3>Shreyansh</h3>
+                    <p>Developer-2</p>
+                </div>
+                <div class="team-member">
+                    <img class="team-img" src="static\karan.png" alt="Team Member 1">
+                    <h3>Karan Chaudhary</h3>
+                    <p>Developer-3</p>
+                </div>
+            </section>
+        </section>
+        <script src="static\land.js"></script>
+    </body>
+</html>

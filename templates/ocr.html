@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extract School Data from Image</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: url("static/bg-4.png"); /* Your background */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            scroll-behavior: smooth; 
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            }
+        .circle{
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            box-shadow:
+                inset 0 0 50px #fff,      /* inner white */
+                inset 20px 0 80px #f0f,   /* inner left magenta short */
+                inset -20px 0 80px #0ff,  /* inner right cyan short */
+                inset 20px 0 300px #f0f,  /* inner left magenta broad */
+                inset -20px 0 300px #0ff, /* inner right cyan broad */
+                0 0 50px #fff,            /* outer white */
+                -10px 0 80px #f0f,        /* outer left magenta */
+                10px 0 80px #0ff;         /* outer right cyan */
+            z-index: -1;
+            position: fixed;
+            margin-left: 10%;
+            top: 14%;
+            overflow:hidden ;
+            }
+            @keyframes circle {
+                0% {
+                    box-shadow:
+                    inset 0 0 50px #ff00ff,
+                    inset 20px 0 80px rgb(17, 0, 255),
+                    inset -20px 0 80px rgb(255, 0, 0),
+                    inset 20px 0 300px rgb(4, 0, 255),
+                    inset -20px 0 300px rgb(255, 0, 0),
+                    0 0 50px #ff00ff,
+                    -10px 0 80px rgb(25, 0, 255),
+                    10px 0 80px rgb(255, 0, 0);
+                    border-radius: 50%;
+                    transform: scale(1.1) rotate(0deg);
+                }
+                12.5% {
+                    box-shadow:
+                    inset 0 0 50px #00ffff,
+                    inset 20px 0 80px rgb(0, 255, 255),
+                    inset -20px 0 80px rgb(255, 165, 0),
+                    inset 20px 0 300px rgb(0, 200, 255),
+                    inset -20px 0 300px rgb(255, 200, 0),
+                    0 0 50px #00ffff,
+                    -10px 0 80px rgb(0, 255, 255),
+                    10px 0 80px rgb(255, 165, 0);
+                    border-radius: 60%;
+                    transform: scale(1.05) rotate(45deg);
+                }
+                25% {
+                    box-shadow:
+                    inset 0 0 50px #fff,
+                    inset 20px 0 80px #f0f,
+                    inset -20px 0 80px #0ff,
+                    inset 20px 0 300px #f0f,
+                    inset -20px 0 300px #0ff,
+                    0 0 50px #fff,
+                    -10px 0 80px #f0f,
+                    10px 0 80px #0ff;
+                    border-radius: 80%;
+                    transform: scale(1) rotate(90deg);
+                }
+                37.5% {
+                    box-shadow:
+                    inset 0 0 50px #ffff00,
+                    inset 20px 0 80px rgb(255, 255, 0),
+                    inset -20px 0 80px rgb(0, 255, 100),
+                    inset 20px 0 300px rgb(200, 255, 0),
+                    inset -20px 0 300px rgb(0, 200, 100),
+                    0 0 50px #ffff00,
+                    -10px 0 80px rgb(255, 255, 0),
+                    10px 0 80px rgb(0, 255, 100);
+                    border-radius: 70%;
+                    transform: scale(1.08) rotate(135deg);
+                }
+                50% {
+                    box-shadow:
+                    inset 0 0 50px #ff00ff,
+                    inset 20px 0 80px rgb(17, 0, 255),
+                    inset -20px 0 80px rgb(255, 0, 0),
+                    inset 20px 0 300px rgb(4, 0, 255),
+                    inset -20px 0 300px rgb(255, 0, 0),
+                    0 0 50px #ff00ff,
+                    -10px 0 80px rgb(25, 0, 255),
+                    10px 0 80px rgb(255, 0, 0);
+                    border-radius: 50%;
+                    transform: scale(1.1) rotate(180deg);
+                }
+                62.5% {
+                    box-shadow:
+                    inset 0 0 50px #ff69b4,
+                    inset 20px 0 80px rgb(255, 105, 180),
+                    inset -20px 0 80px rgb(0, 255, 200),
+                    inset 20px 0 300px rgb(255, 100, 150),
+                    inset -20px 0 300px rgb(100, 255, 200),
+                    0 0 50px #ff69b4,
+                    -10px 0 80px rgb(255, 105, 180),
+                    10px 0 80px rgb(0, 255, 200);
+                    border-radius: 75%;
+                    transform: scale(1.03) rotate(225deg);
+                }
+                75% {
+                    box-shadow:
+                    inset 0 0 50px #fff,
+                    inset 20px 0 80px #f0f,
+                    inset -20px 0 80px #0ff,
+                    inset 20px 0 300px #f0f,
+                    inset -20px 0 300px #0ff,
+                    0 0 50px #fff,
+                    -10px 0 80px #f0f,
+                    10px 0 80px #0ff;
+                    border-radius: 80%;
+                    transform: scale(1) rotate(270deg);
+                }
+                87.5% {
+                    box-shadow:
+                    inset 0 0 50px #00ff00,
+                    inset 20px 0 80px rgb(0, 255, 0),
+                    inset -20px 0 80px rgb(255, 0, 255),
+                    inset 20px 0 300px rgb(100, 255, 100),
+                    inset -20px 0 300px rgb(200, 0, 255),
+                    0 0 50px #00ff00,
+                    -10px 0 80px rgb(0, 255, 0),
+                    10px 0 80px rgb(255, 0, 255);
+                    border-radius: 65%;
+                    transform: scale(1.07) rotate(315deg);
+                }
+                100% {
+                    box-shadow:
+                    inset 0 0 50px #ff00ff,
+                    inset 20px 0 80px rgb(17, 0, 255),
+                    inset -20px 0 80px rgb(255, 0, 0),
+                    inset 20px 0 300px rgb(4, 0, 255),
+                    inset -20px 0 300px rgb(255, 0, 0),
+                    0 0 50px #ff00ff,
+                    -10px 0 80px rgb(25, 0, 255),
+                    10px 0 80px rgb(255, 0, 0);
+                    border-radius: 100%;
+                    transform: scale(1.1) rotate(360deg);
+                }
+            }
+            .circle{
+                animation: circle 5s linear infinite;
+            }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            backdrop-filter: blur(10px);
+            background-color: #130c418c;
+            border: white solid 1px;
+            border-radius: 8px;
+            padding: 24px 32px;
+            box-sizing: border-box;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #ffffff;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        /* --- Upload Form --- */
+        #ocr-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        #image-upload {
+            border: 2px dashed #007bff;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #130c418c;
+        }
+        
+        #image-upload::file-selector-button {
+            background-color: #130c418c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        #image-upload::file-selector-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* --- Loader --- */
+        .loader {
+            display: none; /* Hidden by default */
+            margin: 20px auto;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* --- Confirmation Form --- */
+        #confirmation-area {
+            display: none; /* Hidden by default */
+        }
+
+        #final-submit-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group input[type="url"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            color: white;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            background-color: #130c418c;
+        }
+
+        /* Make fields look disabled */
+        .form-group input:disabled,
+        .form-group select:disabled,
+        .form-group textarea:disabled {
+            background-color: #130c418c;
+            color: #777;
+            cursor: not-allowed;
+        }
+
+        /* --- Buttons --- */
+        .button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+
+        .button-primary {
+            background-color: #130c418c;
+            color: white;
+            width: 100%;
+        }
+        .button-primary:hover {
+            background-color: #130c418c;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .button-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .button-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .button-success {
+            background-color: #28a745;
+            color: white;
+        }
+        .button-success:hover {
+            background-color: #218838;
+        }
+
+        .button-container {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="circle"></div>
+    <div class="container">
+        <h1>Extract Data from Image</h1>
+        <p style="text-align: center; margin-top: -10px; margin-bottom: 20px;">
+            Upload a photo of your handwritten school register data. Our AI will extract the details for you to review.
+        </p>
+
+        <form id="ocr-form">
+            <input type="file" id="image-upload" accept="image/*" required>
+            <button type="submit" class="button button-primary">Extract Data</button>
+        </form>
+
+        <div class="loader" id="loader"></div>
+
+        <div id="confirmation-area">
+            <h2>Review Extracted Data</h2>
+            <p style="text-align: center; margin-top: -10px; margin-bottom: 20px;">
+                The AI has extracted the following data. Please review it carefully. Click "Edit Data" to make changes before saving.
+            </p>
+            
+            <form id="final-submit-form" action="/submit-school-data" method="POST">
+                
+                <div class="form-group">
+                    <label for="f-school_name">School Name</label>
+                    <input type="text" id="f-school_name" name="school_name">
+                </div>
+                <div class="form-group">
+                    <label for="f-school_type">School Type</label>
+                    <select id="f-school_type" name="school_type">
+                        <option value="">--Select Type--</option>
+                        <option value="gov">Government</option>
+                        <option value="private">Private</option>
+                        <option value="trust">Trust</option>
+                    </select>
+                </div>
+                <div class="form-group full-width">
+                    <label for="f-location">Location</label>
+                    <input type="text" id="f-location" name="location">
+                </div>
+                <div class="form-group">
+                    <label for="f-year_establishment">Year of Establishment</label>
+                    <input type="number" id="f-year_establishment" name="year_establishment" min="1800" max="2025">
+                </div>
+                
+                <div class="form-group">
+                    <label for="f-num_grades">How many grades?</label>
+                    <input type="number" id="f-num_grades" name="num_grades" min="1">
+                </div>
+                <div class="form-group">
+                    <label for="f-num_students">Total Students (Calculated)</label>
+                    <input type="number" id="f-num_students" name="num_students" readonly style="background-color: #e0e0e0; font-weight: bold;">
+                </div>
+                <div class="form-group">
+                    <label for="f-avg_attendance_rate">Avg. Attendance Rate (%)</label>
+                    <input type="number" id="f-avg_attendance_rate" name="avg_attendance_rate" step="0.1" min="0" max="100">
+                </div>
+                <div class="form-group">
+                    <label for="f-gender_ratio">Gender Ratio (M:F)</label>
+                    <input type="text" id="f-gender_ratio" name="gender_ratio" placeholder="e.g., 55:45">
+                </div>
+                <div class="form-group">
+                    <label for="f-students_special_needs">Students with Special Needs</label>
+                    <input type="number" id="f-students_special_needs" name="students_special_needs" min="0">
+                </div>
+
+                <input type="hidden" id="f-grade_enrollment_data" name="grade_enrollment_data">
+                
+                <div class="form-group full-width">
+                    <label for="f-enrollment_trends">Enrollment Trends (Past 3 Years, comma-separated)</label>
+                    <input type="text" id="f-enrollment_trends" name="enrollment_trends" placeholder="e.g., 250, 275, 300">
+                </div>
+                <div class="form-group full-width">
+                    <label for="f-grade_enrollment_data_display">Per-Grade Enrollment (Review Only)</label>
+                    <textarea id="f-grade_enrollment_data_display" rows="3" readonly style="background-color: #e0e0e0;" title="Edit the hidden 'grade_enrollment_data' field or re-upload to change this."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="f-num_teachers">Number of Teachers</label>
+                    <input type="number" id="f-num_teachers" name="num_teachers" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="f-teacher_student_ratio">Teacher-Student Ratio (Calculated)</label>
+                    <input type="text" id="f-teacher_student_ratio" name="teacher_student_ratio" readonly style="background-color: #e0e0e0; font-weight: bold;">
+                </div>
+                <div class="form-group">
+                    <label for="f-teacher_qualifications">Avg. Teacher Qualifications</label>
+                    <input type="text" id="f-teacher_qualifications" name="teacher_qualifications" placeholder="e.g., B.Ed, M.Sc">
+                </div>
+                <div class="form-group">
+                    <label for="f-avg_teacher_experience">Avg. Teacher Experience (Years)</label>
+                    <input type="number" id="f-avg_teacher_experience" name="avg_teacher_experience" step="0.1" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="f-classrooms_avail">Classrooms</label>
+                    <select id="f-classrooms_avail" name="classrooms_avail">
+                        <option value="Available">Available</option>
+                        <option value="Partial">Partial</option>
+                        <option value="Not Available">Not Available</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="f-labs_avail">Labs</label>
+                    <select id="f-labs_avail" name="labs_avail">
+                        <option value="Available">Available</option>
+                        <option value="Partial">Partial</option>
+                        <option value="Not Available">Not Available</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="f-toilets_avail">Toilets</label>
+                    <select id="f-toilets_avail" name="toilets_avail">
+                        <option value="Available">Available</option>
+                        <option value="Partial">Partial</option>
+                        <option value="Not Available">Not Available</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="f-electricity_avail">Electricity</label>
+                    <select id="f-electricity_avail" name="electricity_avail">
+                        <option value="Available">Available</option>
+                        <option value="Partial">Partial</option>
+                        <option value="Not Available">Not Available</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="f-water_avail">Drinking Water</label>
+                    <select id="f-water_avail" name="water_avail">
+                        <option value="Available">Available</option>
+                        <option value="Partial">Partial</option>
+                        <option value="Not Available">Not Available</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="f-digital_infra">Digital Infrastructure</label>
+                    <input type="text" id="f-digital_infra" name="digital_infra" placeholder="e.g., Computers, Internet, Smart Boards">
+                </div>
+                
+                <div class="form-group">
+                    <label for="f-perf_math">Avg. Math Score (%)</label>
+                    <input type="number" id="f-perf_math" name="perf_math" step="0.1" min="0" max="100">
+                </div>
+                <div class="form-group">
+                    <label for="f-perf_science">Avg. Science Score (%)</label>
+                    <input type="number" id="f-perf_science" name="perf_science" step="0.1" min="0" max="100">
+                </div>
+                <div class="form-group">
+                    <label for="f-perf_hindi">Avg. Hindi Score (%)</label>
+                    <input type="number" id="f-perf_hindi" name="perf_hindi" step="0.1" min="0" max="100">
+                </div>
+                <div class="form-group">
+                    <label for="f-perf_mother_lang">Avg. Mother Language Score (%)</label>
+                    <input type="number" id="f-perf_mother_lang" name="perf_mother_lang" step="0.1" min="0" max="100">
+                </div>
+                <div class="form-group">
+                    <label for="f-perf_english">Avg. English Score (%)</label>
+                    <input type="number" id="f-perf_english" name="perf_english" step="0.1" min="0" max="100">
+                </div>
+                
+                <div class="form-group">
+                    <label for="f-curriculum_completion">Curriculum Completion (%)</label>
+                    <input type="number" id="f-curriculum_completion" name="curriculum_completion" step="0.1" min="0" max="100">
+                </div>
+                <div class="form-group full-width">
+                    <label for="f-professional_dept">Professional Development</label>
+                    <input type="text" id="f-professional_dept" name="professional_dept" placeholder="e.g., NEP workshops, Tech training">
+                </div>
+                <div class="form-group full-width">
+                    <label for="f-nep_participation">NEP-Aligned Activities</label>
+                    <textarea id="f-nep_participation" name="nep_participation" rows="3" placeholder="Describe participation in NEP programs..."></textarea>
+                </div>
+                <div class="button-container">
+                    <button type="button" id="edit-button" class="button button-secondary">Edit Data</button>
+                    <button type="submit" id="confirm-button" class="button button-success">Confirm & Save Data</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const ocrForm = document.getElementById("ocr-form");
+            const finalSubmitForm = document.getElementById("final-submit-form");
+            const loader = document.getElementById("loader");
+            const confirmationArea = document.getElementById("confirmation-area");
+            const editButton = document.getElementById("edit-button");
+            const imageUpload = document.getElementById("image-upload");
+
+            // Set all form fields to be disabled or enabled
+            function setFormFieldsDisabled(disabled) {
+                const inputs = finalSubmitForm.querySelectorAll('input, select, textarea');
+                inputs.forEach(input => {
+                    // Don't disable buttons or hidden fields
+                    if (input.type === 'button' || input.type === 'submit' || input.type === 'hidden') {
+                        return;
+                    }
+                    // Don't disable fields that are *always* readonly
+                    if (input.id === 'f-num_students' || input.id === 'f-teacher_student_ratio' || input.id === 'f-grade_enrollment_data_display') {
+                        return;
+                    }
+                    input.disabled = disabled;
+                });
+            }
+
+            // 1. Handle Image Upload and OCR
+            ocrForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                
+                const file = imageUpload.files[0];
+                if (!file) {
+                    alert("Please select an image file.");
+                    return;
+                }
+
+                loader.style.display = "block";
+                confirmationArea.style.display = "none";
+
+                const formData = new FormData();
+                formData.append("image", file);
+
+                try {
+                    const response = await fetch("/extract-from-image", {
+                        method: "POST",
+                        body: formData,
+                    });
+
+                    if (!response.ok) {
+                        const err = await response.json();
+                        throw new Error(err.error || `HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    
+                    // AI call was successful, now populate the form
+                    populateConfirmationForm(data);
+                    
+                    loader.style.display = "none";
+                    confirmationArea.style.display = "block";
+                    setFormFieldsDisabled(true); // Start in "Review" (disabled) mode
+
+                } catch (error) {
+                    loader.style.display = "none";
+                    alert(`Error extracting data: ${error.message}`);
+                    console.error("Extraction error:", error);
+                }
+            });
+
+            // 2. Handle "Edit" button click
+            editButton.addEventListener("click", () => {
+                setFormFieldsDisabled(false); // Enable fields
+                alert("Form is now editable. Please review all fields before saving.");
+                editButton.style.display = 'none'; // Hide edit button once clicked
+            });
+
+            // 3. Handle Final Form Submission
+            // The form will be submitted via its 'action' and 'method' attributes,
+            // which will trigger your backend's <script> alert response.
+            finalSubmitForm.addEventListener("submit", () => {
+                loader.style.display = "block"; // Show loader on final submit
+            });
+
+
+            // Helper function to fill the form with AI data
+            function populateConfirmationForm(data) {
+                // Use (data.field || default_value) to prevent 'null' or 'undefined' from breaking the form
+                
+                // Basic Info
+                document.getElementById("f-school_name").value = data.school_name || "";
+                document.getElementById("f-school_type").value = data.school_type || "";
+                document.getElementById("f-location").value = data.location || "";
+                document.getElementById("f-year_establishment").value = data.year_establishment || "";
+                
+                // Student Stats
+                document.getElementById("f-num_grades").value = data.num_grades || "";
+                document.getElementById("f-num_students").value = data.num_students || 0; // Calculated
+                document.getElementById("f-avg_attendance_rate").value = data.avg_attendance_rate || 0;
+                document.getElementById("f-gender_ratio").value = data.gender_ratio || "";
+                document.getElementById("f-students_special_needs").value = data.students_special_needs || 0;
+
+                // Handle complex fields (JSON/List)
+                const gradeData = data.total_students_per_grade || {};
+                document.getElementById("f-grade_enrollment_data").value = JSON.stringify(gradeData);
+                document.getElementById("f-grade_enrollment_data_display").value = JSON.stringify(gradeData, null, 2); // Pretty print for display
+
+                const trends = data.enrollment_trends_of_past_3_years || [];
+                document.getElementById("f-enrollment_trends").value = trends.join(", ");
+
+                // Teacher Stats
+                document.getElementById("f-num_teachers").value = data.num_teachers || 0;
+                document.getElementById("f-teacher_student_ratio").value = data.teacher_to_student_ratio || ""; // Calculated
+                document.getElementById("f-teacher_qualifications").value = data.teacher_qualifications || "";
+                document.getElementById("f-avg_teacher_experience").value = data.avg_teacher_experience || 0;
+
+                // Infrastructure
+                const infra = data.infra_availability || {};
+                document.getElementById("f-classrooms_avail").value = infra.classrooms || "Available";
+                document.getElementById("f-labs_avail").value = infra.labs || "Available";
+                document.getElementById("f-toilets_avail").value = infra.toilets || "Available";
+                document.getElementById("f-electricity_avail").value = infra.electricity || "Available";
+                document.getElementById("f-water_avail").value = infra.water || "Available";
+                document.getElementById("f-digital_infra").value = data.digital_infra || "";
+
+                // Performance
+                const scores = data.performance_scores || {};
+                document.getElementById("f-perf_math").value = scores.math || 0;
+                document.getElementById("f-perf_science").value = scores.science || 0;
+                document.getElementById("f-perf_hindi").value = scores.hindi || 0;
+                document.getElementById("f-perf_mother_lang").value = scores.mother_language || 0;
+                document.getElementById("f-perf_english").value = scores.english || 0;
+
+                // Policy
+                document.getElementById("f-curriculum_completion").value = data.curriculum_completion || 0;
+                document.getElementById("f-professional_dept").value = data.professional_dept || "";
+                document.getElementById("f-nep_participation").value = data.nep_participation || "";
+            }
+
+        });
+    </script>
+</body>
+</html>

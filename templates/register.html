@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Register</title>
+        <link rel="stylesheet" href="static\authenticate.css">
+    </head>
+    <body>
+        <div class="circle"></div>
+        <div class="container">
+            <center><h2 class="heading">Register</h2></center>
+            <form action="/register" method="post">
+                <section class="names">
+                    <input type="text" id="firstname" placeholder="Enter First Name" name="firstname" required>
+                    <input type="text" id="lastname" placeholder="Enter Last Name" name="lastname" required>
+                </section>
+                <input type="text" id="username" placeholder="Enter Username" name="username" required>
+                <input type="email" id="email" placeholder="Enter Email" name="email" required>
+                <section class="names">
+                    <input type="password" id="password" placeholder="Enter Password" name="password" required>
+                    <input type="password" id="confirm_password" placeholder="Confirm Password" name="confirm_password" required>
+                </section>
+                <button type="submit" value="Register">Register</button>
+            </form>
+            <hr>
+            <div class="options">
+                <p>Already have an account?<br> <a href="{{ url_for('login') }}">Login here</a></p>
+                <p>forgot password?<br><a href="{{ url_for('forgot_password') }}">click here!</a></p>
+            </div>
+        </div>
+        <script href="static\scripts.js"></script>
+    </body>
+</html>

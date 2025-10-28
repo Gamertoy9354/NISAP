@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Data Submission</title>
+    <style>
+        /* Base Styling & Theme Alignment */
+        :root {
+            --dark-bg: #1a0a2c;
+            --card-bg: #1f0d36;
+            --neon-purple: #ff00ff;
+            --neon-shadow: 0 0 10px rgba(255, 0, 255, 0.5), 0 0 20px rgba(255, 0, 255, 0.2);
+            --border-radius: 12px;
+            --input-bg: rgba(255, 255, 255, 0.05);
+            font-family: 'Inter', sans-serif;
+            color: #e0e0e0;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background: url("static\\bg-4.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        .circle{
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            box-shadow:
+                inset 0 0 50px #fff,      /* inner white */
+                inset 20px 0 80px #f0f,   /* inner left magenta short */
+                inset -20px 0 80px #0ff,  /* inner right cyan short */
+                inset 20px 0 300px #f0f,  /* inner left magenta broad */
+                inset -20px 0 300px #0ff, /* inner right cyan broad */
+                0 0 50px #fff,            /* outer white */
+                -10px 0 80px #f0f,        /* outer left magenta */
+                10px 0 80px #0ff;         /* outer right cyan */
+            z-index: -1;
+            position: fixed;
+            margin-left: 8%;
+            margin-top: 7%;
+            overflow:hidden ;
+            }
+            @keyframes circle {
+                0% {
+                    box-shadow:
+                    inset 0 0 50px #ff00ff,
+                    inset 20px 0 80px rgb(17, 0, 255),
+                    inset -20px 0 80px rgb(255, 0, 0),
+                    inset 20px 0 300px rgb(4, 0, 255),
+                    inset -20px 0 300px rgb(255, 0, 0),
+                    0 0 50px #ff00ff,
+                    -10px 0 80px rgb(25, 0, 255),
+                    10px 0 80px rgb(255, 0, 0);
+                    border-radius: 50%;
+                    transform: scale(1.1) rotate(0deg);
+                }
+                12.5% {
+                    box-shadow:
+                    inset 0 0 50px #00ffff,
+                    inset 20px 0 80px rgb(0, 255, 255),
+                    inset -20px 0 80px rgb(255, 165, 0),
+                    inset 20px 0 300px rgb(0, 200, 255),
+                    inset -20px 0 300px rgb(255, 200, 0),
+                    0 0 50px #00ffff,
+                    -10px 0 80px rgb(0, 255, 255),
+                    10px 0 80px rgb(255, 165, 0);
+                    border-radius: 60%;
+                    transform: scale(1.05) rotate(45deg);
+                }
+                25% {
+                    box-shadow:
+                    inset 0 0 50px #fff,
+                    inset 20px 0 80px #f0f,
+                    inset -20px 0 80px #0ff,
+                    inset 20px 0 300px #f0f,
+                    inset -20px 0 300px #0ff,
+                    0 0 50px #fff,
+                    -10px 0 80px #f0f,
+                    10px 0 80px #0ff;
+                    border-radius: 80%;
+                    transform: scale(1) rotate(90deg);
+                }
+                37.5% {
+                    box-shadow:
+                    inset 0 0 50px #ffff00,
+                    inset 20px 0 80px rgb(255, 255, 0),
+                    inset -20px 0 80px rgb(0, 255, 100),
+                    inset 20px 0 300px rgb(200, 255, 0),
+                    inset -20px 0 300px rgb(0, 200, 100),
+                    0 0 50px #ffff00,
+                    -10px 0 80px rgb(255, 255, 0),
+                    10px 0 80px rgb(0, 255, 100);
+                    border-radius: 70%;
+                    transform: scale(1.08) rotate(135deg);
+                }
+                50% {
+                    box-shadow:
+                    inset 0 0 50px #ff00ff,
+                    inset 20px 0 80px rgb(17, 0, 255),
+                    inset -20px 0 80px rgb(255, 0, 0),
+                    inset 20px 0 300px rgb(4, 0, 255),
+                    inset -20px 0 300px rgb(255, 0, 0),
+                    0 0 50px #ff00ff,
+                    -10px 0 80px rgb(25, 0, 255),
+                    10px 0 80px rgb(255, 0, 0);
+                    border-radius: 50%;
+                    transform: scale(1.1) rotate(180deg);
+                }
+                62.5% {
+                    box-shadow:
+                    inset 0 0 50px #ff69b4,
+                    inset 20px 0 80px rgb(255, 105, 180),
+                    inset -20px 0 80px rgb(0, 255, 200),
+                    inset 20px 0 300px rgb(255, 100, 150),
+                    inset -20px 0 300px rgb(100, 255, 200),
+                    0 0 50px #ff69b4,
+                    -10px 0 80px rgb(255, 105, 180),
+                    10px 0 80px rgb(0, 255, 200);
+                    border-radius: 75%;
+                    transform: scale(1.03) rotate(225deg);
+                }
+                75% {
+                    box-shadow:
+                    inset 0 0 50px #fff,
+                    inset 20px 0 80px #f0f,
+                    inset -20px 0 80px #0ff,
+                    inset 20px 0 300px #f0f,
+                    inset -20px 0 300px #0ff,
+                    0 0 50px #fff,
+                    -10px 0 80px #f0f,
+                    10px 0 80px #0ff;
+                    border-radius: 80%;
+                    transform: scale(1) rotate(270deg);
+                }
+                87.5% {
+                    box-shadow:
+                    inset 0 0 50px #00ff00,
+                    inset 20px 0 80px rgb(0, 255, 0),
+                    inset -20px 0 80px rgb(255, 0, 255),
+                    inset 20px 0 300px rgb(100, 255, 100),
+                    inset -20px 0 300px rgb(200, 0, 255),
+                    0 0 50px #00ff00,
+                    -10px 0 80px rgb(0, 255, 0),
+                    10px 0 80px rgb(255, 0, 255);
+                    border-radius: 65%;
+                    transform: scale(1.07) rotate(315deg);
+                }
+                100% {
+                    box-shadow:
+                    inset 0 0 50px #ff00ff,
+                    inset 20px 0 80px rgb(17, 0, 255),
+                    inset -20px 0 80px rgb(255, 0, 0),
+                    inset 20px 0 300px rgb(4, 0, 255),
+                    inset -20px 0 300px rgb(255, 0, 0),
+                    0 0 50px #ff00ff,
+                    -10px 0 80px rgb(25, 0, 255),
+                    10px 0 80px rgb(255, 0, 0);
+                    border-radius: 100%;
+                    transform: scale(1.1) rotate(360deg);
+                }
+            }
+            .circle{
+                animation: circle 5s linear infinite;
+            }
+            button {
+                padding: 17px 40px;
+                border-radius: 50px;
+                cursor: pointer;
+                border: 0;
+                background-color: white;
+                box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+                font-size: 15px;
+                transition: all 0.5s ease;
+                }
+
+                button:hover {
+                letter-spacing: 3px;
+                background-color: hsl(0, 0%, 0%);
+                color: hsl(0, 0%, 100%);
+                box-shadow: rgb(255, 255, 255) 0px 7px 29px 0px;
+                }
+
+                button:active {
+                letter-spacing: 3px;
+                background-color: hsl(0, 0%, 0%);
+                color: hsl(0, 0%, 100%);
+                box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px;
+                transform: translateY(10px);
+                transition: 100ms;
+                }
+
+        .container {
+            width: 80%;
+            max-width: 900px;
+            backdrop-filter: blur(10px);
+            background-color: #130c418c;
+            border: white solid 1px;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: var(--neon-purple);
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: var(--neon-shadow);
+        }
+
+        /* Form Layout */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        input:not([type="checkbox"]), select, textarea {
+            padding: 12px;
+            border: 2px solid transparent;
+            border-radius: var(--border-radius);
+            background-color: var(--input-bg);
+            color: #ffffff;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--neon-purple);
+            box-shadow: var(--neon-shadow);
+        }
+        option{
+            color: black;
+        }
+
+        /* Grade-specific inputs */
+        #grade-enrollment-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+            padding: 15px;
+            background-color: rgba(255, 0, 255, 0.05);
+            border-radius: var(--border-radius);
+        }
+
+        .grade-input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .grade-input-group input[type="number"] {
+            padding: 8px;
+        }
+        
+        /* Submission Button */
+        .submit-group {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        button {
+            padding: 15px 30px;
+            background-color: var(--neon-purple);
+            color: var(--dark-bg);
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
+            text-transform: uppercase;
+            box-shadow: var(--neon-shadow);
+        }
+
+        button:hover {
+            background-color: #ff33ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 0, 255, 0.7);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Ratio Display */
+        #teacher-student-ratio-display {
+            padding: 12px;
+            background-color: var(--input-bg);
+            border: 2px solid rgba(255, 0, 255, 0.1);
+            border-radius: var(--border-radius);
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #00ff00; /* Green color for positive data */
+        }
+        
+        /* Utility for auto-calculated field */
+        .auto-calculated {
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin-top: 20px;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="circle"></div>
+    <div class="container">
+        <h1>School Infrastructure Data</h1>
+        <form id="school-data-form" action="/submit-school-data" method="POST">
+            <div class="form-grid">
+
+                <!-- 1. School Name -->
+                <div class="form-group">
+                    <label for="school_name">1. School Name</label>
+                    <input type="text" id="school_name" name="school_name" required>
+                </div>
+
+                <!-- 2. School Type -->
+                <div class="form-group">
+                    <label for="school_type">2. School Type</label>
+                    <select id="school_type" name="school_type" required>
+                        <option value="" disabled selected>Select type</option>
+                        <option value="government">Government (Gov)</option>
+                        <option value="private">Private</option>
+                        <option value="trust">Trust / NGO</option>
+                    </select>
+                </div>
+
+                <!-- 3. Location -->
+                <div class="form-group">
+                    <label for="location">3. Location</label>
+                    <input type="text" id="location" name="location" required>
+                </div>
+
+                <!-- 4. Year of Establishment -->
+                <div class="form-group">
+                    <label for="year_establishment">4. Year of Establishment</label>
+                    <input type="number" id="year_establishment" name="year_establishment" min="1800" max="2025" required>
+                </div>
+
+                <!-- 5. Number of Students (Total) -->
+                <div class="form-group">
+                    <label for="num_students">5. Total Enrolled Students</label>
+                    <input type="number" id="num_students" name="num_students" readonly class="auto-calculated" placeholder="Automatically calculated below" required>
+                </div>
+
+                <!-- 12. Number of Teachers -->
+                <div class="form-group">
+                    <label for="num_teachers">12. Number of Teachers</label>
+                    <input type="number" id="num_teachers" name="num_teachers" min="1" oninput="calculateRatio()" required>
+                </div>
+
+                <!-- 7. How many grades school have? (Controls dynamic inputs) -->
+                <div class="form-group">
+                    <label for="num_grades">7. Number of Grades (e.g., 12 for K-12)</label>
+                    <input type="number" id="num_grades" name="num_grades" min="1" max="20" oninput="generateGradeInputs()" required>
+                </div>
+
+                <!-- 14. Teacher to Student Ratio (Auto-calculated) -->
+                <div class="form-group">
+                    <label>14. Teacher to Student Ratio (Auto)</label>
+                    <div id="teacher-student-ratio-display">N/A</div>
+                    <input type="hidden" id="teacher_student_ratio" name="teacher_student_ratio">
+                </div>
+
+                <!-- 6. Total Students (per grade) - Dynamic Section -->
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label>6. Student Enrollment Per Grade (Enter figures below)</label>
+                    <div id="grade-enrollment-inputs">
+                        <p style="opacity: 0.6;">Enter the number of grades above to start.</p>
+                    </div>
+                    <input type="hidden" id="grade_enrollment_data" name="grade_enrollment_data" required>
+                </div>
+
+                <!-- 8. Student Avg Attendance Rate -->
+                <div class="form-group">
+                    <label for="avg_attendance_rate">8. Avg Student Attendance Rate (%)</label>
+                    <input type="number" id="avg_attendance_rate" name="avg_attendance_rate" min="0" max="100" step="0.1" required>
+                </div>
+
+                <!-- 9. Enrollment Trends (Past 3 Years) -->
+                <div class="form-group">
+                    <label for="enrollment_trends">9. Enrollment Trends (Past 3 Years - e.g. 500, 520, 550)</label>
+                    <input type="text" id="enrollment_trends" name="enrollment_trends" placeholder="Year 1, Year 2, Year 3" required>
+                </div>
+
+                <!-- 10. Gender Ratio -->
+                <div class="form-group">
+                    <label for="gender_ratio">10. Gender Ratio (Male:Female - e.g., 55:45)</label>
+                    <input type="text" id="gender_ratio" name="gender_ratio" pattern="\d+:\d+" placeholder="e.g. 55:45" required>
+                </div>
+
+                <!-- 11. Student with Special Needs (Number) -->
+                <div class="form-group">
+                    <label for="students_special_needs">11. Students with Special Needs (No.)</label>
+                    <input type="number" id="students_special_needs" name="students_special_needs" min="0" required>
+                </div>
+
+                <!-- 13. Teacher Qualifications (Avg) -->
+                <div class="form-group">
+                    <label for="teacher_qualifications">13. Avg Teacher Qualification Level</label>
+                    <select id="teacher_qualifications" name="teacher_qualifications" required>
+                        <option value="" disabled selected>Select level</option>
+                        <option value="bachelors">Bachelors Degree</option>
+                        <option value="masters">Masters Degree</option>
+                        <option value="phd">PhD/Doctorate</option>
+                        <option value="diploma">Diploma/Certificate</option>
+                    </select>
+                </div>
+
+                <!-- 15. Avg Experience of Teachers -->
+                <div class="form-group">
+                    <label for="avg_teacher_experience">15. Avg Experience of Teachers (Years)</label>
+                    <input type="number" id="avg_teacher_experience" name="avg_teacher_experience" min="0" step="0.1" required>
+                </div>
+
+                <!-- 16. Professional Development (Dropdown) -->
+                <div class="form-group">
+                    <label for="professional_dept">16. Professional Development Program Status</label>
+                    <select id="professional_dept" name="professional_dept" required>
+                        <option value="regular">Regular Programs</option>
+                        <option value="occasional">Occasional Workshops</option>
+                        <option value="none">None</option>
+                    </select>
+                </div>
+
+                <!-- 17. Infrastructure Availability -->
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label>17. Availability of Key Facilities</label>
+                    <div class="form-grid" style="gap: 10px;">
+                        <select name="classrooms_avail" required><option value="fully">Classrooms (Fully)</option><option value="partially">Partially</option><option value="none">None</option></select>
+                        <select name="labs_avail" required><option value="fully">Labs (Fully)</option><option value="partially">Partially</option><option value="none">None</option></select>
+                        <select name="toilets_avail" required><option value="fully">Toilets (Fully)</option><option value="partially">Partially</option><option value="none">None</option></select>
+                        <select name="electricity_avail" required><option value="fully">Electricity (Fully)</option><option value="partially">Partially</option><option value="none">None</option></select>
+                        <select name="water_avail" required><option value="fully">Drinking Water (Fully)</option><option value="partially">Partially</option><option value="none">None</option></select>
+                    </div>
+                </div>
+
+                <!-- 18. Digital Infra (Checkboxes/Selects) -->
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label>18. Digital Infrastructure Level</label>
+                    <select name="digital_infra" required>
+                        <option value="advanced">Advanced (Smart Boards, Tablets, Fast Internet)</option>
+                        <option value="basic">Basic (Few Computers, Slow Internet)</option>
+                        <option value="minimal">Minimal / None</option>
+                    </select>
+                </div>
+
+                <!-- 19. AVG student performance in key subjects (Scores) -->
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label>19. AVG Student Performance in Key Subjects (%)</label>
+                    <div class="form-grid" style="gap: 10px;">
+                        <input type="number" name="perf_math" placeholder="Math Score (%)" min="0" max="100" required>
+                        <input type="number" name="perf_science" placeholder="Science Score (%)" min="0" max="100" required>
+                        <input type="number" name="perf_hindi" placeholder="Hindi Score (%)" min="0" max="100" required>
+                        <input type="number" name="perf_mother_lang" placeholder="Mother Language Score (%)" min="0" max="100" required>
+                        <input type="number" name="perf_english" placeholder="English Score (%)" min="0" max="100" required>
+                    </div>
+                </div>
+
+                <!-- 20. Curriculum completion per grade -->
+                <div class="form-group">
+                    <label for="curriculum_completion">20. Curriculum Completion Rate (%)</label>
+                    <input type="number" id="curriculum_completion" name="curriculum_completion" min="0" max="100" required>
+                </div>
+
+                <!-- 21. Participation in NEP-aligned programs/activities -->
+                <div class="form-group">
+                    <label for="nep_participation">21. NEP Participation Level</label>
+                    <select id="nep_participation" name="nep_participation" required>
+                        <option value="high">High Participation</option>
+                        <option value="medium">Medium Participation</option>
+                        <option value="low">Low / None</option>
+                    </select>
+                </div>
+
+                <div class="submit-group">
+                    <button type="submit">Submit School Data</button>
+                </div>
+            </div>
+        </form>
+        <br>
+        <br>
+        <center><a href="{{ url_for('index') }}"><button>go back to Services</button></a></center>
+    </div>
+
+    <script>
+        const numGradesInput = document.getElementById('num_grades');
+        const enrollmentContainer = document.getElementById('grade-enrollment-inputs');
+        const numStudentsTotalInput = document.getElementById('num_students');
+        const numTeachersInput = document.getElementById('num_teachers');
+        const ratioDisplay = document.getElementById('teacher-student-ratio-display');
+        const ratioHiddenInput = document.getElementById('teacher_student_ratio');
+
+        /**
+         * Generates input fields for student enrollment per grade based on the number of grades.
+         */
+        function generateGradeInputs() {
+            const numGrades = parseInt(numGradesInput.value, 10);
+            enrollmentContainer.innerHTML = '';
+            
+            if (isNaN(numGrades) || numGrades <= 0) {
+                enrollmentContainer.innerHTML = '<p style="opacity: 0.6;">Enter the number of grades above to start.</p>';
+                numStudentsTotalInput.value = '';
+                return;
+            }
+
+            for (let i = 1; i <= numGrades; i++) {
+                const gradeLabel = `Grade ${i}`;
+                const div = document.createElement('div');
+                div.className = 'grade-input-group';
+                div.innerHTML = `
+                    <label for="grade_${i}">${gradeLabel}</label>
+                    <input type="number" id="grade_${i}" data-grade="${i}" min="0" placeholder="Students in ${gradeLabel}" oninput="updateTotalStudents()" required>
+                `;
+                enrollmentContainer.appendChild(div);
+            }
+
+            // Immediately recalculate to handle existing values if grades are reduced
+            updateTotalStudents();
+        }
+
+        /**
+         * Sums up all student enrollments from the dynamic grade inputs.
+         */
+        function updateTotalStudents() {
+            const gradeInputs = enrollmentContainer.querySelectorAll('input[type="number"][data-grade]');
+            let totalStudents = 0;
+            const enrollmentData = {};
+
+            gradeInputs.forEach(input => {
+                const count = parseInt(input.value, 10) || 0;
+                totalStudents += count;
+                enrollmentData[`Grade ${input.dataset.grade}`] = count;
+            });
+
+            // Update the main total student count field
+            numStudentsTotalInput.value = totalStudents;
+            // Store the detailed enrollment data as a JSON string for the backend
+            document.getElementById('grade_enrollment_data').value = JSON.stringify(enrollmentData);
+
+            // Recalculate the teacher/student ratio
+            calculateRatio();
+        }
+
+        /**
+         * Calculates the Teacher to Student Ratio (Students:Teacher)
+         */
+        function calculateRatio() {
+            const numStudents = parseInt(numStudentsTotalInput.value, 10) || 0;
+            const numTeachers = parseInt(numTeachersInput.value, 10) || 0;
+
+            let ratioText = 'N/A';
+            let ratioValue = '0:1';
+
+            if (numTeachers > 0 && numStudents > 0) {
+                // Calculate the ratio as X students per 1 teacher
+                const ratio = (numStudents / numTeachers).toFixed(1);
+                ratioText = `${ratio}:1`;
+                ratioValue = ratioText;
+            } else if (numTeachers === 0 && numStudents > 0) {
+                 ratioText = '0:1 (Need Teachers)';
+                 ratioValue = '0:1';
+            } else {
+                 ratioText = 'N/A';
+                 ratioValue = 'N/A';
+            }
+            
+            ratioDisplay.textContent = ratioText;
+            ratioHiddenInput.value = ratioValue;
+        }
+
+        // Attach listeners when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+             // Initial check/setup
+             if (numGradesInput.value > 0) {
+                generateGradeInputs();
+             }
+             calculateRatio();
+
+             // Ensure ratio recalculates if teachers change
+             numTeachersInput.addEventListener('input', calculateRatio);
+        });
+
+    </script>
+</body>
+</html>

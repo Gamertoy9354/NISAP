@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEP 2020 AI Analyst</title>
+    
+    <style>
+        /* Inter font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        /* Basic Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000; /* Deep black background */
+            background-image: url("static/bg-4.png"); /* Subtle central glow */
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            color: #E0E0E0; /* Light gray for general text */
+            overflow: hidden; /* Hide potential scrollbars from body */
+        }
+
+        .chat-container {
+            background-color: #1a0033; /* Very dark purple, almost black */
+            width: 75%;
+            max-width: 64rem; /* max-w-4xl */
+            height: 100%;
+            box-shadow: 0 0 40px rgba(255, 0, 255, 0.4); /* Stronger neon glow effect */
+            border-radius: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 0, 255, 0.3); /* Thin neon border */
+            position: relative; /* For potential internal glow elements */
+            overflow: hidden; /* Ensure internal elements don't overflow rounded corners */
+            margin-left: 2%;
+        }
+        
+        /* Internal blur/glow effect */
+        .chat-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(255,0,255,0.15) 0%, rgba(0,0,0,0) 70%);
+            transform: translate(-50%, -50%);
+            filter: blur(100px);
+            z-index: 0;
+        }
+
+        /* Responsive height */
+        @media (min-width: 768px) {
+            .chat-container {
+                height: 90vh;
+            }
+        }
+
+        /* Header */
+        .chat-header {
+            border-bottom: 1px solid rgba(255, 0, 255, 0.2); /* Neon border */
+            padding: 1rem;
+            box-shadow: 0 1px 15px rgba(255, 0, 255, 0.1); /* Subtle glow shadow */
+            z-index: 1; /* Keep above internal glow */
+            position: relative;
+        }
+        .chat-header h1 {
+            font-size: 1.5rem; /* text-xl */
+            font-weight: 700;
+            text-align: center;
+            color: #FF00FF; /* Neon Pink */
+            text-shadow: 0 0 8px rgba(255, 0, 255, 0.8); /* Neon text glow */
+        }
+        .chat-header p {
+            font-size: 0.875rem; /* text-sm */
+            text-align: center;
+            color: #C0C0C0; /* Lighter gray for subtitle */
+        }
+
+        /* Chat Messages Area */
+        #chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 1; /* Keep above internal glow */
+            position: relative;
+        }
+
+        /* Custom scrollbar - keep it subtle against dark background */
+        #chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+        #chat-messages::-webkit-scrollbar-track {
+            background: #1a0033; /* Dark track */
+            border-radius: 10px;
+        }
+        #chat-messages::-webkit-scrollbar-thumb {
+            background: #4a004a; /* Darker purple thumb */
+            border-radius: 10px;
+        }
+        #chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #6a006a; /* Even darker purple thumb */
+        }
+
+        .message {
+            display: flex;
+            gap: 0.75rem;
+            max-width: 80%;
+        }
+        
+        .message-bubble {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            max-width: 100%;
+            word-wrap: break-word;
+            line-height: 1.6;
+            font-size: 0.95rem; /* Slightly smaller for dark themes */
+        }
+
+        /* AI Message */
+        .message.ai {
+            align-self: flex-start;
+        }
+        .message.ai .message-icon {
+            background-color: #6a006a; /* Darker purple icon */
+            box-shadow: 0 0 8px rgba(255, 0, 255, 0.3);
+        }
+        .message.ai .message-bubble {
+            background-color: #2b004d; /* Slightly lighter dark purple */
+            color: #F0F0F0;
+            border-top-left-radius: 0;
+            border: 1px solid rgba(255, 0, 255, 0.1);
+            text-shadow: 0 0 2px rgba(255, 0, 255, 0.1); /* Subtle text glow */
+        }
+
+        /* User Message */
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+        .message.user .message-icon {
+            background-color: #4a004a; /* Dark purple icon */
+            box-shadow: 0 0 8px rgba(255, 0, 255, 0.3);
+        }
+        .message.user .message-bubble {
+            background-color: #3b0066; /* Even darker purple for user bubble */
+            color: #ffffff;
+            border-bottom-right-radius: 0;
+            border: 1px solid rgba(255, 0, 255, 0.1);
+            text-shadow: 0 0 2px rgba(255, 255, 255, 0.1); /* Subtle text glow */
+        }
+
+        .message-icon {
+            flex-shrink: 0;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        /* Input Area */
+        #chat-form {
+            border-top: 1px solid rgba(255, 0, 255, 0.2);
+            padding: 1rem;
+            background-color: #1a0033; /* Matches container background */
+            border-bottom-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+            box-shadow: 0 -5px 20px rgba(255, 0, 255, 0.2); /* Upward glow */
+            z-index: 1; /* Keep above internal glow */
+            position: relative;
+        }
+        .input-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        #chat-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid rgba(255, 0, 255, 0.4); /* Neon border for input */
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background-color: #0d001a; /* Even darker input field */
+            color: #E0E0E0;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 0 5px rgba(255, 0, 255, 0.1);
+        }
+        #chat-input::placeholder {
+            color: #888888;
+        }
+        #chat-input:focus {
+            outline: none;
+            border-color: #FF00FF; /* Stronger neon focus */
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.8);
+        }
+        #chat-input:disabled {
+            background-color: #050010;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        #send-button {
+            padding: 0.75rem 1.25rem;
+            background-color: #FF00FF; /* Neon Pink */
+            color: #ffffff;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.6); /* Glow on button */
+        }
+        #send-button:hover {
+            background-color: #e600e6; /* Slightly darker pink on hover */
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.8);
+        }
+        #send-button:focus {
+            outline: none;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 1);
+        }
+        #send-button:disabled {
+            background-color: #8a008a; /* Muted pink when disabled */
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        #send-button svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            fill: currentColor; /* Use current text color for SVG */
+        }
+
+        #error-message {
+            color: #ff3333; /* Red for errors */
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            text-shadow: 0 0 5px rgba(255, 51, 51, 0.5);
+        }
+        
+        /* Simple loading spinner */
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 0, 255, 0.3);
+            border-top: 3px solid #FF00FF;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loader-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Header --><div class="chat-header">
+            <h1>NEP 2020 AI Analyst</h1>
+            <p>Ask me anything about the National Education Policy 2020</p>
+        </div>
+
+        <!-- Chat Messages --><div id="chat-messages">
+            <!-- Initial AI Greeting --><div class="message ai">
+                <div class="message-icon">AI</div>
+                <div class="message-bubble">
+                    <p>Hello! I am an AI assistant with expert knowledge of the NEP 2020. How can I help you understand the policy today?</p>
+                </div>
+            </div>
+            <!-- Chat messages will be appended here --></div>
+
+        <!-- Input Area --><form id="chat-form">
+            <div class="input-container">
+                <input type="text" id="chat-input" placeholder="e.g., What is the 5+3+3+4 structure?" autocomplete="off">
+                <button type="submit" id="send-button">
+                    <!-- Send Icon SVG --><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M3.105 3.105a.5.5 0 01.815-.093l1.977 1.977A.5.5 0 015.5 5.579V6.15a.5.5 0 01-.06.22l-1.06 1.98a.5.5 0 01-.73-.48l.22-1.06a.5.5 0 01.22-.06h.572l-1.977-1.977a.5.5 0 01-.093-.815zM12.94 12.94a.5.5 0 01.523.85l-1.06 1.98a.5.5 0 01-.73-.48l.22-1.06a.5.5 0 01.22-.06h.572l-1.977-1.977a.5.5 0 010-.707l1.977-1.977a.5.5 0 01.815.093l1.977 1.977A.5.5 0 0114.5 14.421v.572a.5.5 0 01-.06.22l-1.06 1.98a.5.5 0 01-.73-.48l.22-1.06a.5.5 0 01.22-.06h.572l-1.977-1.977a.5.5 0 01-.707 0zM5.579 14.5a.5.5 0 01.22.06l1.06 1.98a.5.5 0 01-.48.73l-1.98-1.06a.5.5 0 01-.06-.22v-.572a.5.5 0 01.305-.468l1.977-1.977a.5.5 0 01.707 0l1.977 1.977a.5.5 0 01.093.815l-1.977 1.977a.5.5 0 01-.815.093L5.5 14.907a.5.5 0 01-.22-.305v-.572a.5.5 0 01.305-.468l1.977-1.977a.5.5 0 01.707 0l1.977 1.977a.5.5 0 01.093.815l-1.977 1.977a.5.5 0 01-.815.093l-1.977-1.977a.5.5 0 01-.305.22H5.5z" />
+                    </svg>
+                </button>
+            </div>
+            <!-- Error Message Area --><p id="error-message"></p>
+        </form>
+    </div>
+
+    <script>
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+        const sendButton = document.getElementById('send-button');
+        const chatMessages = document.getElementById('chat-messages');
+        const errorMessage = document.getElementById('error-message');
+
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            handleSubmit();
+        });
+
+        async function handleSubmit() {
+            const query = chatInput.value.trim();
+            if (!query) return;
+
+            // Disable form
+            chatInput.disabled = true;
+            sendButton.disabled = true;
+            errorMessage.textContent = '';
+
+            // 1. Add User's message to chat
+            addMessage(query, 'user');
+            chatInput.value = '';
+
+            // 2. Add a loading message for the AI
+            const loadingMessage = addMessage('', 'ai', true); // true = add loading spinner
+            const messageContent = loadingMessage.querySelector('.message-bubble');
+
+            try {
+                // 3. Make the fetch request
+                const response = await fetch('/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query: query }),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Server responded with an error');
+                }
+
+                // 4. Get the JSON response
+                const data = await response.json();
+                
+                // 5. Format and update the message bubble
+                const formattedAnswer = formatAIResponse(data.answer);
+                messageContent.innerHTML = formattedAnswer;
+
+            } catch (error) {
+                console.error('Fetch error:', error);
+                messageContent.innerHTML = `<p style="color: #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.5);">Sorry, I couldn't get a response. Error: ${error.message}</p>`;
+            } finally {
+                // 6. Re-enable form
+                chatInput.disabled = false;
+                sendButton.disabled = false;
+                chatInput.focus();
+                
+                // 7. Remove spinner (if it's still there)
+                const loader = loadingMessage.querySelector('.loader-container');
+                if (loader) loader.remove();
+            }
+        }
+
+        function sanitizeHTML(str) {
+            // A simple sanitizer to prevent basic XSS
+            // Create a temporary div, set its text content (which auto-escapes HTML),
+            // then get the innerHTML (which is now the escaped string).
+            const div = document.createElement('div');
+            div.appendChild(document.createTextNode(str));
+            return div.innerHTML;
+        }
+
+        /**
+         * Formats the AI response, applying bolding, <hr>, and <br> tags.
+         * IMPORTANT: This function assumes it's receiving a *pre-sanitized* string.
+         */
+        function formatAIResponse(text) {
+            // 1. Sanitize the entire string first to prevent XSS
+            let formattedText = sanitizeHTML(text);
+
+            // 2. Apply formatting using regex on the sanitized text
+            
+            // Convert ***text*** to <strong>text</strong>
+            // We use a non-greedy match (.*?) to handle multiple instances
+            formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            // Convert --- (on its own line, possibly with whitespace) to <hr>
+            // This regex looks for \n, optional whitespace, ---, optional whitespace, and \n
+            // It replaces it with a <br><hr><br> to give it spacing
+            formattedText = formattedText.replace(/\n\s*---\s*\n/g, '<br><hr><br>');
+
+            // 3. Convert all remaining newlines to <br>
+            formattedText = formattedText.replace(/\n/g, '<br>');
+
+            return formattedText;
+        }
+
+        function addMessage(text, sender, isLoading = false) {
+            const isUser = sender === 'user';
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+
+            const iconText = isUser ? 'You' : 'AI';
+            
+            // Prepare content
+            let contentHTML = '';
+            if (isLoading) {
+                contentHTML = '<div class="loader-container"><div class="loader"></div></div>';
+            } else if (isUser) {
+                // User text is simple paragraph
+                contentHTML = `<p>${sanitizeHTML(text)}</p>`;
+            } else {
+                // AI message (not loading): apply full formatting
+                contentHTML = formatAIResponse(text);
+                // Fallback in case formatting returns empty
+                if (contentHTML.trim() === "") {
+                    contentHTML = "<p>Received an empty response.</p>";
+                }
+            }
+
+            messageDiv.innerHTML = `
+                <div class="message-icon">${iconText}</div>
+                <div class="message-bubble">
+                    ${contentHTML}
+                </div>
+            `;
+
+            chatMessages.appendChild(messageDiv);
+            
+            // Scroll to the new message
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return messageDiv; // Return the message element so we can update it
+        }
+    </script>
+</body>
+</html>
+

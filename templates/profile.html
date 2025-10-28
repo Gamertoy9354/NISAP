@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PROFILE</title>
+        <link rel="stylesheet" href="static\profile.css">
+    </head>
+    <body>
+        <div class="circle"></div>
+        <button onclick="window.location.href='/index'" class="backtoservice">back to services</button>
+        <section class="user-profile">
+           <section class="profile-pic">
+                <img class="pfp" src="static\shis-2.png">
+           </section>
+           <section class="profile-info">
+                <div class="username">
+                    <h2>Username: </h2>
+                    <p class="flname" id="username">Loading...</p>
+                </div>
+                <section class="names">
+                    <div class="firstname">
+                        <h2>First name:</h2>
+                        <p class="flname" id="firstname">Loading...</p>
+                    </div>
+                    <div class="lastname">
+                        <h2>Last name:</h2>
+                        <p class="flname" id="lastname">Loading...</p>
+                    </div>
+                </section>
+                <div class="email">
+                    <h2>Email: </h2>
+                    <p class="flname" id="email">Loading...</p>
+                </div>
+                <a href="{{url_for('logout')}}"><button action="/logout" class="LogOut">LOGOUT</button></a>
+                <a href="{{url_for('dashboard_page')}}"><button action="/dashboard" class="LogOut">DASHBOARD</button></a>
+           </section>
+        </section>
+        <script src="static\profile.js"></script>
+    </body>
+</html>
