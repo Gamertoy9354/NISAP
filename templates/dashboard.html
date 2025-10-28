@@ -5,167 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>School Data Dashboard</title>
     <style>
-        /* Base Styling & Theme Alignment */
+        /* --- NEW: Light Theme Variables & Base Styling --- */
         :root {
-            --dark-bg: #1a0a2c;
-            --card-bg: #1f0d36;
-            --neon-purple: #ff00ff;
-            --neon-shadow: 0 0 10px rgba(255, 0, 255, 0.5), 0 0 20px rgba(255, 0, 255, 0.2);
-            --secondary-neon: #00ffcc; /* Cyan/Mint for contrast */
-            --border-radius: 16px;
-            font-family: 'Inter', sans-serif;
-            color: #e0e0e0;
+            --primary-color: #1a73e8; /* Professional Blue */
+            --secondary-color: #17a2b8; /* Cyan for contrast */
+            --text-dark: #202124;
+            --text-grey: #5f6368;
+            --bg-light: #f4f6f8;
+            --card-bg: #ffffff;
+            --input-border: #e0e0e0;
+            --border-radius: 12px; /* Consistent radius */
+            --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
+            font-family: 'Inter', sans-serif; /* Assuming Inter font is available */
+            color: var(--text-dark);
         }
-        .circle{
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            box-shadow:
-                inset 0 0 50px #fff,      /* inner white */
-                inset 20px 0 80px #f0f,   /* inner left magenta short */
-                inset -20px 0 80px #0ff,  /* inner right cyan short */
-                inset 20px 0 300px #f0f,  /* inner left magenta broad */
-                inset -20px 0 300px #0ff, /* inner right cyan broad */
-                0 0 50px #fff,            /* outer white */
-                -10px 0 80px #f0f,        /* outer left magenta */
-                10px 0 80px #0ff;         /* outer right cyan */
-            z-index: -1;
-            position: fixed;
-            margin-left: 10%;
-            top: 14%;
-            overflow:hidden ;
-            }
-            @keyframes circle {
-                0% {
-                    box-shadow:
-                    inset 0 0 50px #ff00ff,
-                    inset 20px 0 80px rgb(17, 0, 255),
-                    inset -20px 0 80px rgb(255, 0, 0),
-                    inset 20px 0 300px rgb(4, 0, 255),
-                    inset -20px 0 300px rgb(255, 0, 0),
-                    0 0 50px #ff00ff,
-                    -10px 0 80px rgb(25, 0, 255),
-                    10px 0 80px rgb(255, 0, 0);
-                    border-radius: 50%;
-                    transform: scale(1.1) rotate(0deg);
-                }
-                12.5% {
-                    box-shadow:
-                    inset 0 0 50px #00ffff,
-                    inset 20px 0 80px rgb(0, 255, 255),
-                    inset -20px 0 80px rgb(255, 165, 0),
-                    inset 20px 0 300px rgb(0, 200, 255),
-                    inset -20px 0 300px rgb(255, 200, 0),
-                    0 0 50px #00ffff,
-                    -10px 0 80px rgb(0, 255, 255),
-                    10px 0 80px rgb(255, 165, 0);
-                    border-radius: 60%;
-                    transform: scale(1.05) rotate(45deg);
-                }
-                25% {
-                    box-shadow:
-                    inset 0 0 50px #fff,
-                    inset 20px 0 80px #f0f,
-                    inset -20px 0 80px #0ff,
-                    inset 20px 0 300px #f0f,
-                    inset -20px 0 300px #0ff,
-                    0 0 50px #fff,
-                    -10px 0 80px #f0f,
-                    10px 0 80px #0ff;
-                    border-radius: 80%;
-                    transform: scale(1) rotate(90deg);
-                }
-                37.5% {
-                    box-shadow:
-                    inset 0 0 50px #ffff00,
-                    inset 20px 0 80px rgb(255, 255, 0),
-                    inset -20px 0 80px rgb(0, 255, 100),
-                    inset 20px 0 300px rgb(200, 255, 0),
-                    inset -20px 0 300px rgb(0, 200, 100),
-                    0 0 50px #ffff00,
-                    -10px 0 80px rgb(255, 255, 0),
-                    10px 0 80px rgb(0, 255, 100);
-                    border-radius: 70%;
-                    transform: scale(1.08) rotate(135deg);
-                }
-                50% {
-                    box-shadow:
-                    inset 0 0 50px #ff00ff,
-                    inset 20px 0 80px rgb(17, 0, 255),
-                    inset -20px 0 80px rgb(255, 0, 0),
-                    inset 20px 0 300px rgb(4, 0, 255),
-                    inset -20px 0 300px rgb(255, 0, 0),
-                    0 0 50px #ff00ff,
-                    -10px 0 80px rgb(25, 0, 255),
-                    10px 0 80px rgb(255, 0, 0);
-                    border-radius: 50%;
-                    transform: scale(1.1) rotate(180deg);
-                }
-                62.5% {
-                    box-shadow:
-                    inset 0 0 50px #ff69b4,
-                    inset 20px 0 80px rgb(255, 105, 180),
-                    inset -20px 0 80px rgb(0, 255, 200),
-                    inset 20px 0 300px rgb(255, 100, 150),
-                    inset -20px 0 300px rgb(100, 255, 200),
-                    0 0 50px #ff69b4,
-                    -10px 0 80px rgb(255, 105, 180),
-                    10px 0 80px rgb(0, 255, 200);
-                    border-radius: 75%;
-                    transform: scale(1.03) rotate(225deg);
-                }
-                75% {
-                    box-shadow:
-                    inset 0 0 50px #fff,
-                    inset 20px 0 80px #f0f,
-                    inset -20px 0 80px #0ff,
-                    inset 20px 0 300px #f0f,
-                    inset -20px 0 300px #0ff,
-                    0 0 50px #fff,
-                    -10px 0 80px #f0f,
-                    10px 0 80px #0ff;
-                    border-radius: 80%;
-                    transform: scale(1) rotate(270deg);
-                }
-                87.5% {
-                    box-shadow:
-                    inset 0 0 50px #00ff00,
-                    inset 20px 0 80px rgb(0, 255, 0),
-                    inset -20px 0 80px rgb(255, 0, 255),
-                    inset 20px 0 300px rgb(100, 255, 100),
-                    inset -20px 0 300px rgb(200, 0, 255),
-                    0 0 50px #00ff00,
-                    -10px 0 80px rgb(0, 255, 0),
-                    10px 0 80px rgb(255, 0, 255);
-                    border-radius: 65%;
-                    transform: scale(1.07) rotate(315deg);
-                }
-                100% {
-                    box-shadow:
-                    inset 0 0 50px #ff00ff,
-                    inset 20px 0 80px rgb(17, 0, 255),
-                    inset -20px 0 80px rgb(255, 0, 0),
-                    inset 20px 0 300px rgb(4, 0, 255),
-                    inset -20px 0 300px rgb(255, 0, 0),
-                    0 0 50px #ff00ff,
-                    -10px 0 80px rgb(25, 0, 255),
-                    10px 0 80px rgb(255, 0, 0);
-                    border-radius: 100%;
-                    transform: scale(1.1) rotate(360deg);
-                }
-            }
-            .circle{
-                animation: circle 5s linear infinite;
-            }
+
+        /* Removed the .circle and @keyframes circle styles */
+
         body {
             margin: 0;
             padding: 30px;
-            background: url("static/bg-4.png"); /* Your background */
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            scroll-behavior: smooth; 
+            background-color: var(--bg-light); /* Light background */
+            scroll-behavior: smooth;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -173,17 +34,18 @@
         }
 
         .dashboard-container {
-            width: 80%;
-            max-width: 1300px;
+            width: 90%; /* Slightly wider */
+            max-width: 1400px; /* Max width */
             padding: 20px;
         }
 
         h1 {
-            color: var(--neon-purple);
+            color: var(--primary-color); /* Blue title */
             text-align: center;
             margin-bottom: 40px;
-            text-shadow: var(--neon-shadow);
-            font-size: 2.5rem;
+            text-shadow: none; /* Removed neon shadow */
+            font-size: 2.2rem; /* Slightly smaller */
+            font-weight: 700;
         }
 
         /* Loading & Error State */
@@ -191,714 +53,467 @@
             text-align: center;
             padding: 50px;
             font-size: 1.2rem;
-            color: var(--secondary-neon);
+            color: var(--text-grey); /* Grey text */
         }
 
-        /* Dashboard Grid Layout (More columns for more charts) */
+        /* Dashboard Grid Layout */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
             gap: 25px;
         }
-        
+
         /* General Card Styling */
         .card {
             border-radius: var(--border-radius);
             padding: 25px;
-            backdrop-filter: blur(10px);
-            background-color: #130c418c;
-            border: white solid 1px;
-            transition: transform 0.3s;
-            grid-column: span 3; /* Default: 3/12 of the grid width (4 columns) */
+            background-color: var(--card-bg); /* White background */
+            border: 1px solid var(--input-border); /* Light border */
+            box-shadow: var(--shadow-soft); /* Soft shadow */
+            transition: transform 0.3s, box-shadow 0.3s;
+            grid-column: span 3;
+
+            /* Animation Start State (Same as before) */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-        
-        /* Adjustments for different card sizes */
-        .card.span-6 { grid-column: span 6; } /* Half width */
-        .card.span-4 { grid-column: span 4; } /* Third width */
-        .card.span-12 { grid-column: span 12; } /* Full width */
+        .card.is-visible { /* Animation End State (Same as before) */
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .card.span-6 { grid-column: span 6; }
+        .card.span-4 { grid-column: span 4; }
+        .card.span-12 { grid-column: span 12; }
 
         .card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow on hover */
         }
 
         .card-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--secondary-neon);
+            font-size: 1.1rem; /* Adjusted size */
+            font-weight: 600; /* Semi-bold */
+            color: var(--text-dark); /* Dark text */
             margin-bottom: 15px;
-            border-bottom: 1px dashed rgba(255, 0, 255, 0.2);
+            border-bottom: 1px solid var(--input-border); /* Solid light border */
             padding-bottom: 10px;
         }
 
         /* Key Metrics Section */
         .metric-value {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--neon-purple);
-            text-shadow: 0 0 5px var(--neon-purple);
+            font-size: 2.2rem; /* Adjusted size */
+            font-weight: 700;
+            color: var(--primary-color); /* Blue metric value */
+            text-shadow: none; /* Removed neon shadow */
             line-height: 1.2;
         }
         .metric-label {
-            font-size: 0.9rem;
-            opacity: 0.7;
+            font-size: 0.85rem; /* Adjusted size */
+            color: var(--text-grey); /* Grey label */
             text-transform: uppercase;
+            margin-top: 5px; /* Added margin */
         }
-        
-        /* --- Chart 1 & 2: Bar Charts --- */
+
+        /* --- Chart 1 & 3: Bar Charts --- */
         .chart-visual {
             display: flex;
             align-items: flex-end;
             height: 200px;
-            background-color: rgba(0, 0, 0, 0.15);
+            background-color: var(--bg-light); /* Light background for chart area */
             border-radius: 8px;
             padding: 10px;
             margin-top: 15px;
+            border: 1px solid #e0e0e0; /* Subtle border */
+             overflow: hidden;
         }
-        
+
         .bar-item {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100%;
-            padding: 0 5px;
-            justify-content: flex-end;
+            flex-grow: 1; display: flex; flex-direction: column; align-items: center;
+            height: 100%; padding: 0 5px; justify-content: flex-end;
         }
 
         .bar {
-            width: 80%;
-            background-color: var(--secondary-neon);
+            width: 70%; /* Slightly thinner bars */
+            background-color: var(--secondary-color); /* Cyan bars */
             border-radius: 4px 4px 0 0;
-            transition: height 1s ease-out;
-            box-shadow: 0 0 8px rgba(0, 255, 204, 0.5);
+            box-shadow: none; /* Removed neon shadow */
             margin-bottom: 5px;
             position: relative;
+            height: 0; /* Start height 0 for animation */
+            transition: height 1.2s ease-out;
         }
-        
+        /* Specific color for Enrollment Trends bars */
+        #enrollment-trends-chart .bar {
+             background-color: var(--primary-color); /* Blue bars */
+        }
+
         .bar-value {
             position: absolute;
-            top: -20px;
-            font-size: 0.7rem;
-            color: var(--neon-purple);
-            text-shadow: 0 0 2px var(--neon-purple);
+            top: -18px; /* Adjusted position */
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem; /* Slightly larger */
+            color: var(--text-dark); /* Dark text */
+            font-weight: 500;
+            text-shadow: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-out 1s;
         }
 
         .bar-label {
             font-size: 0.75rem;
-            color: #ccc;
+            color: var(--text-grey); /* Grey label */
             opacity: 0.9;
             text-align: center;
-            word-wrap: break-word;
-            max-width: 100%;
         }
 
-        /* --- Chart 3: Donut Chart (Gender Ratio) --- */
-        .donut-chart-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 150px;
-            position: relative;
-        }
-        
+        /* --- Chart 2: Donut Chart --- */
+        .donut-chart-container { display: flex; justify-content: center; align-items: center; height: 150px; position: relative; }
         .donut-chart {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: conic-gradient(var(--neon-purple) 0%, var(--secondary-neon) 0%);
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+            width: 150px; height: 150px; border-radius: 50%;
+            /* Use blue and cyan */
+            background: conic-gradient(var(--primary-color) 0%, var(--secondary-color) 0%);
+            box-shadow: none; /* Removed neon shadow */
+            opacity: 0; transform: scale(0.9);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-        
         .donut-center {
-            position: absolute;
-            width: 90px;
-            height: 90px;
-            background: var(--card-bg);
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border: 2px solid var(--secondary-neon);
+            position: absolute; width: 90px; height: 90px;
+            background: var(--card-bg); /* White center */
+            border-radius: 50%; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            border: 1px solid var(--input-border); /* Light border for center */
+        }
+        .donut-ratio-label { font-size: 0.8rem; color: var(--text-grey); }
+        /* Center text color adjusted below in JS function */
+        #male-percent-text { color: var(--primary-color); font-weight: 600; font-size: 1.4rem; margin-bottom: 2px;}
+
+
+        /* --- Chart 4: Horizontal Progress Bars --- */
+        .progress-bar-wrapper { margin-bottom: 15px; }
+        .progress-bar-labels { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 5px; color: var(--text-dark); }
+        .progress-bar-value { color: var(--primary-color); font-weight: 600; } /* Blue value */
+        .progress-bar-bg { height: 10px; background: var(--bg-light); border-radius: 5px; overflow: hidden; border: 1px solid #eee;}
+        .progress-bar-inner {
+            height: 100%;
+            background: var(--primary-color); /* Solid blue bar */
+            border-radius: 5px;
+            width: 0; /* Start width 0 for animation */
+            transition: width 1.2s ease-out;
         }
 
-        .donut-ratio-label {
-            font-size: 0.8rem;
-            opacity: 0.8;
-        }
+        /* --- Chart 5: Dual Arc Gauges --- */
+        .dual-gauge-wrapper { display: flex; justify-content: space-around; align-items: center; height: 180px; margin-top: 15px; }
+        .gauge-circle { width: 130px; height: 130px; border-radius: 50%; position: relative; }
+        /* Removed background gradient, using SVG only */
+        .gauge-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+        .gauge-percent { font-size: 1.5rem; font-weight: 600; color: var(--primary-color); } /* Blue percent */
+        .gauge-label-small { font-size: 0.75rem; color: var(--text-grey); }
+        .gauge-circle svg { transform: rotate(-90deg); }
+        .gauge-circle circle { stroke-width: 12; fill: none; } /* Thicker stroke */
+        .gauge-bg { stroke: #e9ecef; } /* Light grey background arc */
+        .gauge-progress { stroke: var(--primary-color); stroke-linecap: round; transition: stroke-dashoffset 1.5s ease-out; }
+        /* Specific color for attendance gauge */
+        #attendance-gauge .gauge-progress { stroke: var(--secondary-color); } /* Cyan for attendance */
+        #attendance-gauge .gauge-percent { color: var(--secondary-color); }
 
-        /* --- Chart 4 & 5: Dual Arc Gauges (Attendance & Completion) --- */
-        .dual-gauge-wrapper {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            height: 180px;
-            margin-top: 15px;
-        }
-        
-        .gauge-circle {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 50% 50%, var(--card-bg) 60%, transparent 62%);
-            position: relative;
-        }
-        
-        .gauge-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-        
-        .gauge-percent {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--secondary-neon);
-        }
-        
-        .gauge-label-small {
-            font-size: 0.7rem;
-            opacity: 0.6;
-        }
-        
-        /* Use SVG to draw the arc for the gauge */
-        .gauge-circle svg {
-            transform: rotate(-90deg);
-        }
-        .gauge-circle circle {
-            stroke-width: 10;
-            fill: none;
-            transition: stroke-dashoffset 1s ease-out;
-        }
-        .gauge-bg {
-            stroke: rgba(255, 255, 255, 0.1);
-        }
-        .gauge-progress {
-            stroke: var(--neon-purple); /* Default progress color */
-            stroke-linecap: round;
-        }
-        
+
         /* --- Chart 6: Infrastructure Indicators --- */
-        .infra-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
+        .infra-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
         .infra-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 15px; /* Slightly more padding */
+            background: var(--bg-light); /* Light background */
+            border-radius: 8px; border: 1px solid #e0e0e0;
+            opacity: 0; transform: translateY(10px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
         }
-        
-        .infra-status {
-            font-weight: bold;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-        }
-
-        .status-high { background: rgba(0, 255, 204, 0.2); color: var(--secondary-neon); }
-        .status-med { background: rgba(255, 255, 0, 0.2); color: yellow; }
-        .status-low { background: rgba(255, 0, 0, 0.2); color: red; }
+        .infra-item.is-visible { opacity: 1; transform: translateY(0); }
+        .infra-status { font-weight: 600; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; }
+        /* Status colors adjusted */
+        .status-high { background-color: #d1e7dd; color: #0f5132; border: 1px solid #badbcc;} /* Greenish */
+        .status-med { background-color: #fff3cd; color: #664d03; border: 1px solid #ffecb5;} /* Yellowish */
+        .status-low { background-color: #f8d7da; color: #842029; border: 1px solid #f5c2c7;} /* Reddish */
 
 
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .card {
-                grid-column: span 6; /* On tablets, cards take half width */
-            }
-            .card.span-4, .card.span-6 {
-                 grid-column: span 6;
-            }
-            .card.span-12 {
-                grid-column: span 12;
-            }
-        }
+        /* Responsive Design (Mostly unchanged, minor adjustments maybe) */
+        @media (max-width: 1024px) { .card { grid-column: span 6; } .card.span-4, .card.span-6 { grid-column: span 6; } .card.span-12 { grid-column: span 12; } }
+        @media (max-width: 600px) { body { padding: 15px; } .card { grid-column: span 12; } .dual-gauge-wrapper { flex-direction: column; height: auto; gap: 20px;} .gauge-circle { margin-bottom: 0; } .infra-grid { grid-template-columns: 1fr; } }
 
-        @media (max-width: 600px) {
-            body { padding: 15px; }
-            .card { grid-column: span 12; } /* On mobile, cards take full width */
-            .dual-gauge-wrapper { flex-direction: column; height: auto; }
-            .gauge-circle { margin-bottom: 20px; }
-        }
+        /* Button styling adjusted */
         button {
-  padding: 17px 40px;
-  border-radius: 50px;
-  cursor: pointer;
-  border: 0;
-  background-color: white;
-  box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  font-size: 15px;
-  transition: all 0.5s ease;
-}
-
-button:hover {
-  letter-spacing: 3px;
-  background-color: hsl(261deg 80% 48%);
-  color: hsl(0, 0%, 100%);
-  box-shadow: rgb(93 24 220) 0px 7px 29px 0px;
-}
-
-button:active {
-  letter-spacing: 3px;
-  background-color: hsl(261deg 80% 48%);
-  color: hsl(0, 0%, 100%);
-  box-shadow: rgb(93 24 220) 0px 0px 0px 0px;
-  transform: translateY(10px);
-  transition: 100ms;
-}
+            padding: 12px 25px; /* Slightly smaller */
+            border-radius: 8px; /* Consistent radius */
+            cursor: pointer; border: 1px solid var(--primary-color);
+            background-color: var(--primary-color); /* Blue background */
+            color: white; /* White text */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            letter-spacing: 0.5px; /* Less spacing */
+            text-transform: uppercase;
+            font-size: 0.9rem; /* Smaller font */
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: #145dbf; /* Darker blue */
+            border-color: #145dbf;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            letter-spacing: 0.5px; /* Keep spacing same on hover */
+        }
+        button:active {
+            background-color: #104a9e; /* Even darker blue */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transform: translateY(1px); /* Slight press effect */
+            transition: 100ms;
+        }
     </style>
 </head>
 <body>
-    <div class="circle" ></div>
     <div class="dashboard-container">
-        <h1 id="dashboard-title" style="color:white">School Data Analytics Dashboard</h1>
-        
+        <h1 id="dashboard-title">School Data Analytics Dashboard</h1>
+
         <div id="status-message">Loading user data...</div>
 
         <div id="dashboard-content" class="dashboard-grid" style="display: none;">
-            
-            <!-- Matrix 1: Total Students -->
-            <div class="card">
+
+            <div class="card" data-chart="total-students">
                 <div class="card-title">Total Enrollment</div>
-                <div class="metric-value" id="total-students">...</div>
+                <div class="metric-value" id="total-students">0</div>
                 <div class="metric-label">All Grades Combined</div>
             </div>
-
-            <!-- Matrix 2: T:S Ratio -->
-            <div class="card">
+            <div class="card" data-chart="ts-ratio">
                 <div class="card-title">Teacher to Student Ratio</div>
-                <div class="metric-value" id="ts-ratio">...</div>
+                <div class="metric-value" id="ts-ratio">N/A</div>
                 <div class="metric-label">Students per Teacher</div>
             </div>
-            
-            <!-- Matrix 3: Avg Teacher Exp -->
-            <div class="card">
+            <div class="card" data-chart="avg-experience">
                 <div class="card-title">Avg Teacher Experience</div>
-                <div class="metric-value" id="avg-experience">...</div>
+                <div class="metric-value" id="avg-experience">0.0</div>
                 <div class="metric-label">Years of Service</div>
             </div>
-
-            <!-- Matrix 4: Special Needs Students -->
-            <div class="card">
+            <div class="card" data-chart="special-needs">
                 <div class="card-title">Special Needs Students</div>
-                <div class="metric-value" id="special-needs">...</div>
+                <div class="metric-value" id="special-needs">0</div>
                 <div class="metric-label">Count</div>
             </div>
-
-            <!-- CHART 1: Enrollment Trends (3-Year Bar Chart) -->
-            <div class="card span-6">
+            <div class="card span-6" data-chart="enrollment-trends">
                 <div class="card-title">Enrollment Trends (Past 3 Years)</div>
-                <div class="chart-visual" id="enrollment-trends-chart">
-                    <!-- Bars generated by JS -->
-                </div>
+                <div class="chart-visual" id="enrollment-trends-chart"></div>
             </div>
-            
-            <!-- CHART 2: Gender Ratio (Donut Chart) -->
-            <div class="card span-6">
+            <div class="card span-6" data-chart="gender-ratio">
                 <div class="card-title">Gender Ratio (Male : Female)</div>
-                <div class="donut-chart-container" id="gender-ratio-chart">
-                    <!-- Donut generated by JS -->
-                </div>
+                <div class="donut-chart-container" id="gender-ratio-chart"></div>
             </div>
-
-            <!-- CHART 3: Enrollment By Grade (Vertical Bar Chart) -->
-            <div class="card span-12">
+            <div class="card span-12" data-chart="grade-enrollment">
                 <div class="card-title">Enrollment Distribution By Grade</div>
-                <div class="chart-visual" id="grade-enrollment-chart">
-                    <!-- Bars generated by JS -->
-                </div>
+                <div class="chart-visual" id="grade-enrollment-chart"></div>
             </div>
-            
-            <!-- CHART 4: Subject Performance (Horizontal Progress Bars) -->
-            <div class="card span-6">
+            <div class="card span-6" data-chart="performance-bars">
                 <div class="card-title">AVG Student Performance (Key Subjects)</div>
-                <div id="performance-bars" style="padding-top: 10px;">
-                    <!-- Progress Bars generated by JS -->
-                </div>
+                <div id="performance-bars" style="padding-top: 10px;"></div>
             </div>
-            
-            <!-- CHART 5: Attendance & Curriculum Completion (Dual Arc Gauges) -->
-            <div class="card span-6">
+            <div class="card span-6" data-chart="operational-efficiency">
                 <div class="card-title">Operational Efficiency</div>
                 <div class="dual-gauge-wrapper">
                     <div id="attendance-gauge"></div>
                     <div id="completion-gauge"></div>
                 </div>
             </div>
-            
-            <!-- CHART 6: Infrastructure Availability Status (Indicator Grid) -->
-            <div class="card span-12">
+            <div class="card span-12" data-chart="infra-grid">
                 <div class="card-title">Infrastructure and Digital Readiness</div>
-                <div class="infra-grid" id="infra-status-grid">
-                    <!-- Indicators generated by JS -->
-                </div>
+                <div class="infra-grid" id="infra-status-grid"></div>
             </div>
-            <!-- Matrix 5: Student Code -->
-            <div class="card">
-                <div class="card-title">Student Code</div>
-                <div class="metric-value" id="studentcode">...</div>
-                <div class="metric-label">Student Code</div>
-            </div>
-            <!-- Matrix 6: Faculty Code -->
-            <div class="card">
-                <div class="card-title">Faculty Code</div>
-                <div class="metric-value" id="facultycode">...</div>
-                <div class="metric-label">Faculty Code</div>
-            </div>
+            <div class="card" data-chart="student-code">
+                 <div class="card-title">Student Code</div>
+                 <div class="metric-value" id="studentcode">...</div>
+                 <div class="metric-label">Student Code</div>
+             </div>
+             <div class="card" data-chart="faculty-code">
+                 <div class="card-title">Faculty Code</div>
+                 <div class="metric-value" id="facultycode">...</div>
+                 <div class="metric-label">Faculty Code</div>
+             </div>
+
         </div>
         <br>
         <br>
-    <center><a href="{{ url_for('index') }}"><button>go back to Services</button></a></center>
+        <center><a href="{{ url_for('index') }}"><button>go back to Services</button></a></center>
     </div>
 
-    
 
     <script>
+        // --- JAVASCRIPT LOGIC REMAINS EXACTLY THE SAME ---
         const API_URL = '/dashboard-data';
         const statusMessage = document.getElementById('status-message');
         const dashboardContent = document.getElementById('dashboard-content');
         const CIRCUMFERENCE = 2 * Math.PI * 50; // For gauge charts (r=50)
-        
-        // --- Data Fetching ---
+
+        let schoolData = null;
+
+        function animateCountUp(el, finalValue, duration = 1500, format = 'integer', label = '') {
+            let start = 0;
+            let startTime = null;
+            const formatter = (value) => {
+                try {
+                    switch (format) {
+                        case 'float': return value.toFixed(1);
+                        case 'percent': return `${value.toFixed(1)}%`;
+                        case 'ratio': return finalValue || 'N/A';
+                        case 'code': return finalValue || 'N/A';
+                        case 'integer': default: return Math.round(value).toLocaleString();
+                    }
+                } catch (e) { console.error("Formatting error:", e, "Value:", value, "Format:", format); return finalValue || '0'; }
+            };
+            if (format === 'ratio' || format === 'code') { el.textContent = finalValue || 'N/A'; return; }
+            const targetValue = parseFloat(finalValue) || 0;
+            const suffix = (format === 'float' && el.id === 'avg-experience') ? ' yrs' : '';
+            const step = (timestamp) => {
+                if (!startTime) startTime = timestamp;
+                const progress = timestamp - startTime;
+                let t = progress / duration; t = t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t;
+                let currentValue = start + (targetValue - start) * t;
+                if (progress < duration) { el.textContent = formatter(currentValue) + suffix; requestAnimationFrame(step); }
+                else { el.textContent = formatter(targetValue) + suffix; }
+            };
+            requestAnimationFrame(step);
+        }
+
+        const handleIntersect = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const card = entry.target;
+                    const chartType = card.dataset.chart;
+                    card.classList.add('is-visible');
+                    if (schoolData) {
+                        requestAnimationFrame(() => {
+                           try {
+                                switch (chartType) {
+                                    case 'total-students': animateCountUp(document.getElementById('total-students'), schoolData.num_students, 1500, 'integer'); break;
+                                    case 'ts-ratio': document.getElementById('ts-ratio').textContent = schoolData.teacher_student_ratio || 'N/A'; break;
+                                    case 'avg-experience': animateCountUp(document.getElementById('avg-experience'), schoolData.avg_teacher_experience, 1500, 'float'); break;
+                                    case 'special-needs': animateCountUp(document.getElementById('special-needs'), schoolData.students_special_needs, 1500, 'integer'); break;
+                                    case 'enrollment-trends': renderEnrollmentTrendsChart(schoolData.enrollment_trends); break;
+                                    case 'gender-ratio': renderGenderRatioChart(schoolData.gender_ratio); break;
+                                    case 'grade-enrollment': renderGradeEnrollmentChart(schoolData.grade_enrollment_data); break;
+                                    case 'performance-bars': renderPerformanceBars(schoolData.performance_scores); break;
+                                    case 'operational-efficiency': renderDualGauges(schoolData.avg_attendance_rate, schoolData.curriculum_completion); break;
+                                    case 'infra-grid': renderInfrastructureGrid(schoolData.infra_availability, schoolData.digital_infra); break;
+                                    case 'student-code': document.getElementById('studentcode').textContent = schoolData.studentcode || 'N/A'; break;
+                                    case 'faculty-code': document.getElementById('facultycode').textContent = schoolData.facultycode || 'N/A'; break;
+                                }
+                           } catch (e) { console.error(`Error animating chart ${chartType}:`, e); }
+                        });
+                    }
+                    observer.unobserve(card);
+                }
+            });
+        };
+
         async function fetchSchoolData() {
             try {
                 const response = await fetch(API_URL);
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
-                }
-                
+                if (!response.ok) { const errorData = await response.json(); throw new Error(errorData.message || `HTTP error! Status: ${response.status}`); }
                 const data = await response.json();
-                
-                if (data.length === 0) {
-                    statusMessage.textContent = 'No school data found for your account. Please submit a form first.';
-                } else {
+                if (data.length === 0) { statusMessage.textContent = 'No school data found for your account. Please submit a form first.'; }
+                else {
                     statusMessage.style.display = 'none';
                     dashboardContent.style.display = 'grid';
-                    // Focus on the first record (or whichever you prefer)
-                    renderDashboard(data[0]);
+                    schoolData = data[0];
+                    document.getElementById('dashboard-title').textContent = `${schoolData.school_name || 'School'} - Data Dashboard`;
+                    const observer = new IntersectionObserver(handleIntersect, { threshold: 0.1 });
+                    document.querySelectorAll('.card').forEach(card => observer.observe(card));
                 }
-            } catch (error) {
-                console.error("Error fetching data:", error);
-                statusMessage.textContent = `Error loading data: ${error.message}. Please check your login status.`;
-                dashboardContent.style.display = 'none';
-            }
+            } catch (error) { console.error("Error fetching data:", error); statusMessage.textContent = `Error loading data: ${error.message}. Please check your login status.`; dashboardContent.style.display = 'none'; }
         }
 
-        // --- Master Renderer ---
-        function renderDashboard(data) {
-            document.getElementById('dashboard-title').textContent = `${data.school_name} - Data Dashboard`;
-            
-            // 1. Key Metrics (Matrices)
-            // Add null checks for safety
-            document.getElementById('total-students').textContent = (data.num_students || 0).toLocaleString();
-            document.getElementById('ts-ratio').textContent = data.teacher_student_ratio || 'N/A';
-            document.getElementById('avg-experience').textContent = `${data.avg_teacher_experience || 0} yrs`;
-            document.getElementById('special-needs').textContent = (data.students_special_needs || 0).toLocaleString();
-
-            // 2. Six Charts
-            renderEnrollmentTrendsChart(data.enrollment_trends); // CHART 1
-            renderGenderRatioChart(data.gender_ratio); // CHART 2
-            renderGradeEnrollmentChart(data.grade_enrollment_data); // CHART 3
-            renderPerformanceBars(data.performance_scores); // CHART 4
-            renderDualGauges(data.avg_attendance_rate, data.curriculum_completion); // CHART 5
-            renderInfrastructureGrid(data.infra_availability, data.digital_infra); // CHART 6
-            studentcode(data.studentcode);
-            facultycode(data.facultycode);
-        }
-
-        // --- CHART FUNCTIONS ---
-
-        // CHART 1: Enrollment Trends (3-Year Bar Chart)
         function renderEnrollmentTrendsChart(trends) {
-            const chart = document.getElementById('enrollment-trends-chart');
-            chart.innerHTML = '';
-            
-            const trendsArray = trends || [];
-            if (trendsArray.length === 0) {
-                chart.innerHTML = '<p style="text-align: center; opacity: 0.6; width: 100%;">Data not available.</p>';
-                return;
-            }
-            
-            const maxEnrollment = Math.max(...trendsArray, 1); // Avoid division by zero
-            const years = ['Year -3', 'Year -2', 'Year -1'];
-
+            const chart = document.getElementById('enrollment-trends-chart'); chart.innerHTML = '';
+            const trendsArray = (trends || []).map(t => parseFloat(t) || 0);
+            if (trendsArray.length === 0) { chart.innerHTML = '<p style="text-align: center; opacity: 0.6; width: 100%;">Data not available.</p>'; return; }
+            const maxEnrollment = Math.max(...trendsArray, 1); const years = ['Year -3', 'Year -2', 'Year -1'];
             trendsArray.slice(-3).forEach((value, index) => {
-                const numericValue = value || 0;
-                const heightPercentage = (numericValue / maxEnrollment) * 95; 
-                
-                const barItem = document.createElement('div');
-                barItem.className = 'bar-item';
-                
-                const bar = document.createElement('div');
-                bar.className = 'bar';
-                bar.style.height = `${heightPercentage}%`;
-                bar.style.backgroundColor = 'var(--neon-purple)'; // Unique color
-                bar.style.boxShadow = '0 0 8px rgba(255, 0, 255, 0.5)';
-                
-                const valueSpan = document.createElement('span');
-                valueSpan.className = 'bar-value';
-                valueSpan.textContent = numericValue.toLocaleString();
-                
-                const labelSpan = document.createElement('span');
-                labelSpan.className = 'bar-label';
-                labelSpan.textContent = years[index];
-                
-                bar.appendChild(valueSpan);
-                barItem.appendChild(bar);
-                barItem.appendChild(labelSpan);
-                chart.appendChild(barItem);
+                const heightPercentage = (value / maxEnrollment) * 95; const barItem = document.createElement('div'); barItem.className = 'bar-item';
+                const bar = document.createElement('div'); bar.className = 'bar'; bar.style.backgroundColor = 'var(--primary-color)'; bar.style.boxShadow = 'none'; /* Changed color */
+                const valueSpan = document.createElement('span'); valueSpan.className = 'bar-value'; valueSpan.textContent = value.toLocaleString();
+                const labelSpan = document.createElement('span'); labelSpan.className = 'bar-label'; labelSpan.textContent = years[index];
+                bar.appendChild(valueSpan); barItem.appendChild(bar); barItem.appendChild(labelSpan); chart.appendChild(barItem);
+                requestAnimationFrame(() => { setTimeout(() => { bar.style.height = `${heightPercentage}%`; valueSpan.style.opacity = 1; }, 100 * index + 50); });
             });
         }
-        
-        // CHART 2: Gender Ratio (Donut Chart)
+
         function renderGenderRatioChart(ratioString) {
-            const chartContainer = document.getElementById('gender-ratio-chart');
-            chartContainer.innerHTML = '';
-
-            let maleRatio = 0.5;
-            let femaleRatio = 0.5;
-            let ratioLabel = "50 : 50";
-
+            const chartContainer = document.getElementById('gender-ratio-chart'); chartContainer.innerHTML = '';
+            let maleRatio = 0.5, femaleRatio = 0.5;
             if (ratioString && ratioString.includes(':')) {
-                const [male, female] = ratioString.split(':').map(n => parseFloat(n.trim()));
-                const total = male + female;
-                if (!isNaN(total) && total > 0) {
-                    maleRatio = male / total;
-                    femaleRatio = female / total;
-                    ratioLabel = ratioString;
-                }
+                const parts = ratioString.split(':').map(n => parseFloat(n.trim()));
+                if(parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) { const [male, female] = parts; const total = male + female; if (total > 0) { maleRatio = male / total; femaleRatio = female / total; } }
             }
-            
-            const malePercent = (maleRatio * 100).toFixed(0);
-            const femalePercent = (femaleRatio * 100).toFixed(0);
-            
-            const gradient = `conic-gradient(
-                var(--neon-purple) 0% ${malePercent}%, 
-                var(--secondary-neon) ${malePercent}% 100%
-            )`;
-
-            const donut = document.createElement('div');
-            donut.className = 'donut-chart';
-            donut.style.background = gradient;
-            
-            const center = document.createElement('div');
-            center.className = 'donut-center';
-            center.innerHTML = `
-                <span class="gauge-percent">${malePercent}%</span>
-                <span class="donut-ratio-label">Male</span>
-                <span class="donut-ratio-label" style="margin-top: 5px;">Female: ${femalePercent}%</span>
-            `;
-
-            chartContainer.appendChild(donut);
-            chartContainer.appendChild(center);
+            const malePercent = (maleRatio * 100); const femalePercent = (femaleRatio * 100);
+            const gradient = `conic-gradient(var(--primary-color) 0% ${malePercent.toFixed(0)}%, var(--secondary-color) ${malePercent.toFixed(0)}% 100%)`; /* Changed colors */
+            const donut = document.createElement('div'); donut.className = 'donut-chart'; donut.style.background = gradient;
+            const center = document.createElement('div'); center.className = 'donut-center';
+            center.innerHTML = `<span class="gauge-percent" id="male-percent-text" style="color: var(--primary-color);">0.0%</span><span class="donut-ratio-label">Male</span><span class="donut-ratio-label" style="margin-top: 5px;" id="female-percent-text">Female: 0.0%</span>`; /* Changed male color */
+            chartContainer.appendChild(donut); chartContainer.appendChild(center);
+            requestAnimationFrame(() => { setTimeout(() => {
+                donut.style.opacity = 1; donut.style.transform = 'scale(1)';
+                animateCountUp(document.getElementById('male-percent-text'), malePercent, 1200, 'percent');
+                const femaleEl = document.getElementById('female-percent-text'); let start = 0, startTime = null;
+                const step = (ts) => { if (!startTime) startTime = ts; const progress = ts - startTime; let t = progress / 1200; t = t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t; let current = start + (femalePercent - start) * t; if (progress < 1200) { femaleEl.textContent = `Female: ${current.toFixed(1)}%`; requestAnimationFrame(step); } else { femaleEl.textContent = `Female: ${femalePercent.toFixed(1)}%`; }}; requestAnimationFrame(step);
+            }, 100); });
         }
 
-        // CHART 3: Enrollment By Grade (Vertical Bar Chart)
         function renderGradeEnrollmentChart(enrollmentData) {
-            const chart = document.getElementById('grade-enrollment-chart');
-            chart.innerHTML = '';
-            
-            if (!enrollmentData || Object.keys(enrollmentData).length === 0) {
-                chart.innerHTML = '<p style="text-align: center; opacity: 0.6; width: 100%;">Grade enrollment data not available.</p>';
-                return;
-            }
-            
-            const enrollmentValues = Object.values(enrollmentData).map(v => v || 0);
-            const maxEnrollment = Math.max(...enrollmentValues, 1); // Avoid division by zero
-
-            Object.entries(enrollmentData).forEach(([grade, value]) => {
-                const numericValue = value || 0;
-                const heightPercentage = (numericValue / maxEnrollment) * 95; 
-                
-                const barItem = document.createElement('div');
-                barItem.className = 'bar-item';
-                
-                const bar = document.createElement('div');
-                bar.className = 'bar';
-                bar.style.height = `${heightPercentage}%`;
-                bar.style.backgroundColor = 'var(--secondary-neon)';
-                bar.style.boxShadow = '0 0 8px rgba(0, 255, 204, 0.5)';
-                
-                const valueSpan = document.createElement('span');
-                valueSpan.className = 'bar-value';
-                valueSpan.textContent = numericValue.toLocaleString();
-                
-                const labelSpan = document.createElement('span');
-                labelSpan.className = 'bar-label';
-                labelSpan.textContent = grade.replace('grade_', 'G ').replace('class_', 'C '); 
-                
-                bar.appendChild(valueSpan);
-                barItem.appendChild(bar);
-                barItem.appendChild(labelSpan);
-                chart.appendChild(barItem);
+            const chart = document.getElementById('grade-enrollment-chart'); chart.innerHTML = '';
+            if (!enrollmentData || Object.keys(enrollmentData).length === 0) { chart.innerHTML = '<p style="text-align: center; opacity: 0.6; width: 100%;">Data not available.</p>'; return; }
+            const enrollmentValues = Object.values(enrollmentData).map(v => parseFloat(v) || 0);
+            const maxEnrollment = Math.max(...enrollmentValues, 1);
+            Object.entries(enrollmentData).forEach(([grade, value], index) => {
+                const numericValue = parseFloat(value) || 0; const heightPercentage = (numericValue / maxEnrollment) * 95;
+                const barItem = document.createElement('div'); barItem.className = 'bar-item';
+                const bar = document.createElement('div'); bar.className = 'bar'; bar.style.backgroundColor = 'var(--secondary-color)'; bar.style.boxShadow = 'none'; /* Changed color */
+                const valueSpan = document.createElement('span'); valueSpan.className = 'bar-value'; valueSpan.textContent = numericValue.toLocaleString();
+                const labelSpan = document.createElement('span'); labelSpan.className = 'bar-label'; labelSpan.textContent = grade.replace(/grade_|class_/i, 'G ');
+                bar.appendChild(valueSpan); barItem.appendChild(bar); barItem.appendChild(labelSpan); chart.appendChild(barItem);
+                requestAnimationFrame(() => { setTimeout(() => { bar.style.height = `${heightPercentage}%`; valueSpan.style.opacity = 1; }, 50 * index + 50); });
             });
         }
-        
-        // CHART 4: Subject Performance (Horizontal Progress Bars)
+
         function renderPerformanceBars(scores) {
-            const container = document.getElementById('performance-bars');
-            container.innerHTML = '';
-            
-            const scoresData = scores || {};
-            const scoreLabels = {
-                math: "Math", science: "Science", english: "English", 
-                hindi: "Hindi", mother_language: "Mother Lang."
-            };
-
-            Object.entries(scoreLabels).forEach(([key, label]) => {
-                const score = scoresData[key] || 0;
-                const percentage = Math.max(0, Math.min(100, score));
-                
-                const barHTML = `
-                    <div style="margin-bottom: 15px;">
-                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 5px;">
-                            <span>${label}</span>
-                            <span style="color: var(--neon-purple); font-weight: bold;">${percentage.toFixed(1)}%</span>
-                        </div>
-                        <div style="height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden;">
-                            <div style="height: 100%; width: ${percentage}%; 
-                                background: linear-gradient(90deg, #ff66ff, var(--neon-purple)); 
-                                border-radius: 4px; transition: width 1s ease-out;">
-                            </div>
-                        </div>
-                    </div>
-                `;
-                container.innerHTML += barHTML;
+            const container = document.getElementById('performance-bars'); container.innerHTML = '';
+            const scoresData = scores || {}; const scoreLabels = { math: "Math", science: "Science", english: "English", hindi: "Hindi", mother_language: "Mother Lang." };
+            Object.entries(scoreLabels).forEach(([key, label], index) => {
+                const score = parseFloat(scoresData[key]) || 0; const percentage = Math.max(0, Math.min(100, score));
+                const wrapper = document.createElement('div'); wrapper.className = 'progress-bar-wrapper';
+                wrapper.innerHTML = `<div class="progress-bar-labels"><span>${label}</span><span class="progress-bar-value" id="perf-val-${key}">0.0%</span></div><div class="progress-bar-bg"><div class="progress-bar-inner" id="perf-bar-${key}"></div></div>`;
+                container.appendChild(wrapper);
+                requestAnimationFrame(() => { setTimeout(() => { document.getElementById(`perf-bar-${key}`).style.width = `${percentage}%`; animateCountUp(document.getElementById(`perf-val-${key}`), percentage, 1200, 'percent'); }, 100 * index + 50); });
             });
         }
-        function studentcode(studentcode) {
-            document.getElementById('studentcode').textContent = studentcode;
-        }
-        function facultycode(facultycode) {
-            document.getElementById('facultycode').textContent = facultycode;
-        }
-        // CHART 5: Attendance & Curriculum Completion (Dual Arc Gauges)
+
         function createGauge(id, percent, label, color) {
-            const radius = 50;
-            const safePercent = Math.max(0, Math.min(100, percent || 0));
-            const circumference = 2 * Math.PI * radius;
-            const offset = circumference - (safePercent / 100) * circumference;
-            
-            const html = `
-                <div class="gauge-circle" style="margin-top: 15px;">
-                    <svg width="100%" height="100%" viewBox="0 0 120 120">
-                        <circle class="gauge-bg" cx="60" cy="60" r="${radius}" />
-                        <circle class="gauge-progress" cx="60" cy="60" r="${radius}" 
-                            style="stroke-dasharray: ${circumference}; 
-                                stroke-dashoffset: ${offset};
-                                stroke: ${color};" />
-                    </svg>
-                    <div class="gauge-text">
-                        <span class="gauge-percent">${safePercent.toFixed(1)}%</span>
-                        <div class="gauge-label-small">${label}</div>
-                    </div>
-                </div>
-            `;
+            const radius = 50; const safePercent = Math.max(0, Math.min(100, parseFloat(percent) || 0));
+            const circumference = 2 * Math.PI * radius; const startOffset = circumference; const endOffset = circumference - (safePercent / 100) * circumference;
+            const html = `<div class="gauge-circle" style="margin-top: 15px;"><svg width="100%" height="100%" viewBox="0 0 120 120"><circle class="gauge-bg" cx="60" cy="60" r="${radius}" /><circle class="gauge-progress" id="gauge-progress-${id}" cx="60" cy="60" r="${radius}" style="stroke-dasharray: ${circumference}; stroke-dashoffset: ${startOffset}; stroke: ${color};" /></svg><div class="gauge-text"><span class="gauge-percent" id="gauge-text-${id}" style="color:${color}">0.0%</span><div class="gauge-label-small">${label}</div></div></div>`; /* Adjusted text color */
             document.getElementById(id).innerHTML = html;
+            requestAnimationFrame(() => { setTimeout(() => { document.getElementById(`gauge-progress-${id}`).style.strokeDashoffset = endOffset; animateCountUp(document.getElementById(`gauge-text-${id}`), safePercent, 1500, 'percent'); }, 100); });
         }
 
         function renderDualGauges(attendanceRate, completionRate) {
-            createGauge('attendance-gauge', attendanceRate, 'Avg. Attendance', 'var(--secondary-neon)');
-            createGauge('completion-gauge', completionRate, 'Curriculum Completion', 'var(--neon-purple)');
+            createGauge('attendance-gauge', attendanceRate, 'Avg. Attendance', 'var(--secondary-color)'); /* Cyan */
+            createGauge('completion-gauge', completionRate, 'Curriculum Completion', 'var(--primary-color)'); /* Blue */
         }
 
-        // =================================================================
-        // --- UPDATED/FIXED FUNCTION ---
-        // =================================================================
         function renderInfrastructureGrid(infraData, digitalInfra) {
-            const grid = document.getElementById('infra-status-grid');
-            grid.innerHTML = '';
-            
-            // --- DEBUGGING ---
-            // console.log("--- DEBUG: Rendering Infrastructure ---");
-            // console.log("Received infraData object:", infraData);
-            // console.log("Received digitalInfra value:", digitalInfra);
-            // --- END DEBUGGING ---
-
-            // --- FIX: Add ALL possible keys from the database ---
-            const statusMap = {
-                // Original values
-                'excellent': { label: 'Excellent', class: 'status-high' },
-                'Excellent': { label: 'Excellent', class: 'status-high' },
-                'good': { label: 'Good', class: 'status-high' },
-                'Good': { label: 'Good', class: 'status-high' },
-                'average': { label: 'Average', class: 'status-med' },
-                'Average': { label: 'Average', class: 'status-med' },
-                'poor': { label: 'Poor', class: 'status-low' },
-                'Poor': { label: 'Poor', class: 'status-low' },
-                
-                // NEW Values from your database screenshot
-                'fully': { label: 'Fully', class: 'status-high' },
-                'partially': { label: 'Partially', class: 'status-med' },
-                'basic': { label: 'Basic', class: 'status-med' },
-                'none': { label: 'None', class: 'status-low' } // Added as a safety fallback
-            };
-            
-            const infraLabels = {
-                classrooms: 'Classrooms Available',
-                labs: 'Labs Available',
-                toilets: 'Functional Toilets',
-                electricity: 'Electricity Supply',
-                water: 'Drinking Water'
-            };
-
-            // 1. Physical Infrastructure
-            Object.entries(infraLabels).forEach(([key, label]) => {
-                // Get the raw value (e.g., "fully") or default to "poor"
-                const value = (infraData && infraData[key]) ? infraData[key] : 'poor';
-                
-                // Check map using the raw value first, then fallback to 'poor'
-                const status = statusMap[value] || statusMap['poor'];
-                
-                // --- DEBUGGING ---
-                // console.log(`Processing key: ${key} | Raw value: '${infraData ? infraData[key] : 'N/A'}' | Defaulted value: '${value}' | Final Status: ${status.label}`);
-                // --- END DEBUGGING ---
-                
-                const item = document.createElement('div');
-                item.className = 'infra-item';
-                item.innerHTML = `
-                    <span>${label}</span>
-                    <span class="infra-status ${status.class}">${status.label}</span>
-                `;
-                grid.appendChild(item);
-            });
-            
-            // 2. Digital Infrastructure
-            const digitalValue = digitalInfra || 'poor';
-            // Check map using the raw value first, then fallback to 'poor'
-            const digitalStatus = statusMap[digitalValue] || statusMap['poor'];
-
-            // --- DEBUGGING ---
-            // console.log(`Processing Digital Infra: | Raw value: '${digitalInfra}' | Defaulted value: '${digitalValue}' | Final Status: ${digitalStatus.label}`);
-            // --- END DEBUGGING ---
-
-            const digitalItem = document.createElement('div');
-            digitalItem.className = 'infra-item';
-            digitalItem.innerHTML = `
-                <span>Digital Infrastructure</span>
-                <span class="infra-status ${digitalStatus.class}">${digitalStatus.label}</span>
-            `;
-            grid.appendChild(digitalItem);
+            const grid = document.getElementById('infra-status-grid'); grid.innerHTML = '';
+            const statusMap = { 'excellent': { label: 'Excellent', class: 'status-high' }, 'good': { label: 'Good', class: 'status-high' }, 'average': { label: 'Average', class: 'status-med' }, 'poor': { label: 'Poor', class: 'status-low' }, 'fully': { label: 'Fully', class: 'status-high' }, 'partially': { label: 'Partially', class: 'status-med' }, 'basic': { label: 'Basic', class: 'status-med' }, 'none': { label: 'None', class: 'status-low' }, 'advanced': { label: 'Advanced', class: 'status-high' }, 'minimal': { label: 'Minimal', class: 'status-low' } };
+            const infraLabels = { classrooms: 'Classrooms Available', labs: 'Labs Available', toilets: 'Functional Toilets', electricity: 'Electricity Supply', water: 'Drinking Water' }; let allItems = [];
+            Object.entries(infraLabels).forEach(([key, label]) => { const value = (infraData && infraData[key]) ? String(infraData[key]).toLowerCase() : 'poor'; const status = statusMap[value] || statusMap['poor']; allItems.push({ label, status }); });
+            const digitalValue = digitalInfra ? String(digitalInfra).toLowerCase() : 'poor'; const digitalStatus = statusMap[digitalValue] || statusMap['poor']; allItems.push({ label: 'Digital Infrastructure', status: digitalStatus });
+            allItems.forEach((itemData, index) => { const item = document.createElement('div'); item.className = 'infra-item'; item.innerHTML = `<span>${itemData.label}</span><span class="infra-status ${itemData.status.class}">${itemData.status.label}</span>`; item.style.transitionDelay = `${index * 100}ms`; grid.appendChild(item); requestAnimationFrame(() => { setTimeout(() => item.classList.add('is-visible'), 50); }); });
         }
-        // =================================================================
-        // --- END OF UPDATED FUNCTION ---
-        // =================================================================
 
-
-        // Initialize dashboard loading
         document.addEventListener('DOMContentLoaded', fetchSchoolData);
     </script>
 </body>
 </html>
-
