@@ -1,12 +1,15 @@
-html{
-    scroll-behavior: smooth;
-}
 body{
-    background: url("bg-4.png");
+    background: url("bg-3.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    scroll-behavior: smooth;
+    color: white;
+    font-family: Arial, sans-serif;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
 }
 
 body {
@@ -30,40 +33,6 @@ body::-webkit-scrollbar-thumb {
   
 }
 
-.grabber {
-  padding: 17px 40px;
-  border-radius: 50px;
-  cursor: pointer;
-  border: 0;
-  background-color: white;
-  box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  font-size: 10px;
-  transition: all 0.5s ease;
-  margin-left: 5%;
-  margin-top: 9%;
-}
-
-.grabber:hover {
-  letter-spacing: 3px;
-  background-color: hsl(261deg 80% 48%);
-  color: hsl(0, 0%, 100%);
-  box-shadow: rgb(93 24 220) 0px 7px 29px 0px;
-}
-
-.grabber:active {
-  letter-spacing: 3px;
-  background-color: hsl(261deg 80% 48%);
-  color: hsl(0, 0%, 100%);
-  box-shadow: rgb(93 24 220) 0px 0px 0px 0px;
-  transform: translateY(10px);
-  transition: 100ms;
-}
-.inno{
-    color:white;
-    margin-left:5%
-}
 .circle{
   width: 500px;
   height: 500px;
@@ -212,146 +181,81 @@ overflow:hidden ;
                      var(--sb-track-color);
   }
 }
-.navbar{
-    background-color: rgba(255, 255, 255, 0.37);
-    padding: 10px 20px;
-    backdrop-filter: blur(25px);
-    border-radius: 10px;
-    width: 55%;
-    color:black;
+.user-profile{
     display: flex;
-    justify-content: space-between;
-    margin-left: 20%;
-}
-a{
-    color: white;
-    text-decoration: none;
-}
-.navbtn{
-    background-color: rgba(0, 0, 0, 0.192);
-    padding:4px 10px;
-    backdrop-filter: blur(25px);
-    border-radius: 30px;
-    color:rgb(255, 255, 255);
-    border: none;
-    cursor: pointer;
-}
-.info {
-  width: 27ch;
-  animation: typing 3s steps(27)  infinite, blink .5s step-end infinite alternate;
-  white-space: nowrap;
-  overflow: hidden;
-  margin-left: 10%;
-  margin-top: 5%;
-  color:white;
-  border-right: 3px solid;
-  font-family: monospace;
-  font-size: 2em;
-}
-.info:nth-child(1) {
-  animation-delay: 0s, 0s;
-}
-@keyframes typing {
-  0% {
-    width: 0;
-  }
-  58.3% { /* 7s out of 12s total */
-    width: 27ch;
-  }
-  100% {
-    width: 27ch; /* stays finished for the remaining 5s */
-  }
-}
-@keyframes blink {
-  50% {
-    border-color: transparent;
-  }
-}
-@keyframes typing2 {
-  0% {
-    width: 0;
-  }
-  58.3% { /* 7s out of 12s total */
-    width: 22ch;
-  }
-  100% {
-    width: 22ch; /* stays finished for the remaining 5s */
-  }
-}
-.info2{
-    width: 22ch;
-    animation: typing2 3s steps(22)  infinite, blink .5s step-end infinite alternate;
-    white-space: nowrap;
-    overflow: hidden;
-    margin-left: 10%;
+    width: 70%;
+    margin-left:15% ;
     margin-top: 5%;
-    color:white;
-    border-right: 3px solid;
-    font-family: monospace;
-    font-size: 2em;
-}
-.info2:nth-child(1) {
-  animation-delay: 2s, 2s;
-}
-.intro{
-    display: flex;
-    width: 80%;
-    margin-left:9% ;
-    margin-top: 2%;
     backdrop-filter: blur(10px);
     background-color: #130c418c;
     border: white solid 1px;
     border-radius: 30px;
+    padding: 20px;
 }
-.intro-txt{
-    width: 50%;
-    display: inline-block;
-    margin-top: 7%;
+.profile-info{
+    margin-left: 2%;
+    border-left: white solid 3px;
+    border-radius: 3px;
+    padding:10px;
 }
 
-.info-img{
-    width: 512px;
-    border-radius: 30px;
-    padding: 9px;
-}
-.divider{
-    width: 50%;
-    margin-left: 25%;
-    margin-top: 5%;
-    margin-bottom: 5%;
-    height: 5px;
-    background-color: white;
-    border-radius: 20px;
-}
-.about-txt{
-    font-size: 45px;
-    color: white;
-    font-weight: 500;
-    margin-bottom: 10px;
-}
-.team{
+.names{
     display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding:30px;
+    width: 100%;
+    gap: 10px;
 }
-.team-member{
-    text-align: center;
-    color: white;
-    background-color: rgba(255, 255, 255, 0.205);
-    backdrop-filter: blur(10px);
-    border-radius: 30px;
-    padding: 20px;
-    transition: 0.5s;
-}
-.team-img{
+.pfp{
     border-radius: 50%;
     width: 200px;
     height: 200px;
 }
-.team-member:hover{
-    transform: scale(1.05);
-    background-color: rgba(255, 255, 255, 0.356);
-    box-shadow: 0 0 10px rgb(255, 255, 255);
-    transition: 0.5s;
+.firstname{
+    width: 300px;
+}
+.lastname{
+    width: 300px;
+}
+.flname{
+    background-color: #080233;
+    border-radius: 20px;
+    height:10px;
+    padding: 10px;
+    align-items: center;
+    border:white solid 2px;
+}
+.LogOut{
+    background-color: #ff0000;
+    border-radius: 20px;
+    font-weight: 400;
+    color: white;
+    padding: 10px;
+    align-items: center;
+    border:white solid 2px;
+    cursor: pointer;
+}
+.backtoservice{
+    padding: 17px 40px;
+    border-radius: 50px;
+    cursor: pointer;
+    border: 0;
+    background-color: white;
+    box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-size: 15px;
+    transition: all 0.5s ease;
+}
+.backtoservice:hover {
+    letter-spacing: 3px;
+    background-color: hsl(0, 0%, 0%);
+    color: hsl(0, 0%, 100%);
+    box-shadow: rgb(255, 255, 255) 0px 7px 29px 0px;
+}
+.backtoservice:active {
+    letter-spacing: 3px;
+    background-color: hsl(0, 0%, 0%);
+    color: hsl(0, 0%, 100%);
+    box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px;
+    transform: translateY(10px);
+    transition: 100ms;
 }

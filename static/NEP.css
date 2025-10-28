@@ -1,0 +1,39 @@
+#pdf-canvas-wrapper {
+            max-width: 100%;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+        }
+
+        #pdf-canvas {
+            display: block;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s ease-in-out;
+            max-width: 100%;
+        }
+
+        .w-main-content {
+            width: calc(100% - 16rem);
+        }
+        
+        @media (max-width: 768px) {
+            #sidebar {
+                display: none;
+            }
+            #main-container {
+                margin-left: 0;
+            }
+            #controls {
+                left: 0;
+                width: 100%;
+            }
+            .w-main-content {
+                 width: 100%;
+            }
+            main {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
