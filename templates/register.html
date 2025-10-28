@@ -1,32 +1,121 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Register</title>
-        <link rel="stylesheet" href="static\authenticate.css">
-    </head>
-    <body>
-        <div class="circle"></div>
-        <div class="container">
-            <center><h2 class="heading">Register</h2></center>
-            <form action="/register" method="post">
-                <section class="names">
-                    <input type="text" id="firstname" placeholder="Enter First Name" name="firstname" required>
-                    <input type="text" id="lastname" placeholder="Enter Last Name" name="lastname" required>
-                </section>
-                <input type="text" id="username" placeholder="Enter Username" name="username" required>
-                <input type="email" id="email" placeholder="Enter Email" name="email" required>
-                <section class="names">
-                    <input type="password" id="password" placeholder="Enter Password" name="password" required>
-                    <input type="password" id="confirm_password" placeholder="Confirm Password" name="confirm_password" required>
-                </section>
-                <button type="submit" value="Register">Register</button>
-            </form>
-            <hr>
-            <div class="options">
-                <p>Already have an account?<br> <a href="{{ url_for('login') }}">Login here</a></p>
-                <p>forgot password?<br><a href="{{ url_for('forgot_password') }}">click here!</a></p>
-            </div>
-        </div>
-        <script href="static\scripts.js"></script>
-    </body>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>NEP Assessment - Create Account</title>
+		<style>:xr-overlay
+			* { margin: 0; padding: 0; box-sizing: border-box; }
+			body {
+				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+				background: #f5f5f5;
+				min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+			}
+			.page-container { max-width: 580px; width: 100%; }
+			.header { text-align: center; margin-bottom: 30px; }
+			.icon-circle { width: 70px; height: 70px; background: #dbe4f0; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 20px; }
+			.icon-circle svg { width: 32px; height: 32px; fill: #1e3a8a; }
+			h1 { color: #1a1a1a; font-size: 32px; margin-bottom: 8px; font-weight: 600; }
+			.subtitle { color: #6b7280; font-size: 16px; }
+			.card { background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.1); padding: 40px; }
+			.form-title { font-size: 24px; color: #1a1a1a; margin-bottom: 6px; font-weight: 600; }
+			.form-subtitle { color: #6b7280; font-size: 14px; margin-bottom: 30px; }
+			.form-group { margin-bottom: 20px; }
+			label { display: block; color: #1a1a1a; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+			.input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+			.input-wrapper { position: relative; }
+			input { width: 100%; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; transition: all .2s; background: #fafafa; color: #374151; }
+			input::placeholder { color: #9ca3af; }
+			input:focus { outline: none; border-color: #3b82f6; background: #fff; box-shadow: 0 0 0 3px rgba(59,130,246,.1); }
+			.password-toggle { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #6b7280; display: flex; align-items: center; }
+			.password-toggle:hover { color: #374151; }
+			.create-account-btn { width: 100%; padding: 13px; background: #6b7f9c; color: #fff; border: 0; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background .2s; margin-top: 24px; }
+			.create-account-btn:hover { background: #5a6d89; }
+			.signin-link { text-align: center; margin-top: 24px; color: #374151; font-size: 14px; }
+			.signin-link a { color: #1e3a8a; text-decoration: none; font-weight: 500; }
+			.signin-link a:hover { text-decoration: underline; }
+			@media (max-width: 520px) { .input-row { grid-template-columns: 1fr; } }
+		</style>
+	</head>
+	<body>
+		<div class="page-container">
+			<div class="header">
+				<div class="icon-circle">
+					<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path d="M12 3L1 9L5 11.18V17.18L12 21L19 17.18V11.18L21 10.09V17H23V9L12 3ZM18.82 9L12 12.72L5.18 9L12 5.28L18.82 9ZM17 15.99L12 18.72L7 15.99V12.27L12 15L17 12.27V15.99Z"/>
+					</svg>
+				</div>
+				<h1>Create Account</h1>
+				<p class="subtitle">Join the NEP Assessment Platform</p>
+			</div>
+
+			<div class="card">
+				<h2 class="form-title">Sign Up</h2>
+				<p class="form-subtitle">Create your account to access the platform</p>
+
+				<form id="signupForm" action="/register" method="POST">
+					<div class="input-row">
+						<div class="form-group">
+							<label for="firstname">First Name</label>
+							<input type="text" id="firstname" name="firstname" placeholder="Enter first name" required>
+						</div>
+						<div class="form-group">
+							<label for="lastname">Last Name</label>
+							<input type="text" id="lastname" name="lastname" placeholder="Enter last name" required>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="username">Username</label>
+						<input type="text" id="username" name="username" placeholder="Choose a username" required>
+					</div>
+
+					<div class="form-group">
+						<label for="email">Email</label>
+						<input type="email" id="email" name="email" placeholder="Enter your email" required>
+					</div>
+
+					<div class="input-row">
+						<div class="form-group">
+							<label for="password">Password</label>
+							<div class="input-wrapper">
+								<input type="password" id="password" name="password" placeholder="Create a password" required>
+								<span class="password-toggle" onclick="togglePassword('password')">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+										<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+										<circle cx="12" cy="12" r="3"></circle>
+									</svg>
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="confirm_password">Confirm Password</label>
+							<div class="input-wrapper">
+								<input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+								<span class="password-toggle" onclick="togglePassword('confirm_password')">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+										<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+										<circle cx="12" cy="12" r="3"></circle>
+									</svg>
+								</span>
+							</div>
+						</div>
+					</div>
+
+					<button type="submit" class="create-account-btn">Create Account</button>
+				</form>
+
+				<div class="signin-link">
+					Already have an account? <a href="{{ url_for('login') }}">Sign in</a>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			function togglePassword(fieldId) {
+				var el = document.getElementById(fieldId);
+				el.type = el.type === 'password' ? 'text' : 'password';
+			}
+		</script>
+	</body>
 </html>
