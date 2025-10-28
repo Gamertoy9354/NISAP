@@ -1,9 +1,14 @@
 import json
 import os
 from groq import Groq
+import random
+import string
+from datetime import datetime
+import uuid
+import requests
 # No 're' or 'time' needed anymore
 from datetime import timedelta
-from flask import Flask, jsonify, request, render_template, session, Response # Keep Response
+from flask import Flask, jsonify, request, render_template, session, Response# Keep Response
 from flask_cors import CORS # Import CORS
 from supabase import create_client, Client
 import dotenv
@@ -172,7 +177,8 @@ def get_context_aware_answer(user_query: str, user_name: str, school_context: st
         "4. **Answer General NEP Questions:** If the user asks a general question about NEP 2020, answer it accurately.\n"
         "5. **Combine Knowledge:** When possible, relate NEP answers back to the school's data.\n"
         "6. **Guardrails:** If the user asks something completely unrelated to education, NEP, or school data, politely decline.\n"
-        "7. **Format:** Use clear Markdown formatting (bold headings with **, bullet points with -, etc.) to make responses easy to read."
+        "7. **Format:** Use clear Markdown formatting (bold headings with **, bullet points with -, etc.) to make responses easy to read.\n"
+        "8. **Style of Speech:** when the school data is provided i want you to talk in the language of the school that is located in but also if the user asks to be in anyother language you can"
     )
 
     try:
@@ -345,7 +351,25 @@ def get_dashboard_data():
     if 'username' not in session:
         return jsonify({"message": "Unauthorized. Please log in."}), 401
     current_username = session['username']
+    role = supabase.table("User").select('role').eq('username', current_username).execute().data[0]['role']
+    code = supabase.table("User").select('mode').eq('username', current_username).execute().data[0]['mode']
+    print(code)
+    print(role)
     try:
+        if role != "Admin":
+            if role == "faculty":
+                response = supabase.table("schooldata").select('*').eq('facultycode', code).execute()
+                if response.data:
+                    return jsonify(response.data), 200 #error encountered
+                else:
+                    return jsonify({"message": "No school data found for this user."}), 404
+            elif role == "student":
+                response = supabase.table("schooldata").select('*').eq('studentcode', code).execute()
+                if response.data:
+                    return jsonify(response.data), 200
+                else:
+                    return jsonify({"message": "No school data found for this user."}), 404
+            
         response = supabase.table("schooldata").select('*').eq('submitted_by_username', current_username).execute()
         if response.data:
             return jsonify(response.data), 200
@@ -418,7 +442,9 @@ def submit_school_data():
                 "hindi": float(form_data.get('perf_hindi')),
                 "mother_language": float(form_data.get('perf_mother_lang')),
                 "english": float(form_data.get('perf_english')),
-            }
+            },
+            "facultycode": generate_random_code(5),
+            "studentcode": generate_random_code(5)
         }
     except Exception as e:
         print(f"Error processing form data: {e}") 
@@ -448,6 +474,26 @@ def submit_school_data():
                 </script>
                 """
 
+def generate_random_code(length=5):
+            """
+            Generates a random alphanumeric code.
+
+            Args:
+                length (int): The desired length of the code. Defaults to 12.
+
+            Returns:
+                str: A random code consisting of uppercase letters and digits.
+            """
+            # Define the set of characters to choose from: 
+            # uppercase letters (A-Z) and digits (0-9)
+            characters = string.ascii_uppercase + string.digits
+            
+            # Use random.choice() to select characters 'length' times
+            # and ''.join() to combine them into a single string
+            random_code = ''.join(random.choice(characters) for i in range(length))
+            
+            return random_code
+
 @app.route('/')
 def home():
     return render_template('land.html')
@@ -474,11 +520,15 @@ def info():
     email = user_dictionary['email'] if user_dictionary else None
     fname = user_dictionary['firstname'] if user_dictionary else None
     lname = user_dictionary['lastname'] if user_dictionary else None
+    role = user_dictionary['role'] if user_dictionary else None
+    code = user_dictionary['mode'] if user_dictionary else None
     pack = {
         'username': uname,
         'email': email,
         'firstname': fname,
-        'lastname': lname
+        'lastname': lname,
+        'role': role,
+        'code': code
     }
     return jsonify(pack)
 
@@ -495,12 +545,27 @@ def register():
 
 @app.route('/register', methods=['POST'])
 def logged():
+    if "logged_in" in session and session['logged_in']:
+        return render_template('index.html')
     firstname = request.form.get("firstname")
     lastname = request.form.get("lastname")
     username = request.form.get("username")
     email = request.form.get("email")
     password = request.form.get("password")
     cpassword = request.form.get("confirm_password")
+    schoolname = request.form.get("school-name")
+    mode = request.form.get("code-enter")
+    if mode:
+        fccheck = supabase.table("schooldata").select("facultycode").eq("school_name", schoolname).execute()
+        print(fccheck)
+        sccheck = supabase.table("schooldata").select("studentcode").eq("school_name", schoolname).execute()
+        print(sccheck)
+        if mode == fccheck.data[0]['facultycode']:
+            role = "faculty"
+        elif mode == sccheck.data[0]['studentcode']:
+            role = "student"
+        else:
+            return """<script>alert("invalid code"); window.location.href = "/reg";</script>"""
     if password != cpassword:
         return """<script>alert("passwords do not match"); window.location.href = "/reg";</script>"""
     if len(password) < 8:
@@ -516,18 +581,27 @@ def logged():
     if len(emailauth.data) > 0:
         return """<script>alert("email already exists"); window.location.href = "/reg";</script>"""
     try:
-        # --- THIS IS THE FIX ---
-        # Changed from the incorrect 'pbkdf2:sha26000' to the secure default.
         hashed_password = generate_password_hash(password)
-        
-        supabase.table("User").insert({
-            "firstname": firstname, "lastname": lastname, "username": username,
-            "email": email, "password": hashed_password
-        }).execute()
-        
-        session['logged_in'] = True
-        session['username'] = username
-        
+        if mode:
+            supabase.table("User").insert({
+                "firstname": firstname, "lastname": lastname, "username": username,
+                "email": email, "password": hashed_password, "role":role, "mode":mode, 
+            }).execute()
+        else:
+            supabase.table("User").insert({
+                "firstname": firstname, "lastname": lastname, "username": username,
+                "email": email, "password": hashed_password, "role":"Admin", "mode":"None",
+            }).execute()
+        if mode:
+            session['logged_in'] = True
+            session['username'] = username
+            session['role'] = role
+            session['mode'] = mode
+        else:
+            session['logged_in'] = True
+            session['username'] = username
+            session['role'] = "Admin"
+            session['mode'] = "None"
         return """<script>alert("registration successful"); window.location.href = "/login";</script>"""
     except Exception as e:
         print(f"Supabase registration error: {e}")
@@ -540,12 +614,14 @@ def login():
     if request.method == 'POST':
         username = request.form.get("username")
         password = request.form.get("password")
+        role = supabase.table("User").select('role').eq('username', username).execute()
         user_response = supabase.table("User").select('username, password').eq('username', username).execute()
         if len(user_response.data) == 1:
             user = user_response.data[0]
             if check_password_hash(user['password'], password):
                 session['logged_in'] = True
                 session['username'] = username
+                session['role'] = role.data[0]['role']
                 return """<script>alert("login successful"); window.location.href = "/index";</script>"""
             else:
                 return """<script>alert("incorrect password"); window.location.href = "/login";</script>"""
@@ -553,6 +629,8 @@ def login():
             return """<script>alert("username does not exist"); window.location.href = "/login";</script>"""
     else:
         return render_template('login.html')
+
+
 
 @app.route('/forgot_password')
 def forgot_password():
@@ -575,10 +653,231 @@ def logout():
 def sch_reg():
     return render_template('sch_reg.html')
 
-if __name__ == '__main__':
-    # No RAG setup is needed anymore.
-    print("--- AI Analyst System is using System Prompt (No RAG) ---")
+def get_tutor_response(user_query: str, chat_history: list, topic: str, user_name: str):
+    """
+    Calls Groq with a specific "Tutor" system prompt.
+    """
+    print(f"DEBUG: Getting AI Tutor response for {user_name} on topic: {topic}")
+
+    # --- System Prompt for the AI Tutor ---
+    system_instruction = (
+        f"You are an expert AI tutor. Your student's name is {user_name}.\n"
+        f"The student wants to learn about this specific topic: **{topic}**.\n\n"
+        "YOUR RULES:\n"
+        "1. **Be Patient & Encouraging:** Act as a supportive tutor, not just an answer machine.\n"
+        "2. **Teach, Don't Just Answer:** When asked a question, explain the *concept* behind the answer.\n"
+        "3. **Use Simple Examples:** Break down complex ideas into small, easy-to-understand parts with examples.\n"
+        "4. **Ask Questions:** After explaining something, ask the student a question to check their understanding.\n"
+        "5. **Stay on Topic:** Keep the conversation focused on the student's chosen topic.\n"
+        "6. **Format Well:** Use Markdown (like **bold** and bullet points) to make your explanations clear."
+    )
     
+    # Build the message list
+    messages = [{"role": "system", "content": system_instruction}]
+    
+    # Add the chat history
+    for message in chat_history:
+        messages.append({
+            "role": message['role'],
+            "content": message['content']
+        })
+    
+    # Add the user's latest query
+    messages.append({"role": "user", "content": user_query})
+
+    try:
+        chat_completion = groq_client.chat.completions.create(
+            messages=messages,
+            model="llama-3.3-70b-versatile", # Using a strong model for tutoring
+            temperature=0.7,
+            max_tokens=2048,
+            top_p=0.9,
+            stream=False
+        )
+        
+        if chat_completion.choices and len(chat_completion.choices) > 0:
+            return chat_completion.choices[0].message.content
+        return "Sorry, I'm having trouble thinking of a response right now."
+
+    except Exception as e:
+        print(f"ERROR calling Groq API for Tutor: {e}")
+        return f"Sorry, an error occurred while connecting to the AI: {str(e)}"
+
+# ----------------------------------------------------------------------
+# --- AI TUTOR API ROUTES ---
+# ----------------------------------------------------------------------
+
+@app.route('/tutor')
+def tutor_page():
+    """Serves the new AI Tutor HTML page."""
+    if 'logged_in' not in session or not session['logged_in']:
+        return """
+            <script>
+                alert("You must be logged in to use the AI Tutor.");
+                window.location.href = "/login";
+            </script>
+        """
+    return render_template('tutor.html')
+
+
+@app.route('/tutor/start', methods=['POST'])
+def start_tutor_session():
+    """Creates a new chat session in the database."""
+    if 'username' not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+    
+    current_username = session['username']
+    data = request.get_json()
+    topic = data.get('topic')
+    
+    if not topic:
+        return jsonify({"error": "No topic provided"}), 400
+        
+    try:
+        # Insert new session and get the returned data (which includes the new UUID)
+        response = supabase.table("chat_sessions").insert({
+            "user_username": current_username,
+            "topic": topic
+        }).execute()
+        
+        if response.data:
+            new_session_id = response.data[0]['id']
+            # Send the new session ID back to the frontend
+            return jsonify({"session_id": new_session_id, "topic": topic}), 201
+        else:
+            return jsonify({"error": "Failed to create session in database."}), 500
+            
+    except Exception as e:
+        print(f"ERROR /tutor/start: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/tutor/history', methods=['GET'])
+def get_tutor_history():
+    """Fetches all past chat sessions for the logged-in user."""
+    if 'username' not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+    
+    current_username = session['username']
+    
+    try:
+        response = supabase.table("chat_sessions").select("id, topic, created_at") \
+                         .eq("user_username", current_username) \
+                         .order("created_at", desc=True) \
+                         .execute()
+        
+        return jsonify(response.data), 200
+        
+    except Exception as e:
+        print(f"ERROR /tutor/history: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/tutor/messages', methods=['GET'])
+def get_tutor_messages():
+    """Fetches all messages for a specific session_id."""
+    if 'username' not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+        
+    session_id = request.args.get('session_id')
+    if not session_id:
+        return jsonify({"error": "Missing session_id"}), 400
+        
+    current_username = session['username']
+
+    try:
+        # Security check: Verify this session_id belongs to the logged-in user
+        session_check = supabase.table("chat_sessions").select("id") \
+                                .eq("id", session_id) \
+                                .eq("user_username", current_username) \
+                                .execute()
+        
+        if not session_check.data:
+            return jsonify({"error": "Session not found or access denied."}), 404
+            
+        # If check passes, get messages
+        messages = supabase.table("chat_messages").select("role, content") \
+                             .eq("session_id", session_id) \
+                             .order("created_at", desc=False) \
+                             .execute()
+                             
+        return jsonify(messages.data), 200
+
+    except Exception as e:
+        print(f"ERROR /tutor/messages: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/tutor/chat', methods=['POST'])
+def handle_tutor_chat():
+    """Handles sending a message and getting an AI response."""
+    if 'username' not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+        
+    current_username = session['username']
+    
+    data = request.get_json()
+    session_id = data.get('session_id')
+    user_message = data.get('user_message')
+    
+    if not session_id or not user_message:
+        return jsonify({"error": "Missing session_id or user_message"}), 400
+
+    try:
+        # 1. Security Check: Verify session belongs to user and get topic
+        session_data = supabase.table("chat_sessions").select("topic") \
+                               .eq("id", session_id) \
+                               .eq("user_username", current_username) \
+                               .execute()
+        
+        if not session_data.data:
+            return jsonify({"error": "Session not found or access denied."}), 404
+        
+        topic = session_data.data[0]['topic']
+
+        # 2. Save the user's message
+        supabase.table("chat_messages").insert({
+            "session_id": session_id,
+            "role": "user",
+            "content": user_message
+        }).execute()
+        
+        # 3. Get chat history for context
+        history_response = supabase.table("chat_messages").select("role, content") \
+                                   .eq("session_id", session_id) \
+                                   .order("created_at", desc=False) \
+                                   .execute()
+                                   
+        chat_history = history_response.data[:-1] # All messages *except* the one just added
+
+        # 4. Get User's name for the prompt
+        user_name = current_username
+        try:
+            user_info_response = supabase.table("User").select('firstname').eq('username', current_username).execute()
+            if user_info_response.data and user_info_response.data[0].get('firstname'):
+                user_name = user_info_response.data[0]['firstname']
+        except Exception as e:
+            print(f"Warning: Could not fetch user's first name. {e}")
+
+        # 5. Get AI response
+        ai_response = get_tutor_response(user_message, chat_history, topic, user_name)
+        
+        # 6. Save the AI's response
+        supabase.table("chat_messages").insert({
+            "session_id": session_id,
+            "role": "assistant",
+            "content": ai_response
+        }).execute()
+        
+        # 7. Send AI response back to frontend
+        return jsonify({"answer": ai_response})
+
+    except Exception as e:
+        print(f"ERROR /tutor/chat: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     print(f"--- Starting Flask Server on port {port} ---")
     app.run(host='0.0.0.0', port=port, debug=False)
