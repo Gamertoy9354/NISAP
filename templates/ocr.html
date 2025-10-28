@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- Light Theme Variables & Base --- */
+        /* --- CSS REMAINS EXACTLY THE SAME AS PREVIOUS LIGHT THEME --- */
         :root {
             --primary-color: #1a73e8; /* Professional Blue */
             --text-dark: #202124;
@@ -21,273 +21,41 @@
             font-family: 'Inter', sans-serif;
             color: var(--text-dark);
         }
-
-        body {
-            background-color: var(--bg-light); /* Light background */
-            color: var(--text-dark);
-            margin: 0;
-            padding: 40px 20px; /* More padding top/bottom */
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-        }
-
-        /* Removed .circle and @keyframes circle */
-
-        .page-wrapper { /* Added wrapper for max-width and positioning */
-            width: 100%;
-            max-width: 800px;
-            position: relative; /* For back button */
-            padding-top: 40px; /* Space for back button */
-        }
-
-         /* --- Back Button --- (Similar to profile page) */
-        .back-to-services-btn {
-            position: absolute;
-            top: 0px;
-            left: 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            background-color: transparent;
-            color: var(--text-grey);
-            border: 1px solid var(--input-border); /* Add border */
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: background-color 0.2s ease, border-color 0.2s ease;
-        }
-        .back-to-services-btn:hover {
-            background-color: #e9ecef;
-            border-color: #ccc;
-        }
-        .back-to-services-btn svg {
-            width: 18px;
-            height: 18px;
-        }
-
-
-        /* --- Main Content Card --- */
-        .container {
-            width: 100%;
-            background-color: var(--card-bg); /* White card */
-            border: 1px solid var(--input-border); /* Light border */
-            border-radius: var(--border-radius);
-            padding: 24px 32px;
-            box-sizing: border-box;
-            box-shadow: var(--shadow-soft); /* Soft shadow */
-        }
-
-        h1, h2 {
-            text-align: center;
-            color: var(--text-dark); /* Dark text */
-            border-bottom: 1px solid var(--input-border); /* Lighter border */
-            padding-bottom: 15px; /* Increased padding */
-            margin-bottom: 20px; /* Spacing below header */
-        }
-        h1 { font-size: 1.8rem; font-weight: 700; }
-        h2 { font-size: 1.4rem; font-weight: 600; margin-top: 30px; } /* Spacing above h2 */
-
-        p {
-            text-align: center;
-            color: var(--text-grey); /* Grey description text */
-            margin-top: -10px;
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-
-        /* --- Upload Form --- */
-        #ocr-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 30px; /* More space below upload */
-        }
-
-        #image-upload-label { /* Style the label as the drop zone */
-            border: 2px dashed var(--primary-color); /* Blue dashed border */
-            border-radius: 8px;
-            padding: 30px 20px; /* More padding */
-            text-align: center;
-            cursor: pointer;
-            background-color: #f8f9fa; /* Very light grey */
-            color: var(--text-grey);
-            transition: background-color 0.2s ease, border-color 0.2s ease;
-            display: block; /* Make label block-level */
-            /* Added for text overflow */
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        #image-upload-label:hover {
-            background-color: #eef2f5;
-            border-color: #145dbf;
-        }
-        #image-upload {
-             display: none; /* Hide the actual file input */
-        }
-        .upload-icon { /* Simple icon */
-            font-size: 2rem;
-            margin-bottom: 10px;
-            color: var(--primary-color);
-            display: block; /* Make icon block */
-        }
-
-
-        /* --- Loader --- */
-        .loader {
-            display: none;
-            margin: 30px auto; /* More margin */
-            border: 5px solid #e9ecef; /* Light grey base */
-            border-top: 5px solid var(--primary-color); /* Blue spinner */
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
+        body { background-color: var(--bg-light); color: var(--text-dark); margin: 0; padding: 40px 20px; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; }
+        .page-wrapper { width: 100%; max-width: 800px; position: relative; padding-top: 40px; }
+        .back-to-services-btn { position: absolute; top: 0px; left: 0; display: flex; align-items: center; gap: 8px; padding: 8px 12px; background-color: transparent; color: var(--text-grey); border: 1px solid var(--input-border); border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: background-color 0.2s ease, border-color 0.2s ease; }
+        .back-to-services-btn:hover { background-color: #e9ecef; border-color: #ccc; }
+        .back-to-services-btn svg { width: 18px; height: 18px; }
+        .container { width: 100%; background-color: var(--card-bg); border: 1px solid var(--input-border); border-radius: var(--border-radius); padding: 24px 32px; box-sizing: border-box; box-shadow: var(--shadow-soft); }
+        h1, h2 { text-align: center; color: var(--text-dark); border-bottom: 1px solid var(--input-border); padding-bottom: 15px; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; font-weight: 700; } h2 { font-size: 1.4rem; font-weight: 600; margin-top: 30px; }
+        p { text-align: center; color: var(--text-grey); margin-top: -10px; margin-bottom: 25px; line-height: 1.6; }
+        #ocr-form { display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; }
+        #image-upload-label { border: 2px dashed var(--primary-color); border-radius: 8px; padding: 30px 20px; text-align: center; cursor: pointer; background-color: #f8f9fa; color: var(--text-grey); transition: background-color 0.2s ease, border-color 0.2s ease; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        #image-upload-label:hover, #image-upload-label.dragover { /* Added dragover state */ background-color: #eef2f5; border-color: #145dbf; }
+        #image-upload { display: none; }
+        .upload-icon { font-size: 2rem; margin-bottom: 10px; color: var(--primary-color); display: block; }
+        .loader { display: none; margin: 30px auto; border: 5px solid #e9ecef; border-top: 5px solid var(--primary-color); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* --- Confirmation Form --- */
         #confirmation-area { display: none; }
-
-        #final-submit-form {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
-            gap: 20px;
-        }
-
-        .form-group { display: flex; flex-direction: column; gap: 5px; }
-        .form-group.full-width { grid-column: 1 / -1; }
-
-        .form-group label {
-            font-weight: 500; /* Regular weight */
-            font-size: 0.9rem;
-            color: var(--text-dark); /* Dark label text */
-        }
-
-        .form-group input[type="text"],
-        .form-group input[type="number"],
-        .form-group input[type="url"],
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--input-border); /* Consistent border */
-            color: var(--text-dark); /* Dark text */
-            border-radius: 6px; /* Slightly less rounded */
-            box-sizing: border-box;
-            font-size: 1rem;
-            background-color: var(--card-bg); /* White background */
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-             outline: none;
-             border-color: var(--primary-color);
-             box-shadow: 0 0 0 1px var(--primary-color);
-        }
-
-        /* Disabled fields styling */
-        .form-group input:disabled,
-        .form-group select:disabled,
-        .form-group textarea:disabled {
-            background-color: #f8f9fa; /* Light grey background */
-            color: var(--text-grey); /* Grey text */
-            cursor: not-allowed;
-            border-color: #e9ecef; /* Lighter border */
-        }
-         /* Specific readonly styles for calculated fields */
-        #f-num_students, #f-teacher_student_ratio, #f-grade_enrollment_data_display {
-            background-color: #e9ecef !important; /* Lighter grey for readonly */
-            font-weight: 500;
-             color: #495057;
-             cursor: default;
-        }
-
-
-        /* --- Buttons --- */
-        .button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px; /* Consistent radius */
-            cursor: pointer;
-            font-size: 0.95rem; /* Slightly larger */
-            font-weight: 600;
-            transition: background-color 0.2s, box-shadow 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .button-primary {
-            background-color: var(--primary-color); /* Blue */
-            color: white;
-             width: 100%; /* Full width for initial upload */
-             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .button-primary:hover {
-            background-color: #145dbf; /* Darker blue */
-             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-        .button-primary:disabled { /* Style for disabled state */
-            background-color: #a0c3f0;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-
-        .button-secondary {
-            background-color: var(--card-bg); /* White */
-            color: var(--text-grey);
-            border: 1px solid var(--input-border); /* Grey border */
-        }
-        .button-secondary:hover {
-            background-color: #f8f9fa; /* Light grey hover */
-            border-color: #ccc;
-        }
-
-        .button-success {
-            background-color: #198754; /* Green */
-            color: white;
-            border: 1px solid #198754;
-        }
-        .button-success:hover {
-            background-color: #157347; /* Darker green */
-             border-color: #146c43;
-        }
-        .button-success:disabled { /* Disabled state for confirm button */
-             background-color: #a3cfb4;
-             border-color: #a3cfb4;
-             cursor: not-allowed;
-         }
-
-
-        .button-container {
-            grid-column: 1 / -1;
-            display: flex;
-            gap: 15px; /* More gap */
-            justify-content: flex-end; /* Align right */
-            margin-top: 25px; /* More margin */
-             padding-top: 20px; /* Spacing above buttons */
-             border-top: 1px solid var(--input-border); /* Separator line */
-        }
-
-        /* Responsive */
-         @media (max-width: 600px) {
-             body { padding: 20px 10px; }
-             .page-wrapper { padding-top: 50px; } /* More space for back button */
-             .container { padding: 15px 20px; }
-             h1 { font-size: 1.5rem; }
-             h2 { font-size: 1.2rem; }
-             #final-submit-form { grid-template-columns: 1fr; } /* Single column on mobile */
-             .button-container { flex-direction: column-reverse; gap: 10px; } /* Stack buttons */
-             .button-container .button { width: 100%; } /* Full width buttons */
-             .back-to-services-btn { top: 10px; left: 10px; }
-         }
-
+        #final-submit-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .form-group { display: flex; flex-direction: column; gap: 5px; } .form-group.full-width { grid-column: 1 / -1; }
+        .form-group label { font-weight: 500; font-size: 0.9rem; color: var(--text-dark); }
+        .form-group input[type="text"], .form-group input[type="number"], .form-group input[type="url"], .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--input-border); color: var(--text-dark); border-radius: 6px; box-sizing: border-box; font-size: 1rem; background-color: var(--card-bg); transition: border-color 0.2s, box-shadow 0.2s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 1px var(--primary-color); }
+        .form-group input:disabled, .form-group select:disabled, .form-group textarea:disabled { background-color: #f8f9fa; color: var(--text-grey); cursor: not-allowed; border-color: #e9ecef; }
+        #f-num_students, #f-teacher_student_ratio, #f-grade_enrollment_data_display { background-color: #e9ecef !important; font-weight: 500; color: #495057; cursor: default; }
+        .button { padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 0.95rem; font-weight: 600; transition: background-color 0.2s, box-shadow 0.2s; text-transform: uppercase; letter-spacing: 0.5px; }
+        .button-primary { background-color: var(--primary-color); color: white; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .button-primary:hover { background-color: #145dbf; box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        .button-primary:disabled { background-color: #a0c3f0; cursor: not-allowed; box-shadow: none; }
+        .button-secondary { background-color: var(--card-bg); color: var(--text-grey); border: 1px solid var(--input-border); }
+        .button-secondary:hover { background-color: #f8f9fa; border-color: #ccc; }
+        .button-success { background-color: #198754; color: white; border: 1px solid #198754; }
+        .button-success:hover { background-color: #157347; border-color: #146c43; }
+        .button-success:disabled { background-color: #a3cfb4; border-color: #a3cfb4; cursor: not-allowed; }
+        .button-container { grid-column: 1 / -1; display: flex; gap: 15px; justify-content: flex-end; margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--input-border); }
+        @media (max-width: 600px) { body { padding: 20px 10px; } .page-wrapper { padding-top: 50px; } .container { padding: 15px 20px; } h1 { font-size: 1.5rem; } h2 { font-size: 1.2rem; } #final-submit-form { grid-template-columns: 1fr; } .button-container { flex-direction: column-reverse; gap: 10px; } .button-container .button { width: 100%; } .back-to-services-btn { top: 10px; left: 10px; } }
     </style>
 </head>
 <body>
@@ -300,13 +68,13 @@
 
         <div class="container">
             <h1>Extract Data from Image</h1>
-            <p>
-                Upload a photo of your handwritten school register data. Our AI will extract the details for you to review.
-            </p>
+            <p> Upload a photo of your handwritten school register data. Our AI will extract the details for you to review. </p>
 
             <form id="ocr-form">
                 <label for="image-upload" id="image-upload-label">
-                    <span class="upload-icon">📄</span> <span id="upload-text">Click or Drag & Drop Image Here</span> </label>
+                    <span class="upload-icon">📄</span>
+                    <span id="upload-text">Click or Drag & Drop Image Here</span>
+                </label>
                 <input type="file" id="image-upload" accept="image/*" required>
                 <button type="submit" class="button button-primary">Extract Data</button>
             </form>
@@ -315,9 +83,7 @@
 
             <div id="confirmation-area">
                 <h2>Review Extracted Data</h2>
-                <p>
-                    The AI has extracted the following data. Please review it carefully. Click "Edit Data" to make changes before saving.
-                </p>
+                <p> The AI has extracted the following data. Please review it carefully. Click "Edit Data" to make changes before saving. </p>
 
                 <form id="final-submit-form" action="/submit-school-data" method="POST">
                     <div class="form-group"><label for="f-school_name">School Name</label><input type="text" id="f-school_name" name="school_name"></div>
@@ -371,25 +137,54 @@
             const uploadLabel = document.getElementById("image-upload-label");
             const uploadText = document.getElementById("upload-text"); // Span containing the text
 
-            // --- NEW: Event listener for file selection ---
-            imageUpload.addEventListener('change', function() {
-                if (this.files && this.files.length > 0) {
-                    const fileName = this.files[0].name;
-                    uploadText.textContent = `Selected: ${fileName}`; // Update text to show filename
-                    // Optionally, reset confirmation area if a new file is chosen after results were shown
+            // --- Function to update label text ---
+            function updateUploadLabel(file) {
+                if (file) {
+                    const fileName = file.name;
+                    uploadText.textContent = `Selected: ${fileName}`;
+                    // Reset confirmation area if a new file is chosen
                     confirmationArea.style.display = "none";
-                     setFormFieldsDisabled(true); // Re-disable form if new file selected
-                     editButton.style.display = 'inline-block'; // Show edit button again
-                     editButton.disabled = false; // Enable edit button
-                     document.getElementById('confirm-button').disabled = true; // Disable confirm button
+                    setFormFieldsDisabled(true); // Re-disable form
+                    editButton.style.display = 'inline-block'; // Show edit button again
+                    editButton.disabled = false; // Enable edit button
+                    document.getElementById('confirm-button').disabled = true; // Disable confirm button
                 } else {
-                     uploadText.textContent = 'Click or Drag & Drop Image Here'; // Reset if no file selected
+                    uploadText.innerHTML = '<span class="upload-icon">📄</span> Click or Drag & Drop Image Here'; // Reset text and icon
+                }
+            }
+
+            // --- Event listener for file selection (Click) ---
+            imageUpload.addEventListener('change', function() {
+                updateUploadLabel(this.files[0]);
+            });
+
+            // --- NEW: Drag and Drop Event Listeners ---
+            uploadLabel.addEventListener('dragover', (event) => {
+                event.preventDefault(); // Prevent default behavior (opening file)
+                uploadLabel.classList.add('dragover'); // Add visual style
+            });
+
+            uploadLabel.addEventListener('dragleave', () => {
+                uploadLabel.classList.remove('dragover'); // Remove visual style
+            });
+
+            uploadLabel.addEventListener('drop', (event) => {
+                event.preventDefault(); // Prevent default behavior
+                uploadLabel.classList.remove('dragover'); // Remove visual style
+
+                if (event.dataTransfer.files && event.dataTransfer.files.length > 0) {
+                    const file = event.dataTransfer.files[0];
+                    // IMPORTANT: Assign the dropped file to the hidden file input
+                    imageUpload.files = event.dataTransfer.files;
+                    updateUploadLabel(file); // Update the label text
+                    // Clean up the data transfer object
+                    event.dataTransfer.clearData();
                 }
             });
             // --- END NEW ---
 
 
-            function setFormFieldsDisabled(disabled) {
+            function setFormFieldsDisabled(disabled) { /* ... (this function remains unchanged) ... */
                 const inputs = finalSubmitForm.querySelectorAll('input, select, textarea');
                 inputs.forEach(input => {
                     if (input.type === 'button' || input.type === 'submit' || input.type === 'hidden') return;
@@ -399,7 +194,7 @@
                  document.getElementById('confirm-button').disabled = disabled;
             }
 
-            ocrForm.addEventListener("submit", async (e) => {
+            ocrForm.addEventListener("submit", async (e) => { /* ... (this function remains unchanged) ... */
                 e.preventDefault();
                 const file = imageUpload.files[0];
                 if (!file) { alert("Please select an image file."); return; }
@@ -428,20 +223,21 @@
                     loader.style.display = "none";
                     alert(`Error extracting data: ${error.message}`);
                     console.error("Extraction error:", error);
-                     uploadText.textContent = 'Click or Drag & Drop Image Here'; // Reset label on error
+                     // Reset label and input on error
+                     uploadText.innerHTML = '<span class="upload-icon">📄</span> Click or Drag & Drop Image Here';
                      imageUpload.value = ''; // Clear the file input on error
                 } finally {
                      ocrForm.querySelector('button').disabled = false;
                 }
             });
 
-            editButton.addEventListener("click", () => {
+            editButton.addEventListener("click", () => { /* ... (this function remains unchanged) ... */
                 setFormFieldsDisabled(false);
                 alert("Form is now editable. Please review all fields before saving.");
                 editButton.disabled = true;
             });
 
-            finalSubmitForm.addEventListener("submit", (e) => {
+            finalSubmitForm.addEventListener("submit", (e) => { /* ... (this function remains unchanged) ... */
                  if (document.getElementById('f-school_name').disabled) {
                      e.preventDefault();
                      alert("Please click 'Edit Data' before saving.");
@@ -452,8 +248,7 @@
                 editButton.disabled = true;
             });
 
-            function populateConfirmationForm(data) {
-                // Populate logic remains exactly the same...
+            function populateConfirmationForm(data) { /* ... (this function remains unchanged) ... */
                  document.getElementById("f-school_name").value = data.school_name || ""; document.getElementById("f-school_type").value = data.school_type || ""; document.getElementById("f-location").value = data.location || ""; document.getElementById("f-year_establishment").value = data.year_establishment || "";
                  document.getElementById("f-num_grades").value = data.num_grades || ""; document.getElementById("f-num_students").value = data.num_students || 0; document.getElementById("f-avg_attendance_rate").value = data.avg_attendance_rate || 0; document.getElementById("f-gender_ratio").value = data.gender_ratio || ""; document.getElementById("f-students_special_needs").value = data.students_special_needs || 0;
                  const gradeData = data.total_students_per_grade || {}; document.getElementById("f-grade_enrollment_data").value = JSON.stringify(gradeData); document.getElementById("f-grade_enrollment_data_display").value = JSON.stringify(gradeData, null, 2);
