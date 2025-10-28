@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tutor</title>
+    <style>
+        /* A simple, clean, modern chat interface */
+        :root {
+            --primary-color: #007bff;
+            --light-grey: #f4f4f8;
+            --grey: #ddd;
+            --dark-grey: #666;
+            --bg-color: #ffffff;
+            --font-color: #333;
+            --sidebar-bg: #f9f9f9;
+            --sidebar-hover: #eef;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-grey);
+            color: var(--font-color);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .tutor-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            background-color: var(--bg-color);
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--grey);
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            box-sizing: border-box;
+        }
+
+        .sidebar-header {
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--grey);
+        }
+
+        .sidebar-header h2 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+
+        #new-chat-btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 16px;
+        }
+
+        #new-chat-btn:hover {
+            background-color: #0056b3;
+        }
+
+        #session-list {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0 0 0;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        #session-list li {
+            padding: 12px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 4px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: background-color 0.2s;
+        }
+
+        #session-list li:hover {
+            background-color: var(--sidebar-hover);
+        }
+
+        #session-list li.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* --- Chat Container --- */
+        .chat-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        #chat-window {
+            flex-grow: 1;
+            padding: 24px;
+            overflow-y: auto;
+            background-color: var(--bg-color);
+        }
+
+        /* Message Bubbles */
+        .message {
+            max-width: 75%;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            border-radius: 18px;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .message.user {
+            background-color: var(--primary-color);
+            color: white;
+            border-bottom-right-radius: 4px;
+            margin-left: auto;
+        }
+
+        .message.assistant {
+            background-color: var(--light-grey);
+            color: var(--font-color);
+            border-bottom-left-radius: 4px;
+            margin-right: auto;
+        }
+        
+        /* Markdown rendering */
+        .message.assistant strong { font-weight: 600; }
+        .message.assistant em { font-style: italic; }
+        .message.assistant ul, .message.assistant ol { padding-left: 20px; margin: 8px 0; }
+        .message.assistant code {
+            font-family: "Courier New", Courier, monospace;
+            background-color: #e0e0e0;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .message.assistant pre {
+            background-color: #2d2d2d;
+            color: #f1f1f1;
+            padding: 12px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+        .message.assistant pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+
+        .message.loading {
+            background-color: var(--light-grey);
+            color: var(--dark-grey);
+            border-bottom-left-radius: 4px;
+            margin-right: auto;
+            font-style: italic;
+        }
+
+        /* Chat Form */
+        #chat-form {
+            display: flex;
+            padding: 16px;
+            border-top: 1px solid var(--grey);
+            background-color: var(--sidebar-bg);
+        }
+
+        #chat-input {
+            flex-grow: 1;
+            padding: 12px 16px;
+            font-size: 1rem;
+            border: 1px solid var(--grey);
+            border-radius: 24px;
+            margin-right: 12px;
+            resize: none;
+            height: 24px;
+            font-family: inherit;
+        }
+
+        #chat-form button {
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 24px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        #chat-form button:hover {
+            background-color: #0056b3;
+        }
+        #chat-form button:disabled {
+            background-color: var(--grey);
+            cursor: not-allowed;
+        }
+
+        /* Topic Modal */
+        #topic-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #topic-modal-content {
+            background-color: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 400px;
+        }
+        #topic-modal-content h3 { margin-top: 0; }
+        #topic-input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid var(--grey);
+            border-radius: 6px;
+            margin-top: 8px;
+            margin-bottom: 16px;
+        }
+        #start-chat-btn {
+            padding: 10px 16px;
+            font-size: 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        #cancel-chat-btn {
+            padding: 10px 16px;
+            font-size: 1rem;
+            background-color: var(--light-grey);
+            color: var(--font-color);
+            border: 1px solid var(--grey);
+            border-radius: 6px;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="topic-modal">
+        <div id="topic-modal-content">
+            <h3>Start a New Tutoring Session</h3>
+            <p>What subject or topic would you like to learn about today?</p>
+            <input type="text" id="topic-input" placeholder="e.g., Python loops, Calculus, World War II">
+            <button id="start-chat-btn">Start Learning</button>
+            <button id="cancel-chat-btn">Cancel</button>
+        </div>
+    </div>
+
+    <div class="tutor-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>AI Tutor</h2>
+            </div>
+            <button id="new-chat-btn">+ New Chat</button>
+            <ul id="session-list">
+                </ul>
+        </div>
+
+        <div class="chat-container">
+            <div id="chat-window">
+                <div class="message assistant">
+                    Hello! Please start a new chat or select a previous session to begin.
+                </div>
+            </div>
+            <form id="chat-form">
+                <input id="chat-input" placeholder="Ask a question..." autocomplete="off" disabled></input>
+                <button type="submit" id="send-btn" disabled>Send</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const sessionList = document.getElementById('session-list');
+            const newChatBtn = document.getElementById('new-chat-btn');
+            const chatWindow = document.getElementById('chat-window');
+            const chatForm = document.getElementById('chat-form');
+            const chatInput = document.getElementById('chat-input');
+            const sendBtn = document.getElementById('send-btn');
+            
+            // Modal Elements
+            const topicModal = document.getElementById('topic-modal');
+            const topicInput = document.getElementById('topic-input');
+            const startChatBtn = document.getElementById('start-chat-btn');
+            const cancelChatBtn = document.getElementById('cancel-chat-btn');
+
+            // App State
+            let currentSessionId = null;
+
+            // --- Utility Functions ---
+
+            /**
+             * Appends a message to the chat window.
+             * @param {string} role - 'user' or 'assistant' or 'loading'
+             * @param {string} content - The message text
+             */
+            function appendMessage(role, content) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message', role);
+                
+                if (role === 'loading') {
+                    messageDiv.textContent = '...';
+                } else if (role === 'assistant') {
+                    // Simple Markdown to HTML
+                    messageDiv.innerHTML = simpleMarkdown(content);
+                } else {
+                    messageDiv.textContent = content;
+                }
+                
+                chatWindow.appendChild(messageDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll to bottom
+            }
+
+            /**
+             * A simple, safe Markdown to HTML converter
+             */
+            function simpleMarkdown(text) {
+                return text
+                    .replace(/```([\s\S]*?)```/g, (match, code) => `<pre><code>${escapeHtml(code)}</code></pre>`) // Code blocks
+                    .replace(/`([^`]+)`/g, (match, code) => `<code>${escapeHtml(code)}</code>`) // Inline code
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic
+                    .replace(/^- (.*)/gm, '<ul><li>$1</li></ul>') // Basic lists (needs improvement for multi-items)
+                    .replace(/\n/g, '<br>'); // Newlines
+            }
+            
+            function escapeHtml(str) {
+                return str.replace(/[&<>"']/g, function(m) {
+                    return {
+                        '&': '&amp;',
+                        '<': '&lt;',
+                        '>': '&gt;',
+                        '"': '&quot;',
+                        "'": '&#039;'
+                    }[m];
+                });
+            }
+
+            /**
+             * Clears the chat window.
+             */
+            function clearChatWindow() {
+                chatWindow.innerHTML = '';
+            }
+
+            /**
+             * Activates the chat input
+             */
+            function activateChat(sessionId) {
+                currentSessionId = sessionId;
+                chatInput.disabled = false;
+                sendBtn.disabled = false;
+                chatInput.placeholder = "Ask a question about the topic...";
+                
+                // Highlight the active session in the sidebar
+                document.querySelectorAll('#session-list li').forEach(li => {
+                    li.classList.remove('active');
+                    if (li.dataset.sessionId === currentSessionId) {
+                        li.classList.add('active');
+                    }
+                });
+            }
+
+            /**
+             * Deactivates the chat input
+             */
+            function deactivateChat() {
+                currentSessionId = null;
+                chatInput.disabled = true;
+                sendBtn.disabled = true;
+                chatInput.placeholder = "Start a new chat to begin.";
+                document.querySelectorAll('#session-list li').forEach(li => {
+                    li.classList.remove('active');
+                });
+            }
+            
+            // --- API Functions ---
+
+            /**
+             * Loads all past chat sessions into the sidebar.
+             */
+            async function loadSessionHistory() {
+                try {
+                    const response = await fetch('/tutor/history');
+                    if (!response.ok) {
+                        throw new Error('Failed to load history');
+                    }
+                    const sessions = await response.json();
+                    sessionList.innerHTML = ''; // Clear old list
+                    sessions.forEach(session => {
+                        const li = document.createElement('li');
+                        li.textContent = session.topic;
+                        li.dataset.sessionId = session.id;
+                        li.addEventListener('click', () => loadSessionMessages(session.id));
+                        sessionList.appendChild(li);
+                    });
+                } catch (error) {
+                    console.error('Error loading session history:', error);
+                    appendMessage('assistant', 'Error: Could not load chat history.');
+                }
+            }
+
+            /**
+             * Loads all messages for a selected session.
+             * @param {string} sessionId
+             */
+            async function loadSessionMessages(sessionId) {
+                clearChatWindow();
+                appendMessage('loading', '...');
+                try {
+                    const response = await fetch(`/tutor/messages?session_id=${sessionId}`);
+                    if (!response.ok) {
+                        throw new Error('Failed to load messages');
+                    }
+                    const messages = await response.json();
+                    clearChatWindow();
+                    messages.forEach(msg => {
+                        appendMessage(msg.role, msg.content);
+                    });
+                    activateChat(sessionId);
+                } catch (error) {
+                    console.error('Error loading messages:', error);
+                    clearChatWindow();
+                    appendMessage('assistant', 'Error: Could not load this chat session.');
+                }
+            }
+            
+            /**
+             * Creates a new chat session.
+             * @param {string} topic
+             */
+            async function startNewSession(topic) {
+                try {
+                    const response = await fetch('/tutor/start', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ topic: topic })
+                    });
+                    
+                    if (!response.ok) {
+                        const err = await response.json();
+                        throw new Error(err.error || 'Failed to start session');
+                    }
+                    
+                    const data = await response.json();
+                    
+                    // Add to top of sidebar
+                    const li = document.createElement('li');
+                    li.textContent = data.topic;
+                    li.dataset.sessionId = data.session_id;
+                    li.addEventListener('click', () => loadSessionMessages(data.session_id));
+                    sessionList.prepend(li); // Add to top
+                    
+                    // Clear chat and activate
+                    clearChatWindow();
+                    appendMessage('assistant', `Great! Let's start learning about **${escapeHtml(topic)}**. What's your first question?`);
+                    activateChat(data.session_id);
+                    
+                } catch (error) {
+                    console.error('Error starting new session:', error);
+                    appendMessage('assistant', `Error: ${error.message}`);
+                }
+            }
+
+            /**
+             * Sends a chat message to the backend.
+             */
+            async function handleChatSubmit(event) {
+                event.preventDefault();
+                const userMessage = chatInput.value.trim();
+                
+                if (!userMessage || !currentSessionId) {
+                    return;
+                }
+                
+                appendMessage('user', userMessage);
+                chatInput.value = ''; // Clear input
+                sendBtn.disabled = true; // Disable while waiting
+                appendMessage('loading', '...'); // Show loading bubble
+
+                try {
+                    const response = await fetch('/tutor/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            session_id: currentSessionId,
+                            user_message: userMessage
+                        })
+                    });
+                    
+                    // Remove loading bubble
+                    chatWindow.removeChild(chatWindow.lastChild);
+                    
+                    if (!response.ok) {
+                        const err = await response.json();
+                        throw new Error(err.error || 'Failed to get response');
+    
+                    }
+                    
+                    const data = await response.json();
+                    appendMessage('assistant', data.answer);
+                    
+                } catch (error) {
+                    console.error('Error sending message:', error);
+                    appendMessage('assistant', `Error: ${error.message}. Please try again.`);
+                } finally {
+                    sendBtn.disabled = false; // Re-enable button
+                    chatInput.focus();
+                }
+            }
+            
+            // --- Event Listeners ---
+            
+            // Open modal for new chat
+            newChatBtn.addEventListener('click', () => {
+                topicModal.style.display = 'flex';
+                topicInput.focus();
+            });
+            
+            // Close modal
+            cancelChatBtn.addEventListener('click', () => {
+                topicModal.style.display = 'none';
+                topicInput.value = '';
+            });
+
+            // Start new chat from modal
+            startChatBtn.addEventListener('click', () => {
+                const topic = topicInput.value.trim();
+                if (topic) {
+                    startNewSession(topic);
+                    topicModal.style.display = 'none';
+                    topicInput.value = '';
+                }
+            });
+            topicInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    startChatBtn.click();
+                }
+            });
+            
+            // Send message
+            chatForm.addEventListener('submit', handleChatSubmit);
+            
+            // --- Initial Page Load ---
+            deactivateChat(); // Start with chat disabled
+            loadSessionHistory(); // Load past chats
+        });
+    </script>
+</body>
+</html>
