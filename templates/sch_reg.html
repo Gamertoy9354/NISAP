@@ -11,8 +11,8 @@
             --text-grey: #5f6368;
             --bg-light: #f4f6f8; 
             --card-bg: #ffffff;
-            --input-border: #e0e0e0; /* Light input border */
-            --border-radius: 12px;
+            --input-border: #e0e0e0;
+            --border-radius: 8px; /* Slightly squarer radius */
             --shadow-soft: 0 4px 10px rgba(0, 0, 0, 0.05);
             font-family: 'Inter', sans-serif;
             color: var(--text-dark);
@@ -27,58 +27,155 @@
             align-items: flex-start;
             min-height: 100vh;
         }
-
-        /* 2. MAIN CONTAINER (The Card) */
-        .container {
+        
+        /* New page wrapper for max-width */
+        .page-wrapper {
             width: 100%;
             max-width: 1000px;
-            background-color: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 40px;
-            margin-top: 20px;
-            box-shadow: var(--shadow-soft);
+            position: relative; /* For absolute positioning of back button */
         }
 
-        /* 3. HEADER */
+        /* ------------------------------------------- */
+        /* --- GO BACK TO SERVICES BUTTON (NEW POS) -- */
+        .back-to-services {
+            position: absolute;
+            top: 10px; /* Adjust as needed for vertical alignment */
+            left: 0; /* Adjust as needed for horizontal alignment */
+            z-index: 10;
+        }
+
+        .back-to-services .form-btn {
+            padding: 8px 15px; /* Smaller padding for a navigation button */
+            background-color: transparent;
+            color: var(--text-grey);
+            border: 1px solid var(--input-border);
+            box-shadow: none;
+            text-transform: none; /* Not uppercase */
+            font-weight: 500; /* Lighter font weight */
+            display: flex; /* Allow icon next to text */
+            align-items: center;
+            gap: 5px;
+        }
+        .back-to-services .form-btn:hover {
+            background-color: #e0e0e0;
+            color: var(--text-dark);
+            border-color: #c0c0c0;
+        }
+        .back-to-services .form-btn svg {
+            width: 18px; /* Icon size */
+            height: 18px;
+            margin-right: 5px;
+        }
+        /* ------------------------------------------- */
+
+
+        /* 3. HEADER (Now on main page) */
         .form-header {
-            text-align: center;
-            margin-bottom: 30px;
+            text-align: left;
+            margin-bottom: 20px;
+            margin-top: 60px; /* Make space for the "Go back" button */
         }
 
-        .main-icon {
-            font-size: 2rem;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-
-        h1 {
+        .form-header h1 {
             color: var(--text-dark);
             font-size: 1.8rem;
             font-weight: 700;
             margin: 0;
         }
 
-        .tagline {
+        .form-header .tagline {
             color: var(--text-grey);
             font-size: 0.95rem;
             margin-top: 5px;
         }
         
+        /* === NEW STEP WIZARD (Styled like image) === */
+        .step-wizard {
+            display: flex;
+            justify-content: space-between; /* Distribute items evenly */
+            background-color: #eef2f5; /* Light grey background for the bar */
+            border-radius: var(--border-radius);
+            padding: 5px;
+            margin-bottom: 30px; /* Add margin below the tabs */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* subtle shadow */
+        }
+
+        .step-tab {
+            flex: 1; /* Each tab takes equal space */
+            text-align: center;
+            padding: 10px 15px; /* Adjusted padding */
+            border-radius: 6px; /* Slightly rounded tabs */
+            cursor: pointer;
+            color: var(--text-grey);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden; /* Hide overflow text */
+            text-overflow: ellipsis; /* Show ellipsis for overflow */
+        }
+
+        .step-tab.active {
+            background-color: var(--card-bg); /* White active tab */
+            color: var(--text-dark);
+            font-weight: 600;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        /* ========================================= */
+        
+        /* New Form Card (replaces old container) */
+        .form-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--input-border);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-top: 0; /* No top margin needed, wizard has it */
+            box-shadow: var(--shadow-soft); /* Add soft shadow to the card */
+        }
+
         /* Form Sections */
         .info-section {
-            padding: 20px 0;
+             /* This class is now just on the step */
         }
-
-        .section-title {
+        
+        /* === FORM STEP STYLES === */
+        .form-step {
+            display: none; /* Hide all steps by default */
+        }
+        .form-step.active {
+            display: block; /* Show only the active step */
+        }
+        
+        /* New Step Title (like image) */
+        .step-title {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--input-border); /* Separator */
+        }
+        .step-icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            color: var(--primary-color);
+            margin-top: 2px;
+        }
+        .step-title h2 {
             font-size: 1.25rem;
             font-weight: 600;
-            margin-bottom: 10px;
-            border-bottom: 1px solid var(--input-border);
-            padding-bottom: 5px;
+            margin: 0;
             color: var(--text-dark);
         }
+        .step-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-grey);
+            margin: 4px 0 0 0;
+        }
+        /* ============================ */
 
-        /* 4. FORM GRID */
+        /* 4. FORM GRID (Unchanged) */
         .form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -102,29 +199,28 @@
             padding: 10px 12px;
             border: 1px solid var(--input-border);
             border-radius: 6px;
-            background-color: var(--card-bg);
+            background-color: #fcfcfc; /* Slight off-white for inputs */
             color: var(--text-dark);
             font-size: 1rem;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
+         input::placeholder {
+             color: #999;
+         }
         
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 1px var(--primary-color); 
+            box-shadow: 0 0 0 1px var(--primary-color);
+            background-color: var(--card-bg);
         }
         
         select {
-            appearance: none; /* Default arrow remove kiya */
+            appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%235f6368' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 8px center;
             background-size: 16px;
-        }
-
-        option {
-            color: var(--text-dark);
-            background-color: var(--card-bg);
         }
 
         /* Dynamic Inputs Section */
@@ -134,7 +230,7 @@
             grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
             gap: 15px;
             padding: 15px;
-            background-color: #f7f7fa; /* Slightly darker background */
+            background-color: #f7f7fa;
             border-radius: 8px;
             border: 1px solid #e0e0e0;
         }
@@ -142,7 +238,7 @@
         /* Ratio Display (Clean Look) */
         #teacher-student-ratio-display {
             padding: 10px 12px;
-            background-color: #e6f0ff; /* Light primary color background */
+            background-color: #e6f0ff;
             border: 1px solid #c9daff;
             border-radius: 6px;
             text-align: center;
@@ -157,26 +253,23 @@
              grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
              gap: 10px;
         }
-        .multi-select-grid input[type="number"], .multi-select-grid select {
-            padding: 10px; /* Thoda chhota padding */
-            font-size: 0.95rem;
-        }
-
 
         /* 5. BUTTONS */
-        .submit-group {
-            grid-column: 1 / -1;
+        .button-navigation {
             display: flex;
-            justify-content: center;
+            justify-content: flex-end; /* Align buttons to the right */
+            gap: 15px; /* Space between buttons */
             margin-top: 40px;
+            border-top: 1px solid var(--input-border);
+            padding-top: 20px;
         }
-        
+
         .form-btn {
             padding: 12px 30px;
             background-color: var(--primary-color);
             color: white;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.9rem; /* Smaller button text */
             border: none;
             border-radius: 6px;
             cursor: pointer;
@@ -190,256 +283,275 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
         
-        .back-to-services {
-            text-align: center;
-            margin-top: 25px;
-        }
-        .back-to-services .form-btn {
-            padding: 10px 20px;
-            background-color: transparent;
+        .prev-btn {
+            background-color: var(--card-bg); /* White background for prev */
             color: var(--text-grey);
             border: 1px solid var(--input-border);
             box-shadow: none;
         }
-        .back-to-services .form-btn:hover {
-            background-color: #e0e0e0;
+        .prev-btn:hover {
+            background-color: #f7f7f7;
             color: var(--text-dark);
-            border-color: #c0c0c0;
+        }
+        
+        .prev-btn {
+            display: none; /* JS will show this */
         }
         
         /* 6. RESPONSIVE ADJUSTMENTS */
         @media (max-width: 768px) {
-            .container {
+            .page-wrapper {
                 width: 100%;
+                padding: 0 10px; /* Add some horizontal padding */
+            }
+            .form-header {
+                margin-top: 70px; /* Adjust header margin for smaller screens */
+            }
+            .form-card {
                 padding: 20px;
             }
             .form-grid {
                 grid-template-columns: 1fr;
             }
-            #grade-enrollment-inputs {
-                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            /* Responsive Step Wizard */
+            .step-wizard {
+                flex-wrap: wrap; /* Allow tabs to wrap to next line */
+                justify-content: center; /* Center tabs when wrapped */
+                padding: 5px;
+            }
+            .step-tab {
+                flex: 1 1 45%; /* Allow tabs to take roughly half width */
+                min-width: 120px; /* Minimum width for each tab */
+                margin: 2px; /* Small margin between wrapped tabs */
+            }
+            /* Adjust back button for smaller screens */
+            .back-to-services {
+                top: 15px;
+                left: 10px;
+            }
+            .button-navigation {
+                justify-content: space-between; /* Spread buttons on small screens */
+                flex-wrap: wrap; /* Allow buttons to wrap */
+            }
+            .button-navigation .form-btn {
+                flex: 1 1 auto; /* Allow buttons to grow and shrink */
+                min-width: 120px;
+                margin: 5px 0; /* Add vertical margin if wrapped */
             }
         }
 
     </style>
 </head>
 <body>
-    <div class="container">
-        
-        <header class="form-header">
-            <!-- Icon to match the professional look -->
-            <div class="main-icon">🎓</div>
-            <h1>School Infrastructure Data Entry</h1>
-            <p class="tagline">Enter the required data for your institution.</p>
-        </header>
-        
-        <form id="school-data-form" action="/submit-school-data" method="POST">
-
-            <!-- School Details Section -->
-            <div class="info-section">
-                <div class="section-title">School Identification & Basic Details</div>
-                <div class="form-grid">
-                    
-                    <!-- 1. School Name -->
-                    <div class="form-group">
-                        <label for="school_name">1. School Name</label>
-                        <input type="text" id="school_name" name="school_name" required>
-                    </div>
-
-                    <!-- 2. School Type -->
-                    <div class="form-group">
-                        <label for="school_type">2. School Type</label>
-                        <select id="school_type" name="school_type" required>
-                            <option value="" disabled selected>Select type</option>
-                            <option value="government">Government (Gov)</option>
-                            <option value="private">Private</option>
-                            <option value="trust">Trust / NGO</option>
-                        </select>
-                    </div>
-
-                    <!-- 3. Location -->
-                    <div class="form-group">
-                        <label for="location">3. Location</label>
-                        <input type="text" id="location" name="location" required>
-                    </div>
-
-                    <!-- 4. Year of Establishment -->
-                    <div class="form-group">
-                        <label for="year_establishment">4. Year of Establishment</label>
-                        <input type="number" id="year_establishment" name="year_establishment" min="1800" max="2025" required>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Student Enrollment Section -->
-            <div class="info-section">
-                <div class="section-title">Student & Enrollment Data</div>
-                <div class="form-grid">
-                    
-                    <!-- 7. Number of Grades (Controls dynamic inputs) -->
-                    <div class="form-group">
-                        <label for="num_grades">7. Number of Grades (e.g., 12 for K-12)</label>
-                        <input type="number" id="num_grades" name="num_grades" min="1" max="20" oninput="generateGradeInputs()" required>
-                    </div>
-
-                    <!-- 5. Number of Students (Total) - Auto calculated -->
-                    <div class="form-group">
-                        <label for="num_students">5. Total Enrolled Students (Auto)</label>
-                        <input type="number" id="num_students" name="num_students" readonly class="auto-calculated" placeholder="Calculated below" required>
-                    </div>
-
-                    <!-- 8. Student Avg Attendance Rate -->
-                    <div class="form-group">
-                        <label for="avg_attendance_rate">8. Avg Attendance Rate (%)</label>
-                        <input type="number" id="avg_attendance_rate" name="avg_attendance_rate" min="0" max="100" step="0.1" required>
-                    </div>
-
-                    <!-- 9. Enrollment Trends (Past 3 Years) -->
-                    <div class="form-group">
-                        <label for="enrollment_trends">9. Enrollment Trends (e.g. 500, 520, 550)</label>
-                        <input type="text" id="enrollment_trends" name="enrollment_trends" placeholder="Year 1, Year 2, Year 3" required>
-                    </div>
-
-                    <!-- 10. Gender Ratio -->
-                    <div class="form-group">
-                        <label for="gender_ratio">10. Gender Ratio (M:F - e.g., 55:45)</label>
-                        <input type="text" id="gender_ratio" name="gender_ratio" pattern="\d+:\d+" placeholder="e.g. 55:45" required>
-                    </div>
-
-                    <!-- 11. Student with Special Needs (Number) -->
-                    <div class="form-group">
-                        <label for="students_special_needs">11. Students with Special Needs (No.)</label>
-                        <input type="number" id="students_special_needs" name="students_special_needs" min="0" required>
-                    </div>
-                </div>
-
-                <!-- 6. Total Students (per grade) - Dynamic Section -->
-                <div class="form-group" style="grid-column: 1 / -1;">
-                    <label style="margin-top: 20px;">6. Student Enrollment Per Grade (Enter figures below)</label>
-                    <div id="grade-enrollment-inputs">
-                        <p style="opacity: 0.7; color: var(--text-grey);">Enter the number of grades above to start.</p>
-                    </div>
-                    <input type="hidden" id="grade_enrollment_data" name="grade_enrollment_data" required>
-                </div>
-            </div>
-            
-            <!-- Teacher & Staff Data Section -->
-            <div class="info-section">
-                <div class="section-title">Teacher & Staff Data</div>
-                <div class="form-grid">
-                    
-                    <!-- 12. Number of Teachers -->
-                    <div class="form-group">
-                        <label for="num_teachers">12. Number of Teachers</label>
-                        <input type="number" id="num_teachers" name="num_teachers" min="1" oninput="calculateRatio()" required>
-                    </div>
-                    
-                    <!-- 14. Teacher to Student Ratio (Auto-calculated) -->
-                    <div class="form-group">
-                        <label>14. Teacher to Student Ratio (Students:Teacher)</label>
-                        <div id="teacher-student-ratio-display">N/A</div>
-                        <input type="hidden" id="teacher_student_ratio" name="teacher_student_ratio">
-                    </div>
-
-                    <!-- 13. Teacher Qualifications (Avg) -->
-                    <div class="form-group">
-                        <label for="teacher_qualifications">13. Avg Qualification Level</label>
-                        <select id="teacher_qualifications" name="teacher_qualifications" required>
-                            <option value="" disabled selected>Select level</option>
-                            <option value="bachelors">Bachelors Degree</option>
-                            <option value="masters">Masters Degree</option>
-                            <option value="phd">PhD/Doctorate</option>
-                            <option value="diploma">Diploma/Certificate</option>
-                        </select>
-                    </div>
-
-                    <!-- 15. Avg Experience of Teachers -->
-                    <div class="form-group">
-                        <label for="avg_teacher_experience">15. Avg Experience (Years)</label>
-                        <input type="number" id="avg_teacher_experience" name="avg_teacher_experience" min="0" step="0.1" required>
-                    </div>
-
-                    <!-- 16. Professional Development (Dropdown) -->
-                    <div class="form-group" style="grid-column: span 2;">
-                        <label for="professional_dept">16. Professional Development Program Status</label>
-                        <select id="professional_dept" name="professional_dept" required>
-                            <option value="regular">Regular Programs</option>
-                            <option value="occasional">Occasional Workshops</option>
-                            <option value="none">None</option>
-                        </select>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Infrastructure & Performance Section -->
-            <div class="info-section">
-                <div class="section-title">Infrastructure & Performance</div>
-                <div class="form-grid">
-                    
-                    <!-- 17. Infrastructure Availability -->
-                    <div class="form-group" style="grid-column: 1 / -1;">
-                        <label>17. Availability of Key Facilities (Select Status for each)</label>
-                        <div class="multi-select-grid">
-                            <select name="classrooms_avail" required><option value="fully">Classrooms (Fully)</option><option value="partially">Partially</option><option value="none">None</option></select>
-                            <select name="labs_avail" required><option value="fully">Labs (Fully)</option><option value="partially">Partially</option><option value="none">None</option></select>
-                            <select name="toilets_avail" required><option value="fully">Toilets (Fully)</option><option value="partially">Partially</option><option value="none">None</option></select>
-                            <select name="electricity_avail" required><option value="fully">Electricity (Fully)</option><option value="partially">Partially</option><option value="none">None</option></select>
-                            <select name="water_avail" required><option value="fully">Drinking Water (Fully)</option><option value="partially">Partially</option><option value="none">None</option></select>
-                        </div>
-                    </div>
-
-                    <!-- 18. Digital Infra (Selects) -->
-                    <div class="form-group">
-                        <label>18. Digital Infrastructure Level</label>
-                        <select name="digital_infra" required>
-                            <option value="advanced">Advanced (Smart Boards, Tablets, Fast Internet)</option>
-                            <option value="basic">Basic (Few Computers, Slow Internet)</option>
-                            <option value="minimal">Minimal / None</option>
-                        </select>
-                    </div>
-                    
-                    <!-- 20. Curriculum completion per grade -->
-                    <div class="form-group">
-                        <label for="curriculum_completion">20. Curriculum Completion Rate (%)</label>
-                        <input type="number" id="curriculum_completion" name="curriculum_completion" min="0" max="100" required>
-                    </div>
-
-                    <!-- 21. Participation in NEP-aligned programs/activities -->
-                    <div class="form-group" style="grid-column: span 2;">
-                        <label for="nep_participation">21. NEP Participation Level</label>
-                        <select id="nep_participation" name="nep_participation" required>
-                            <option value="high">High Participation</option>
-                            <option value="medium">Medium Participation</option>
-                            <option value="low">Low / None</option>
-                        </select>
-                    </div>
-                    
-                    <!-- 19. AVG student performance in key subjects (Scores) -->
-                    <div class="form-group" style="grid-column: 1 / -1;">
-                        <label style="margin-top: 15px;">19. AVG Student Performance in Key Subjects (%)</label>
-                        <div class="multi-select-grid">
-                            <input type="number" name="perf_math" placeholder="Math Score (%)" min="0" max="100" required>
-                            <input type="number" name="perf_science" placeholder="Science Score (%)" min="0" max="100" required>
-                            <input type="number" name="perf_hindi" placeholder="Hindi Score (%)" min="0" max="100" required>
-                            <input type="number" name="perf_mother_lang" placeholder="Mother Language Score (%)" min="0" max="100" required>
-                            <input type="number" name="perf_english" placeholder="English Score (%)" min="0" max="100" required>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="submit-group">
-                <button type="submit" class="form-btn">Submit School Data</button>
-            </div>
-        </form>
+    
+    <div class="page-wrapper">
         
         <div class="back-to-services">
-            <a href="{{ url_for('index') }}"><button class="form-btn">Go back to Services</button></a>
+            <a href="{{ url_for('index') }}">
+                <button type="button" class="form-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Go back to Services
+                </button>
+            </a>
         </div>
+
+        <header class="form-header">
+            <h1>NEP Compliance Data Entry</h1>
+            <p class="tagline">Record compliance status for NEP 2020 requirements</p>
+        </header>
+        
+        <div class="step-wizard">
+            <div class="step-tab active" data-step="0">Basic Details</div>
+            <div class="step-tab" data-step="1">Enrollment</div>
+            <div class="step-tab" data-step="2">Teacher & Staff</div>
+            <div class="step-tab" data-step="3">Infrastructure</div>
+        </div>
+
+        <div class="form-card">
+            <form id="school-data-form" action="/submit-school-data" method="POST">
+                
+                <div class="info-section form-step active">
+                    <div class="step-title">
+                        <svg class="step-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                        <div>
+                            <h2>School Identification & Basic Details</h2>
+                            <p class="step-subtitle">Provide the school's basic information.</p>
+                        </div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="school_name">1. School Name</label>
+                            <input type="text" id="school_name" name="school_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="school_type">2. School Type</label>
+                            <select id="school_type" name="school_type" required>
+                                <option value="" disabled selected>Select type</option>
+                                <option value="government">Government (Gov)</option>
+                                <option value="private">Private</option>
+                                <option value="trust">Trust / NGO</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">3. Location</label>
+                            <input type="text" id="location" name="location" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="year_establishment">4. Year of Establishment</label>
+                            <input type="number" id="year_establishment" name="year_establishment" min="1800" max="2025" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-section form-step">
+                    <div class="step-title">
+                        <svg class="step-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V18h14v-1.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V18h6v-1.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                        <div>
+                            <h2>Student & Enrollment Data</h2>
+                            <p class="step-subtitle">Enter details about student demographics.</p>
+                        </div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="num_grades">7. Number of Grades</label>
+                            <input type="number" id="num_grades" name="num_grades" min="1" max="20" oninput="generateGradeInputs()" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="num_students">5. Total Enrolled Students (Auto)</label>
+                            <input type="number" id="num_students" name="num_students" readonly placeholder="Calculated below" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="avg_attendance_rate">8. Avg Attendance Rate (%)</label>
+                            <input type="number" id="avg_attendance_rate" name="avg_attendance_rate" min="0" max="100" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="enrollment_trends">9. Enrollment Trends</label>
+                            <input type="text" id="enrollment_trends" name="enrollment_trends" placeholder="Year 1, Year 2, Year 3" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender_ratio">10. Gender Ratio (M:F)</label>
+                            <input type="text" id="gender_ratio" name="gender_ratio" pattern="\d+:\d+" placeholder="e.g. 55:45" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="students_special_needs">11. Students with Special Needs (No.)</label>
+                            <input type="number" id="students_special_needs" name="students_special_needs" min="0" required>
+                        </div>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1; margin-top: 20px;">
+                        <label>6. Student Enrollment Per Grade</label>
+                        <div id="grade-enrollment-inputs">
+                            <p style="opacity: 0.7; color: var(--text-grey);">Enter the number of grades above to start.</p>
+                        </div>
+                        <input type="hidden" id="grade_enrollment_data" name="grade_enrollment_data" required>
+                    </div>
+                </div>
+                
+                <div class="info-section form-step">
+                    <div class="step-title">
+                        <svg class="step-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        <div>
+                            <h2>Teacher & Staff Data</h2>
+                            <p class="step-subtitle">Details about teaching staff and qualifications.</p>
+                        </div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="num_teachers">12. Number of Teachers</label>
+                            <input type="number" id="num_teachers" name="num_teachers" min="1" oninput="calculateRatio()" required>
+                        </div>
+                        <div class="form-group">
+                            <label>14. Teacher to Student Ratio</label>
+                            <div id="teacher-student-ratio-display">N/A</div>
+                            <input type="hidden" id="teacher_student_ratio" name="teacher_student_ratio">
+                        </div>
+                        <div class="form-group">
+                            <label for="teacher_qualifications">13. Avg Qualification Level</label>
+                            <select id="teacher_qualifications" name="teacher_qualifications" required>
+                                <option value="" disabled selected>Select level</option>
+                                <option value="bachelors">Bachelors Degree</option>
+                                <option value="masters">Masters Degree</option>
+                                <option value="phd">PhD/Doctorate</option>
+                                <option value="diploma">Diploma/Certificate</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="avg_teacher_experience">15. Avg Experience (Years)</label>
+                            <input type="number" id="avg_teacher_experience" name="avg_teacher_experience" min="0" step="0.1" required>
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label for="professional_dept">16. Professional Development Status</label>
+                            <select id="professional_dept" name="professional_dept" required>
+                                <option value="regular">Regular Programs</option>
+                                <option value="occasional">Occasional Workshops</option>
+                                <option value="none">None</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-section form-step">
+                    <div class="step-title">
+                        <svg class="step-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L4 9v12h16V9l-8-6zm-5 16h-.01L7 17H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V9h2v2zm4 8H9v-2h2v2zm0-4H9v-2h2v2zm0-4H9V9h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2z"/></svg>
+                        <div>
+                            <h2>Infrastructure & Performance</h2>
+                            <p class="step-subtitle">Facility availability and student performance.</p>
+                        </div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>17. Availability of Key Facilities</label>
+                            <div class="multi-select-grid">
+                                <select name="classrooms_avail" required><option value="fully">Classrooms (Fully)</option><option value="partially">Partially</option><option value="none">None</option></select>
+                                <select name="labs_avail" required><option value="fully">Labs (Fully)</option><option value="partially">Partially</option><option value="none">None</option></select>
+                                <select name="toilets_avail" required><option value="fully">Toilets (Fully)</option><option value="partially">Partially</option><option value="none">None</option></select>
+                                <select name="electricity_avail" required><option value="fully">Electricity (Fully)</option><option value="partially">Partially</option><option value="none">None</option></select>
+                                <select name="water_avail" required><option value="fully">Drinking Water (Fully)</option><option value="partially">Partially</option><option value="none">None</option></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>18. Digital Infrastructure Level</label>
+                            <select name="digital_infra" required>
+                                <option value="advanced">Advanced (Smart Boards, etc)</option>
+                                <option value="basic">Basic (Few Computers)</option>
+                                <option value="minimal">Minimal / None</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="curriculum_completion">20. Curriculum Completion Rate (%)</label>
+                            <input type="number" id="curriculum_completion" name="curriculum_completion" min="0" max="100" required>
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label for="nep_participation">21. NEP Participation Level</label>
+                            <select id="nep_participation" name="nep_participation" required>
+                                <option value="high">High Participation</option>
+                                <option value="medium">Medium Participation</option>
+                                <option value="low">Low / None</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label style="margin-top: 15px;">19. AVG Student Performance in Key Subjects (%)</label>
+                            <div class="multi-select-grid">
+                                <input type="number" name="perf_math" placeholder="Math Score (%)" min="0" max="100" required>
+                                <input type="number" name="perf_science" placeholder="Science Score (%)" min="0" max="100" required>
+                                <input type="number" name="perf_hindi" placeholder="Hindi Score (%)" min="0" max="100" required>
+                                <input type="number" name="perf_mother_lang" placeholder="Mother Language (%)" min="0" max="100" required>
+                                <input type="number" name="perf_english" placeholder="English Score (%)" min="0" max="100" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-navigation">
+                    <button type="button" class="form-btn prev-btn" id="prev-btn">Previous</button>
+                    <button type="button" class="form-btn" id="next-btn">Next</button>
+                </div>
+                
+            </form>
+        </div> 
     </div>
 
     <script>
+        // === EXISTING SCRIPT (Ratio & Grade Inputs) ===
         const numGradesInput = document.getElementById('num_grades');
         const enrollmentContainer = document.getElementById('grade-enrollment-inputs');
         const numStudentsTotalInput = document.getElementById('num_students');
@@ -447,9 +559,6 @@
         const ratioDisplay = document.getElementById('teacher-student-ratio-display');
         const ratioHiddenInput = document.getElementById('teacher_student_ratio');
 
-        /**
-         * Generates input fields for student enrollment per grade.
-         */
         function generateGradeInputs() {
             const numGrades = parseInt(numGradesInput.value, 10);
             enrollmentContainer.innerHTML = '';
@@ -465,17 +574,14 @@
                 const div = document.createElement('div');
                 div.className = 'grade-input-group';
                 div.innerHTML = `
-                    <label for="grade_${i}">${gradeLabel}</label>
-                    <input type="number" id="grade_${i}" data-grade="${i}" min="0" placeholder="${gradeLabel}" oninput="updateTotalStudents()" required>
+                    <label for="grade_${i}" style="font-size: 0.85rem; font-weight: 400;">${gradeLabel}</label>
+                    <input type="number" id="grade_${i}" data-grade="${i}" min="0" placeholder="0" oninput="updateTotalStudents()" required>
                 `;
                 enrollmentContainer.appendChild(div);
             }
             updateTotalStudents();
         }
 
-        /**
-         * Sums up all student enrollments and updates total and ratio.
-         */
         function updateTotalStudents() {
             const gradeInputs = enrollmentContainer.querySelectorAll('input[type="number"][data-grade]');
             let totalStudents = 0;
@@ -492,9 +598,6 @@
             calculateRatio();
         }
 
-        /**
-         * Calculates the Teacher to Student Ratio.
-         */
         function calculateRatio() {
             const numStudents = parseInt(numStudentsTotalInput.value, 10) || 0;
             const numTeachers = parseInt(numTeachersInput.value, 10) || 0;
@@ -518,13 +621,76 @@
             ratioHiddenInput.value = ratioValue;
         }
 
-        // Initialize on load
+        // Add listener for teacher input
+        if (numTeachersInput) {
+             numTeachersInput.addEventListener('input', calculateRatio);
+        }
+
+        // === WIZARD SCRIPT (Unchanged) ===
         document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.step-tab');
+            const steps = document.querySelectorAll('.form-step');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const form = document.getElementById('school-data-form');
+            let currentStep = 0;
+
+            // Function to show the correct step
+            function showStep(stepIndex) {
+                steps.forEach((step, index) => {
+                    step.classList.remove('active');
+                });
+                tabs.forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                steps[stepIndex].classList.add('active');
+                tabs[stepIndex].classList.add('active');
+                
+                if (stepIndex === 0) {
+                    prevBtn.style.display = 'none';
+                } else {
+                    prevBtn.style.display = 'inline-block';
+                }
+                
+                if (stepIndex === steps.length - 1) {
+                    nextBtn.textContent = 'Submit Data';
+                } else {
+                    nextBtn.textContent = 'Next';
+                }
+                currentStep = stepIndex;
+            }
+
+            // "Next" button click listener
+            nextBtn.addEventListener('click', () => {
+                if (currentStep < steps.length - 1) {
+                    showStep(currentStep + 1);
+                } else {
+                    form.submit();
+                }
+            });
+            
+            // "Previous" button click listener
+            prevBtn.addEventListener('click', () => {
+                if (currentStep > 0) {
+                    showStep(currentStep - 1);
+                }
+            });
+            
+            // Tab click listeners
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const stepIndex = parseInt(tab.getAttribute('data-step'), 10);
+                    showStep(stepIndex);
+                });
+            });
+
+            // Initialize the form
+            showStep(0);
+            
              if (numGradesInput.value > 0) {
                 generateGradeInputs();
              }
              calculateRatio();
-             numTeachersInput.addEventListener('input', calculateRatio);
         });
 
     </script>
