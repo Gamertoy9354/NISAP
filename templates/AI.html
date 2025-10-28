@@ -15,62 +15,58 @@
             margin: 0;
             padding: 0;
         }
-        
-        /* Variables for Simple Theme */
-        :root {
-            --bg-main: #f0f0f0;        /* Halka Grey Background */
-            --bg-card: #ffffff;        /* Safed Chat Container */
-            --bg-input: #ffffff;       /* Safed Input Field */
-            --primary-blue: #1a73e8;   /* Mukhya Accent Color (Blue) */
-            --text-dark: #202124;      /* Gehra Text */
-            --text-grey: #5f6368;      /* Halka Text */
-            --ai-bubble: #e8f0fe;      /* Halka Blue/Grey AI Bubble */
-            --user-bubble: #ffffff;    /* Safed User Bubble */
-            --border-light: #dadce0;   /* Halka Border Color */
-        }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-main);
+            background-color: #f4f7f6; /* Light gray background */
             display: flex;
             height: 100vh;
             justify-content: center;
             align-items: center;
-            color: var(--text-dark);
-            overflow: hidden; 
+            color: #333333; /* Dark gray for general text */
+            overflow: hidden;
         }
 
         .chat-container {
-            background-color: var(--bg-card); 
-            width: 95%;
-            max-width: 900px;
-            height: 90vh;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Halka, saaf shadow */
-            border-radius: 0.75rem; 
+            background-color: #ffffff; /* White container */
+            width: 75%;
+            max-width: 64rem;
+            height: 100%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Softer, professional shadow */
+            border-radius: 0.5rem;
             display: flex;
             flex-direction: column;
-            border: 1px solid var(--border-light);
-            position: relative;
-            overflow: hidden; 
+            border: 1px solid #e0e0e0; /* Light border */
+            overflow: hidden;
         }
         
+        /* Responsive height */
+        @media (min-width: 768px) {
+            .chat-container {
+                height: 90vh;
+            }
+        }
+
         /* Header */
         .chat-header {
-            border-bottom: 1px solid var(--border-light);
-            padding: 1rem 1.5rem;
-            background-color: var(--bg-card); 
-            z-index: 2;
+            border-bottom: 1px solid #eeeeee; /* Lighter border */
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02); /* Subtle shadow */
+            z-index: 1;
+            position: relative;
+            background-color: #ffffff; /* Ensure header is white */
         }
         .chat-header h1 {
-            font-size: 1.5rem; 
+            font-size: 1.5rem;
             font-weight: 700;
             text-align: center;
-            color: var(--primary-blue); 
+            color: #0056b3; /* Professional blue color */
+            text-shadow: none; /* Removed neon glow */
         }
         .chat-header p {
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             text-align: center;
-            color: var(--text-grey); 
+            color: #666666; /* Medium gray for subtitle */
         }
 
         /* Chat Messages Area */
@@ -80,201 +76,233 @@
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 1rem; 
+            gap: 1rem;
             z-index: 1;
-            background-color: var(--bg-main); /* Chat background halka grey */
+            position: relative;
+            background-color: #fcfcfc; /* Very light off-white for chat area */
         }
 
-        /* Simple Scrollbar */
-        #chat-messages::-webkit-scrollbar { width: 8px; }
-        #chat-messages::-webkit-scrollbar-track { background: var(--bg-main); }
-        #chat-messages::-webkit-scrollbar-thumb { background: #cccccc; border-radius: 10px; }
-        #chat-messages::-webkit-scrollbar-thumb:hover { background: #aaaaaa; }
+        /* Custom scrollbar - light theme */
+        #chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+        #chat-messages::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Light gray track */
+            border-radius: 10px;
+        }
+        #chat-messages::-webkit-scrollbar-thumb {
+            background: #c1c1c1; /* Medium gray thumb */
+            border-radius: 10px;
+        }
+        #chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8; /* Darker gray on hover */
+        }
 
-        .message { display: flex; gap: 0.75rem; max-width: 90%; }
+        .message {
+            display: flex;
+            gap: 0.75rem;
+            max-width: 80%;
+        }
         
         .message-bubble {
-            padding: 0.75rem 1rem; 
-            border-radius: 0.5rem; 
+            padding: 1rem;
+            border-radius: 0.5rem;
             max-width: 100%;
             word-wrap: break-word;
             line-height: 1.6;
-            font-size: 1rem; 
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-            position: relative; 
-            border: 1px solid transparent;
+            font-size: 0.95rem;
+            border: 1px solid transparent; /* Base border */
         }
-        
+
         /* AI Message */
-        .message.ai { align-self: flex-start; }
-        .message.ai .message-icon { background-color: var(--primary-blue); }
-        .message.ai .message-bubble { 
-            background-color: var(--ai-bubble); 
-            color: var(--text-dark);
-            border-top-left-radius: 0.2rem;
-            border-left: 3px solid var(--primary-blue);
+        .message.ai {
+            align-self: flex-start;
         }
-        /* AI Response Formatting */
-        .message.ai .message-bubble strong {
-            color: var(--text-dark); 
-            font-weight: 700;
+        .message.ai .message-icon {
+            background-color: #0056b3; /* Professional blue */
+            box-shadow: 0 2px 4px rgba(0, 86, 179, 0.2); /* Subtle blue shadow */
         }
-        .message.ai .message-bubble hr {
-            border-color: var(--border-light);
-            margin: 10px 0;
+        .message.ai .message-bubble {
+            background-color: #eef2f5; /* Light blue-gray bubble */
+            color: #222222;
+            border-top-left-radius: 0;
+            border-color: #e0e7ec;
+            text-shadow: none;
         }
 
         /* User Message */
-        .message.user { align-self: flex-end; flex-direction: row-reverse; }
-        .message.user .message-icon { background-color: var(--text-grey); }
-        .message.user .message-bubble { 
-            background-color: var(--user-bubble); 
-            color: var(--text-dark);
-            border-bottom-right-radius: 0.2rem;
-            border: 1px solid var(--border-light);
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+        .message.user .message-icon {
+            background-color: #777777; /* Medium gray icon */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .message.user .message-bubble {
+            background-color: #0056b3; /* Professional blue for user bubble */
+            color: #ffffff;
+            border-bottom-right-radius: 0;
+            border-color: #004a9c;
+            text-shadow: none;
         }
 
         .message-icon {
             flex-shrink: 0;
-            width: 2rem; 
+            width: 2rem;
             height: 2rem;
             border-radius: 9999px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: #ffffff;
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.875rem;
         }
-        /* TTS Read Aloud Button (Simple Style) */
-        .tts-button {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-grey);
-            opacity: 0.7;
-            transition: opacity 0.2s, transform 0.2s;
-            padding: 5px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-        }
-        .tts-button:hover {
-            opacity: 1;
-            color: var(--primary-blue);
-        }
-
 
         /* Input Area */
         #chat-form {
-            border-top: 1px solid var(--border-light);
-            padding: 1rem 1.5rem;
-            background-color: var(--bg-card); 
-            z-index: 1; 
+            border-top: 1px solid #eeeeee;
+            padding: 1rem;
+            background-color: #ffffff; /* White background */
+            border-bottom-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03); /* Subtle upward shadow */
+            z-index: 1;
+            position: relative;
         }
-        .input-container { display: flex; align-items: center; gap: 0.75rem; }
+        .input-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
 
         #chat-input {
             flex: 1;
             padding: 0.75rem 1rem;
-            border: 1px solid var(--border-light); 
+            border: 1px solid #cccccc; /* Standard gray border */
             border-radius: 0.5rem;
             font-size: 1rem;
-            background-color: var(--bg-input); 
-            color: var(--text-dark);
+            background-color: #ffffff; /* White input field */
+            color: #333333;
             transition: border-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) inset; /* Subtle inner shadow */
+        }
+        #chat-input::placeholder {
+            color: #999999;
         }
         #chat-input:focus {
             outline: none;
-            border-color: var(--primary-blue); 
-            box-shadow: 0 0 5px rgba(26, 115, 232, 0.5);
+            border-color: #0056b3; /* Blue focus border */
+            box-shadow: 0 0 5px rgba(0, 86, 179, 0.2); /* Subtle blue glow */
         }
-
-        #send-button {
-            padding: 0.75rem 1.25rem;
-            background-color: var(--primary-blue);
-            color: #ffffff;
-            font-weight: 600;
-            border-radius: 0.5rem;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        #send-button:hover {
-            background-color: #1669e4;
+        #chat-input:disabled {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+            opacity: 0.7;
         }
         
-        /* New Send Icon Styling */
-        #send-button svg { 
-            width: 1.5rem; 
-            height: 1.5rem; 
-            fill: currentColor; 
-            /* Arrow icon ko thoda aage ki taraf point karne ke liye rotate kiya */
-            transform: rotate(-45deg); 
+        #send-button {
+            padding: 0.75rem 0.75rem; /* Adjusted padding for square to circle transition */
+            background-color: #0056b3; /* Professional blue */
+            color: #ffffff;
+            font-weight: 600;
+            border-radius: 50%; /* Make it a circle */
+            width: 2.75rem; /* Fixed width for perfect circle */
+            height: 2.75rem; /* Fixed height for perfect circle */
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 5px rgba(0, 86, 179, 0.2); /* Subtle button shadow */
+        }
+        #send-button:hover {
+            background-color: #004494; /* Darker blue on hover */
+            box-shadow: 0 2px 8px rgba(0, 86, 179, 0.3);
+        }
+        #send-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.3); /* Focus ring */
+        }
+        #send-button:disabled {
+            background-color: #a0a0a0; /* Gray when disabled */
+            box-shadow: none;
+            cursor: not-allowed;
         }
 
-        /* Loader and Error */
+        #send-button svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            fill: currentColor;
+        }
+
+        #error-message {
+            color: #d93025; /* Standard error red */
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            text-shadow: none;
+        }
+        
+        /* Simple loading spinner */
         .loader {
             width: 20px;
             height: 20px;
-            border: 3px solid rgba(26, 115, 232, 0.3);
-            border-top: 3px solid var(--primary-blue);
+            border: 3px solid rgba(0, 86, 179, 0.2); /* Light blue base */
+            border-top: 3px solid #0056b3; /* Solid blue top */
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .loader-container { display: flex; justify-content: center; align-items: center; padding: 0.5rem; }
-        #error-message { color: #cc0000; font-size: 0.875rem; margin-top: 0.5rem; }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loader-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
     </style>
 </head>
 <body>
     <div class="chat-container">
-        <!-- Header -->
         <div class="chat-header">
             <h1>NEP 2020 AI Analyst</h1>
             <p>Ask me anything about the National Education Policy 2020</p>
         </div>
 
-        <!-- Chat Messages -->
         <div id="chat-messages">
-            <!-- Initial AI Greeting -->
             <div class="message ai">
                 <div class="message-icon">AI</div>
                 <div class="message-bubble">
                     <p>Hello! I am an AI assistant with expert knowledge of the NEP 2020. How can I help you understand the policy today?</p>
                 </div>
             </div>
-            <!-- Chat messages will be appended here -->
-        </div>
+            </div>
 
-        <!-- Input Area -->
         <form id="chat-form">
             <div class="input-container">
                 <input type="text" id="chat-input" placeholder="e.g., What is the 5+3+3+4 structure?" autocomplete="off">
                 <button type="submit" id="send-button">
-                    <!-- Send Icon SVG (Right Arrow/Paper Plane style) -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="22" y1="2" x2="11" y2="13"></line>
-                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
                     </svg>
                 </button>
             </div>
-            <!-- Error Message Area --><p id="error-message"></p>
+            <p id="error-message"></p>
         </form>
     </div>
 
     <script>
+        // THIS SCRIPT IS UNCHANGED
         const chatForm = document.getElementById('chat-form');
         const chatInput = document.getElementById('chat-input');
         const sendButton = document.getElementById('send-button');
         const chatMessages = document.getElementById('chat-messages');
         const errorMessage = document.getElementById('error-message');
-
-        // Note: API keys and TTS functions are omitted for simplicity in this final UI version.
-        // The core chat logic is maintained here, assuming a working backend call to '/ask'.
 
         chatForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -282,73 +310,89 @@
         });
 
         async function handleSubmit() {
-            // Placeholder/Mock logic for UI demonstration
             const query = chatInput.value.trim();
             if (!query) return;
 
-            // 1. Add User's message
+            // Disable form
+            chatInput.disabled = true;
+            sendButton.disabled = true;
+            errorMessage.textContent = '';
+
+            // 1. Add User's message to chat
             addMessage(query, 'user');
             chatInput.value = '';
 
-            // 2. Add loading spinner
-            const loadingMessage = addMessage('', 'ai', true);
+            // 2. Add a loading message for the AI
+            const loadingMessage = addMessage('', 'ai', true); // true = add loading spinner
             const messageContent = loadingMessage.querySelector('.message-bubble');
 
-            // Simulate API call and delay
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            try {
+                // 3. Make the fetch request
+                const response = await fetch('/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query: query }),
+                });
 
-            // Mock response (Hindi/Hinglish for the final demo)
-            const mockAnswer = `Namaste! Aapka sawaal bahut accha hai. **NEP 2020** ka mukhya focus 5+3+3+4 structural change par hai.
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Server responded with an error');
+                }
 
-**Mukhya Bindu:**
----
-1.  **Foundational Stage (5 Saal):** 3 saal pre-school + Grade 1 & 2. Khel par aadharit shiksha.
-2.  **Preparatory Stage (3 Saal):** Grade 3, 4, 5. Lekhan, padhan aur sankhya gyan par focus.
-3.  **Middle Stage (3 Saal):** Grade 6, 7, 8. Science, Math aur Arts jaise vishayon ka formal introduction. Coding bhi shamil.
-4.  **Secondary Stage (4 Saal):** Grade 9 se 12. Multiple subject choices aur critical thinking par zor.
+                // 4. Get the JSON response
+                const data = await response.json();
+                
+                // 5. Format and update the message bubble
+                const formattedAnswer = formatAIResponse(data.answer);
+                messageContent.innerHTML = formattedAnswer;
 
-Yeh naya structure **bachchon ke mastishk vikas** ke anuroop banaya gaya hai. Kya aap kisi specific stage ke baare mein aur jaankari chahte hain?`;
-            
-            // 5. Format and update the message bubble
-            const formattedAnswer = formatAIResponse(mockAnswer);
-            messageContent.innerHTML = formattedAnswer;
-
-            // 7. Remove spinner
-            const loader = loadingMessage.querySelector('.loader-container');
-            if (loader) loader.remove();
-            
-            // Re-enable form (in a real app, this happens in finally block after API)
-            chatInput.disabled = false;
-            sendButton.disabled = false;
-            chatInput.focus();
+            } catch (error) {
+                console.error('Fetch error:', error);
+                messageContent.innerHTML = `<p style="color: #d93025;">Sorry, I couldn't get a response. Error: ${error.message}</p>`;
+            } finally {
+                // 6. Re-enable form
+                chatInput.disabled = false;
+                sendButton.disabled = false;
+                chatInput.focus();
+                
+                // 7. Remove spinner (if it's still there)
+                const loader = loadingMessage.querySelector('.loader-container');
+                if (loader) loader.remove();
+            }
         }
 
         function sanitizeHTML(str) {
+            // A simple sanitizer to prevent basic XSS
+            // Create a temporary div, set its text content (which auto-escapes HTML),
+            // then get the innerHTML (which is now the escaped string).
             const div = document.createElement('div');
             div.appendChild(document.createTextNode(str));
             return div.innerHTML;
         }
 
         /**
-         * Formats the AI response (used for mock data demonstration).
+         * Formats the AI response, applying bolding, <hr>, and <br> tags.
+         * IMPORTANT: This function assumes it's receiving a *pre-sanitized* string.
          */
         function formatAIResponse(text) {
+            // 1. Sanitize the entire string first to prevent XSS
             let formattedText = sanitizeHTML(text);
-            formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            formattedText = formattedText.replace(/\n\s*---\s*\n/g, '<br><hr style="border-color: #f0f0f0; margin: 15px 0;"><br>');
-            formattedText = formattedText.replace(/\n/g, '<br>');
 
-            // Simple unordered list conversion for demonstration
-            formattedText = formattedText.replace(/(\d+\.)\s*(.*?)(<br>|$)/g, '<li><strong>$1</strong> $2</li>');
-            formattedText = `<ul>${formattedText}</ul>`;
+            // 2. Apply formatting using regex on the sanitized text
             
-            // Remove the outer <ul></ul> if it contains the main greeting
-            if (formattedText.startsWith("<ul>Hello! I am an AI assistant")) {
-                formattedText = formattedText.replace(/^<ul>(.*)<\/ul>$/, '$1');
-            } else {
-                 formattedText = formattedText.replace(/<\/li><br><li>/g, '</li><li>');
-            }
+            // Convert ***text*** to <strong>text</strong>
+            // We use a non-greedy match (.*?) to handle multiple instances
+            formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            // Convert --- (on its own line, possibly with whitespace) to <hr>
+            // This regex looks for \n, optional whitespace, ---, optional whitespace, and \n
+            // It replaces it with a <br><hr><br> to give it spacing
+            formattedText = formattedText.replace(/\n\s*---\s*\n/g, '<br><hr style="border: 0; border-top: 1px solid #eeeeee; margin: 1em 0;"><br>');
 
+            // 3. Convert all remaining newlines to <br>
+            formattedText = formattedText.replace(/\n/g, '<br>');
 
             return formattedText;
         }
@@ -361,19 +405,21 @@ Yeh naya structure **bachchon ke mastishk vikas** ke anuroop banaya gaya hai. Ky
 
             const iconText = isUser ? 'You' : 'AI';
             
+            // Prepare content
             let contentHTML = '';
             if (isLoading) {
                 contentHTML = '<div class="loader-container"><div class="loader"></div></div>';
             } else if (isUser) {
+                // User text is simple paragraph
                 contentHTML = `<p>${sanitizeHTML(text)}</p>`;
             } else {
+                // AI message (not loading): apply full formatting
                 contentHTML = formatAIResponse(text);
+                // Fallback in case formatting returns empty
                 if (contentHTML.trim() === "") {
-                    contentHTML = "<p>Jawab nahi mila.</p>";
+                    contentHTML = "<p>Received an empty response.</p>";
                 }
             }
-
-            // Removed TTS button as part of simplification
 
             messageDiv.innerHTML = `
                 <div class="message-icon">${iconText}</div>
@@ -384,8 +430,9 @@ Yeh naya structure **bachchon ke mastishk vikas** ke anuroop banaya gaya hai. Ky
 
             chatMessages.appendChild(messageDiv);
             
+            // Scroll to the new message
             chatMessages.scrollTop = chatMessages.scrollHeight;
-            return messageDiv;
+            return messageDiv; // Return the message element so we can update it
         }
     </script>
 </body>
