@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>index(home)</title>
+        <link rel="stylesheet" href="static\index_style.css">
+    </head>
+    <body>
+        <div class="circle"></div>
+        <div class="navbar">
+            <a href="{{ url_for('register') }}">Register</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('forgot_password') }}">Forgot Password</a>
+            <a href="{{ url_for('profile') }}">Profile</a>
+        </div>
+        <center><h1 class="heading">welcome to shala!!</h1></center>
+        <section class="services">
+            <a href="{{ url_for('sch_reg')}}"><div class="NEP">
+                <center><img src="static\school.jpg"></center>
+                <center><h2 class="service">School Register</h2></center>
+                <center><p>You'll authenticate with Google or Apple, which are the supported social login providers when you create your account on GitHub. We recommend that you also configure 2FA and add a passkey or a password as an additional account recovery mechanism.</p></center>
+            </div></a>
+            <a href="{{ url_for('veiwpolicy') }}"><div class="NEP">
+                <center><img src="static\NEP.png"></center>
+                <center><h2 class="service">NEP Policy</h2></center>
+                <center><p>You'll authenticate with Google or Apple, which are the supported social login providers when you create your account on GitHub. We recommend that you also configure 2FA and add a passkey or a password as an additional account recovery mechanism.</p></center>
+            </div></a>
+           <a href="{{ url_for('AI') }}"> <div class="NEP">
+                <center><img src="static\AI-PFP.png"></center>
+                <center><h2 class="service">NISAP AI</h2></center>
+                <center><p>You'll authenticate with Google or Apple, which are the supported social login providers when you create your account on GitHub. We recommend that you also configure 2FA and add a passkey or a password as an additional account recovery mechanism.</p></center>
+            </div></a>
+            <a href="{{ url_for('ocr_page') }}"> <div class="NEP">
+                <center><img src="static\NEP.png"></center>
+                <center><h2 class="service">OCR Feature</h2></center>
+                <center><p>You'll authenticate with Google or Apple, which are the supported social login providers when you create your account on GitHub. We recommend that you also configure 2FA and add a passkey or a password as an additional account recovery mechanism.</p></center>
+            </div></a>
+        </section>
+        <br>
+        <br>
+        <br>
+        <center><a href="{{ url_for('land') }}"><button>go back to landing page</button></a></center>
+    </body>
+</html>
