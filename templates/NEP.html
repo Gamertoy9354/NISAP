@@ -1,135 +1,148 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-    <title>Modern Dark PDF Reader</title>
+    <title>Modern PDF Reader</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
+            // darkMode: 'class', // Keep dark mode toggle if needed, but default is light
             theme: {
                 extend: {
                     colors: {
-                        'primary': '#93c5fd',
-                        'secondary': '#374151',
-                        'background': '#1f2937',
-                        'sidebar-bg': '#111827',
+                         // --- UPDATED COLORS for Light Theme ---
+                        'primary': '#1a73e8',       // Blue
+                        'secondary': '#e9ecef',     // Light Grey for controls background
+                        'background': '#f4f6f8',   // Very Light Grey page background
+                        'sidebar-bg': '#ffffff',   // White sidebar
+                        'text-dark': '#202124',    // Dark text
+                        'text-grey': '#5f6368',    // Grey text
+                        'input-border': '#e0e0e0', // Input border
+                        // ------------------------------------
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'], // Assuming Inter is available
                     },
                     spacing: {
+                         // Keep sidebar width consistent
                         '64': '16rem',
+                        // Calculate main content width (Viewport - Sidebar)
+                        'main-content': 'calc(100vw - 16rem)',
                     }
                 }
             }
         }
     </script>
-    <link rel="stylesheet" href="static/NEP.css">
-</head>
-<body class="bg-background font-sans transition-colors duration-300">
+    <style>
+        /* Add custom styles for PDF canvas shadow and potentially scrollbars if needed */
+        #pdf-canvas {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+             margin: 0 auto; /* Center canvas */
+        }
+        /* Basic scrollbar styling (optional) */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
 
-    <aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-sidebar-bg text-gray-200 shadow-2xl p-4 flex flex-col justify-between z-30 border-r border-gray-700">
+        /* Ensure number input arrows are visible */
+         input[type=number]::-webkit-inner-spin-button,
+         input[type=number]::-webkit-outer-spin-button {
+             opacity: 1;
+         }
+    </style>
+</head>
+<body class="bg-background font-sans text-text-dark"> <aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-sidebar-bg text-text-dark shadow-lg p-4 flex flex-col justify-between z-30 border-r border-input-border">
         <div>
-            <h1 class="text-xl font-bold text-primary mb-8 border-b border-gray-700 pb-3">Document Tools</h1>
-            
+            <h1 class="text-xl font-bold text-primary mb-8 border-b border-input-border pb-3">Document Tools</h1>
+
             <div class="space-y-4">
-               <a href="{{ url_for('index') }}"><button 
-                        class="w-full sidebar-btn bg-gray-700 hover:bg-primary hover:text-gray-900 transition duration-200">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                    Go Back to Services
-                </button></a>
-                    <br>
-                    <br>
-               <a href="{{ url_for('AI') }}"> <button
-                        class="w-full sidebar-btn bg-primary text-gray-900 font-semibold hover:bg-sky-400 transition duration-200">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    Ask AI About Document
-                </button></a>
+                 <a href="{{ url_for('index') }}">
+                    <button class="w-full flex items-center justify-center py-3 rounded-lg shadow-sm text-text-grey bg-gray-100 hover:bg-gray-200 border border-gray-300 transition duration-200">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        Go Back to Services
+                    </button>
+                </a>
+                <br>
+                <br>
+                <a href="{{ url_for('AI') }}">
+                    <button class="w-full flex items-center justify-center py-3 rounded-lg shadow-md text-white bg-primary font-semibold hover:bg-blue-700 transition duration-200">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        Ask AI About Document
+                    </button>
+                </a>
             </div>
         </div>
-        
-        <p class="text-xs text-gray-500">Powered by PDF.js</p>
+
+        <p class="text-xs text-gray-400">Powered by PDF.js</p>
     </aside>
 
     <div id="main-container" class="ml-64 w-main-content">
 
-        <div id="controls" class="fixed left-64 w-main-content top-0 bg-secondary shadow-xl z-20 transition-all duration-300 border-b border-gray-700">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
-                
-                <div class="flex items-center space-x-2">
+        <div id="controls" class="fixed left-64 w-main-content top-0 bg-white shadow-md z-20 border-b border-input-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between"> <div class="flex items-center space-x-2">
                     <button id="prev-page" class="control-btn p-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                     </button>
-
-                    <div class="flex items-center bg-gray-600 rounded-lg overflow-hidden">
-                        <input type="number" id="page-num-input" value="1" min="1" 
-                                class="w-12 text-center bg-gray-600 text-primary text-sm font-medium focus:outline-none focus:ring-0 p-2 
-                                        rounded-l-lg border-r border-gray-700 dark:text-white dark:placeholder-gray-400">
-                        
-                        <span id="page-count" class="text-sm text-gray-300 font-medium p-2">/ N</span>
+                    <div class="flex items-center bg-gray-100 rounded-md overflow-hidden border border-gray-300">
+                        <input type="number" id="page-num-input" value="1" min="1"
+                               class="w-12 text-center bg-gray-100 text-text-dark text-sm font-medium focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary p-1.5 border-r border-gray-300">
+                        <span id="page-count" class="text-sm text-text-grey font-medium px-2 py-1.5">/ N</span>
                     </div>
-
                     <button id="next-page" class="control-btn p-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     </button>
                 </div>
 
-                <div class="flex items-center space-x-3">
-                    <button id="zoom-out" class="control-btn px-3 py-2 text-sm">
-                        Zoom -
-                    </button>
-                    <div class="text-sm font-medium text-primary w-16 text-center" id="zoom-level">150%</div>
-                    <button id="zoom-in" class="control-btn px-3 py-2 text-sm">
-                        Zoom +
-                    </button>
+                <div class="flex items-center space-x-2">
+                    <button id="zoom-out" class="control-btn px-3 py-1.5 text-sm">Zoom -</button>
+                    <div class="text-sm font-medium text-primary w-16 text-center" id="zoom-level">100%</div>
+                    <button id="zoom-in" class="control-btn px-3 py-1.5 text-sm">Zoom +</button>
                 </div>
 
             </div>
         </div>
-        
-        <main class="pt-20 pb-10 flex flex-col items-center min-h-screen">
-            <div id="loading-message" class="text-lg text-primary font-semibold hidden">Loading document...</div>
-            
-            <div id="pdf-canvas-wrapper" class="mt-4 px-4">
-                <canvas id="pdf-canvas"></canvas>
+
+        <main class="pt-16 pb-10 flex flex-col items-center min-h-screen"> <div id="loading-message" class="text-lg text-primary font-semibold hidden">Loading document...</div>
+
+            <div id="pdf-canvas-wrapper" class="mt-4 px-4 w-full flex justify-center"> <canvas id="pdf-canvas"></canvas>
             </div>
-            
         </main>
     </div>
 
     <script>
+        // Apply base styles dynamically to control buttons
         document.querySelectorAll('.control-btn').forEach(btn => {
             btn.classList.add(
-                'text-gray-200', 'bg-gray-700', 'hover:bg-primary', 'hover:text-gray-900', 
-                'rounded-lg', 'transition', 'duration-150', 'ease-in-out', 
-                'border', 'border-gray-600', 'shadow-md'
+                'text-text-grey', 'bg-gray-100', 'hover:bg-primary', 'hover:text-white',
+                'rounded-md', 'transition', 'duration-150', 'ease-in-out',
+                'border', 'border-gray-300', 'shadow-sm' // Softer shadow
             );
         });
-        
-        document.querySelectorAll('.sidebar-btn').forEach(btn => {
-             btn.classList.add('flex', 'items-center', 'justify-center', 'py-3', 'rounded-xl', 'shadow-lg');
-        });
 
+        // (Your AI prompt function remains the same)
         function showAIPromptModal() {
-            console.log('AI button clicked. Launching AI interaction modal...');
-            alert('AI Feature: Ready to answer questions about the document!');
+             console.log('AI button clicked. Launching AI interaction modal...');
+             alert('AI Feature: Ready to answer questions about the document!');
         }
     </script>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.mjs" type="module"></script>
-    
+
     <script type="module">
+        // --- JAVASCRIPT LOGIC REMAINS EXACTLY THE SAME ---
         import * as pdfjsLib from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.mjs';
 
-        const PDF_URL = 'static\\POLICY-2020.pdf';
-        
+        // --- IMPORTANT: Update PDF URL if needed ---
+        const PDF_URL = 'static/POLICY-2020.pdf'; // Make sure this path is correct
+
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.mjs';
 
         let pdfDoc = null;
         let currentPage = 1;
-        let scale = 1.5; 
+        let scale = 1.0; // Start scale at 100% for light theme
         const ZOOM_INCREMENT = 0.25;
-        const SIDEBAR_WIDTH = 256; 
+        const SIDEBAR_WIDTH = 256; // 16rem = 256px
 
         const canvas = document.getElementById('pdf-canvas');
         const ctx = canvas.getContext('2d');
@@ -139,108 +152,72 @@
         const loadingMessage = document.getElementById('loading-message');
 
         async function renderPage(num) {
-            if (!pdfDoc) return;
-            if (num < 1 || num > pdfDoc.numPages) return;
+            if (!pdfDoc || num < 1 || num > pdfDoc.numPages) return;
 
             currentPage = num;
             pageNumInput.value = num;
             zoomLevelDisplay.textContent = `${Math.round(scale * 100)}%`;
-            loadingMessage.classList.add('hidden'); 
+            loadingMessage.classList.add('hidden');
 
             try {
                 const page = await pdfDoc.getPage(num);
-                let viewport = page.getViewport({ scale: scale });
-
-                const availableWidth = window.innerWidth > 768 ? window.innerWidth - SIDEBAR_WIDTH : window.innerWidth;
-                const wrapperWidth = availableWidth * 0.95; 
-                
-                const minScale = wrapperWidth / page.getViewport({ scale: 1 }).width;
-
-                if (scale * page.getViewport({ scale: 1 }).width > wrapperWidth && scale < minScale) {
-                    scale = minScale;
-                    viewport = page.getViewport({ scale: scale });
-                }
+                const viewport = page.getViewport({ scale: scale });
 
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
 
-                const renderContext = {
-                    canvasContext: ctx,
-                    viewport: viewport,
-                };
-
+                const renderContext = { canvasContext: ctx, viewport: viewport };
                 await page.render(renderContext).promise;
 
-            } catch (error) {
-                console.error('Error rendering page:', error);
-            }
+            } catch (error) { console.error('Error rendering page:', error); }
         }
 
-        async function loadPdf() {
+         async function loadPdf() {
             loadingMessage.classList.remove('hidden');
             try {
                 const loadingTask = pdfjsLib.getDocument(PDF_URL);
                 pdfDoc = await loadingTask.promise;
                 totalPagesSpan.textContent = `/ ${pdfDoc.numPages}`;
-                fitToScreen(); 
-                await renderPage(currentPage);
+                // --- Initial Render ---
+                 // Calculate initial scale to fit width
+                const initialPage = await pdfDoc.getPage(1);
+                const initialViewport = initialPage.getViewport({ scale: 1 });
+                const containerWidth = document.getElementById('pdf-canvas-wrapper').clientWidth;
+                scale = containerWidth / initialViewport.width; // Fit to container width
+                scale = Math.min(scale, 1.5); // Limit initial zoom slightly
+                scale = Math.max(scale, 0.5); // Ensure minimum zoom
+                await renderPage(currentPage); // Render after calculating scale
 
             } catch (error) {
                 console.error('Error loading PDF:', error);
-                loadingMessage.textContent = 'Error loading PDF document. Check console for details. (Likely a network or CORS issue)';
+                loadingMessage.textContent = 'Error loading PDF document. Check path and CORS settings.';
             }
         }
-        
-        function fitToScreen() {
-            if (!pdfDoc || !canvas) return;
-            const tempScale = 1;
-            pdfDoc.getPage(1).then(page => {
-                const tempViewport = page.getViewport({ scale: tempScale });
-                
-                const availableWidth = window.innerWidth > 768 ? window.innerWidth - SIDEBAR_WIDTH : window.innerWidth;
-                const wrapperWidth = availableWidth * 0.95; 
 
-                scale = wrapperWidth / tempViewport.width;
-                scale = Math.min(scale, 2.0); 
-            }).then(() => {
-                renderPage(currentPage);
-            });
-        }
+        // Removed fitToScreen function, initial scale calculation is in loadPdf now.
 
-        document.getElementById('prev-page').addEventListener('click', () => {
-            if (currentPage > 1) {
-                renderPage(currentPage - 1);
-            }
-        });
+        document.getElementById('prev-page').addEventListener('click', () => { if (currentPage > 1) { renderPage(currentPage - 1); } });
+        document.getElementById('next-page').addEventListener('click', () => { if (pdfDoc && currentPage < pdfDoc.numPages) { renderPage(currentPage + 1); } });
+        pageNumInput.addEventListener('change', (e) => { const desiredPage = parseInt(e.target.value); if (pdfDoc && desiredPage >= 1 && desiredPage <= pdfDoc.numPages) { renderPage(desiredPage); } else { e.target.value = currentPage; } });
+        document.getElementById('zoom-in').addEventListener('click', () => { scale = Math.min(scale + ZOOM_INCREMENT, 3.0); renderPage(currentPage); });
+        document.getElementById('zoom-out').addEventListener('click', () => { scale = Math.max(scale - ZOOM_INCREMENT, 0.25); renderPage(currentPage); }); // Lower min zoom
 
-        document.getElementById('next-page').addEventListener('click', () => {
-            if (currentPage < pdfDoc.numPages) {
-                renderPage(currentPage + 1);
-            }
-        });
-
-        pageNumInput.addEventListener('change', (e) => {
-            const desiredPage = parseInt(e.target.value);
-            if (pdfDoc && desiredPage >= 1 && desiredPage <= pdfDoc.numPages) {
-                renderPage(desiredPage);
-            } else {
-                e.target.value = currentPage;
-            }
-        });
-
-        document.getElementById('zoom-in').addEventListener('click', () => {
-            scale = Math.min(scale + ZOOM_INCREMENT, 3.0); 
-            renderPage(currentPage);
-        });
-
-        document.getElementById('zoom-out').addEventListener('click', () => {
-            scale = Math.max(scale - ZOOM_INCREMENT, 0.5); 
-            renderPage(currentPage);
-        });
-
-        window.addEventListener('resize', () => {
-            fitToScreen();
-        });
+        // Re-render on resize to adjust scale might be needed depending on behavior
+         let resizeTimeout;
+         window.addEventListener('resize', () => {
+             clearTimeout(resizeTimeout);
+             resizeTimeout = setTimeout(async () => {
+                 if (!pdfDoc) return;
+                 // Recalculate scale based on new width
+                 const page = await pdfDoc.getPage(currentPage); // Get current page again
+                 const viewport1 = page.getViewport({ scale: 1 });
+                 const containerWidth = document.getElementById('pdf-canvas-wrapper').clientWidth;
+                 scale = containerWidth / viewport1.width;
+                 scale = Math.min(scale, 3.0);
+                 scale = Math.max(scale, 0.25);
+                 renderPage(currentPage);
+             }, 250); // Debounce resize event
+         });
 
         loadPdf();
     </script>
