@@ -29,7 +29,9 @@ dotenv.load_dotenv()
 app = Flask(__name__)
 CORS(app) 
 
-app.secret_key = os.urandom(24)
+# --- FIX for Session Errors ---
+app.secret_key = os.environ.get('FLASK_SECRET_KEY') or 'temporary-secret-key-for-testing-only-12345'
+
 app.permanent_session_lifetime = timedelta(days=7)
 
 # Supabase creds (User's original values)
@@ -496,7 +498,7 @@ def generate_random_code(length=5):
 
 @app.route('/')
 def home():
-    return render_template('land.html')
+    return render_template('login.html')
 
 @app.route('/land')
 def land():
@@ -723,10 +725,12 @@ def tutor_page():
 @app.route('/tutor/start', methods=['POST'])
 def start_tutor_session():
     """Creates a new chat session in the database."""
-    if 'username' not in session:
+    # --- USE THIS CHECK ---
+    if 'logged_in' not in session or not session['logged_in']:
         return jsonify({"error": "Unauthorized"}), 401
     
     current_username = session['username']
+    # ... (rest of the function is the same) ...
     data = request.get_json()
     topic = data.get('topic')
     
@@ -734,7 +738,6 @@ def start_tutor_session():
         return jsonify({"error": "No topic provided"}), 400
         
     try:
-        # Insert new session and get the returned data (which includes the new UUID)
         response = supabase.table("chat_sessions").insert({
             "user_username": current_username,
             "topic": topic
@@ -742,7 +745,6 @@ def start_tutor_session():
         
         if response.data:
             new_session_id = response.data[0]['id']
-            # Send the new session ID back to the frontend
             return jsonify({"session_id": new_session_id, "topic": topic}), 201
         else:
             return jsonify({"error": "Failed to create session in database."}), 500
@@ -755,11 +757,12 @@ def start_tutor_session():
 @app.route('/tutor/history', methods=['GET'])
 def get_tutor_history():
     """Fetches all past chat sessions for the logged-in user."""
-    if 'username' not in session:
+    # --- USE THIS CHECK ---
+    if 'logged_in' not in session or not session['logged_in']:
         return jsonify({"error": "Unauthorized"}), 401
     
     current_username = session['username']
-    
+    # ... (rest of the function is the same) ...
     try:
         response = supabase.table("chat_sessions").select("id, topic, created_at") \
                          .eq("user_username", current_username) \
@@ -776,17 +779,18 @@ def get_tutor_history():
 @app.route('/tutor/messages', methods=['GET'])
 def get_tutor_messages():
     """Fetches all messages for a specific session_id."""
-    if 'username' not in session:
+    # --- USE THIS CHECK ---
+    if 'logged_in' not in session or not session['logged_in']:
         return jsonify({"error": "Unauthorized"}), 401
         
     session_id = request.args.get('session_id')
+    # ... (rest of the function is the same) ...
     if not session_id:
         return jsonify({"error": "Missing session_id"}), 400
         
     current_username = session['username']
 
     try:
-        # Security check: Verify this session_id belongs to the logged-in user
         session_check = supabase.table("chat_sessions").select("id") \
                                 .eq("id", session_id) \
                                 .eq("user_username", current_username) \
@@ -795,7 +799,6 @@ def get_tutor_messages():
         if not session_check.data:
             return jsonify({"error": "Session not found or access denied."}), 404
             
-        # If check passes, get messages
         messages = supabase.table("chat_messages").select("role, content") \
                              .eq("session_id", session_id) \
                              .order("created_at", desc=False) \
@@ -811,11 +814,12 @@ def get_tutor_messages():
 @app.route('/tutor/chat', methods=['POST'])
 def handle_tutor_chat():
     """Handles sending a message and getting an AI response."""
-    if 'username' not in session:
+    # --- USE THIS CHECK ---
+    if 'logged_in' not in session or not session['logged_in']:
         return jsonify({"error": "Unauthorized"}), 401
         
     current_username = session['username']
-    
+    # ... (rest of the function is the same) ...
     data = request.get_json()
     session_id = data.get('session_id')
     user_message = data.get('user_message')
@@ -824,7 +828,6 @@ def handle_tutor_chat():
         return jsonify({"error": "Missing session_id or user_message"}), 400
 
     try:
-        # 1. Security Check: Verify session belongs to user and get topic
         session_data = supabase.table("chat_sessions").select("topic") \
                                .eq("id", session_id) \
                                .eq("user_username", current_username) \
@@ -835,23 +838,20 @@ def handle_tutor_chat():
         
         topic = session_data.data[0]['topic']
 
-        # 2. Save the user's message
         supabase.table("chat_messages").insert({
             "session_id": session_id,
             "role": "user",
             "content": user_message
         }).execute()
         
-        # 3. Get chat history for context
         history_response = supabase.table("chat_messages").select("role, content") \
                                    .eq("session_id", session_id) \
                                    .order("created_at", desc=False) \
                                    .execute()
                                    
-        chat_history = history_response.data[:-1] # All messages *except* the one just added
+        chat_history = history_response.data[:-1] 
 
-        # 4. Get User's name for the prompt
-        user_name = current_username
+        user_name = current_username # this is takng the current username for the login
         try:
             user_info_response = supabase.table("User").select('firstname').eq('username', current_username).execute()
             if user_info_response.data and user_info_response.data[0].get('firstname'):
@@ -859,23 +859,33 @@ def handle_tutor_chat():
         except Exception as e:
             print(f"Warning: Could not fetch user's first name. {e}")
 
-        # 5. Get AI response
         ai_response = get_tutor_response(user_message, chat_history, topic, user_name)
         
-        # 6. Save the AI's response
         supabase.table("chat_messages").insert({
             "session_id": session_id,
             "role": "assistant",
             "content": ai_response
         }).execute()
         
-        # 7. Send AI response back to frontend
         return jsonify({"answer": ai_response})
 
     except Exception as e:
         print(f"ERROR /tutor/chat: {e}")
         return jsonify({"error": str(e)}), 500
 
+@app.route('/student-dashboard')
+def student_dashboard_page():
+    """Serves the new Student Dashboard page."""
+    if 'logged_in' not in session or not session['logged_in']:
+        return """
+            <script>
+                alert("You must be logged in to view your dashboard.");
+                window.location.href = "/login";
+            </script>
+        """
+    # This will find and render the 'student_dashboard.html' file
+    # you created in your 'templates' folder.
+    return render_template('student_dashboard.html')    
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
