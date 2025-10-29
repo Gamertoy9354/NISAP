@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* --- CSS Theme Variables --- */
+        :root {
+            --bg-color: #ffffff;
+            --primary-color: #007bff; /* Accent Blue */
+            --accent-color: #e6f2ff; /* Light Accent Blue */
+            --secondary-color: #f8f9fa; /* Light Grey for Cards */
+            --text-color: #333333;
+            --border-color: #dee2e6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* --- Main Layout --- */
+        .dashboard-container {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .sidebar {
+            flex: 0 0 300px; /* Fixed width sidebar */
+            background: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            height: fit-content;
+        }
+
+        .main-content {
+            flex: 1; /* Takes remaining space */
+            min-width: 300px; /* Ensures it doesn't get too squished */
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 8px;
+            margin-top: 0;
+        }
+
+        /* --- Card Style --- */
+        .card {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* --- Sidebar Profile --- */
+        .profile-card h2 {
+            text-align: center;
+        }
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            font-weight: bold;
+            margin: 10px auto 20px;
+            border: 3px solid var(--primary-color);
+        }
+        .profile-info p {
+            margin: 10px 0;
+            font-size: 0.95em;
+            word-wrap: break-word;
+        }
+        .profile-info strong {
+            color: var(--text-color);
+            display: block;
+            margin-bottom: 3px;
+        }
+        .profile-info span {
+            color: #555;
+        }
+        .logout-button {
+            display: block;
+            width: 80%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: background-color 0.2s;
+        }
+        .logout-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* --- Main Content Cards --- */
+        .topics-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .topics-list li {
+            padding: 15px;
+            background: var(--secondary-color);
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border-color);
+        }
+        .topics-list li strong {
+            font-size: 1.1em;
+            color: var(--primary-color);
+        }
+        .topics-list li span {
+            font-size: 0.9em;
+            color: #777;
+        }
+        
+        /* --- Chart Container --- */
+        .chart-container {
+            position: relative;
+            height: 350px; /* Fixed height for the chart */
+            width: 100%;
+        }
+
+        /* --- Loading Spinner --- */
+        .loader {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Student Dashboard</h1>
+
+    <div class="dashboard-container">
+
+        <aside class="sidebar">
+            <div class="profile-card">
+                <h2>My Profile</h2>
+                <div class="profile-pic" id="profile-initial">...</div>
+                <div class="profile-info">
+                    <p>
+                        <strong>Full Name:</strong>
+                        <span id="student-name" class="loader">Loading...</span>
+                    </p>
+                    <p>
+                        <strong>Username:</strong>
+                        <span id="student-username" class="loader">Loading...</span>
+                    </p>
+                    <p>
+                        <strong>Email:</strong>
+                        <span id="student-email" class="loader">Loading...</span>
+                    </p>
+                </div>
+                <a href="/index" class="logout-button">Go back to Services</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+
+            <section class="card">
+                <h2>Performance Analytics</h2>
+                <p>Your engagement level across your most recent learning topics, based on messages exchanged with the AI Tutor.</p>
+                <div class="chart-container">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+                <div id="chart-loader" class="loader">Loading analytics...</div>
+            </section>
+
+            <section class="card">
+                <h2>My Learning Topics</h2>
+                <ul id="course-list" class="topics-list">
+                    <li class="loader">Loading topics...</li>
+                </ul>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchProfileInfo();
+            fetchCourseHistoryAndAnalytics();
+        });
+
+        /**
+         * Fetches and displays the user's profile information.
+         */
+        async function fetchProfileInfo() {
+            try {
+                const response = await fetch('/info');
+                if (!response.ok) throw new Error('Failed to fetch profile');
+                const data = await response.json();
+
+                const fullName = `${data.firstname || ''} ${data.lastname || ''}`.trim();
+                const initial = (data.firstname ? data.firstname[0] : 'U').toUpperCase();
+
+                document.getElementById('student-name').textContent = fullName || 'N/A';
+                document.getElementById('student-username').textContent = data.username || 'N/A';
+                document.getElementById('student-email').textContent = data.email || 'N/A';
+                document.getElementById('profile-initial').textContent = initial;
+
+            } catch (error) {
+                console.error('Error fetching profile:', error);
+                document.getElementById('student-name').textContent = 'Error loading';
+                document.getElementById('student-username').textContent = 'Error loading';
+                document.getElementById('student-email').textContent = 'Error loading';
+            }
+        }
+
+        /**
+         * Fetches all course history AND builds the analytics chart.
+         */
+        async function fetchCourseHistoryAndAnalytics() {
+            const listElement = document.getElementById('course-list');
+            
+            try {
+                // 1. Fetch the list of all topics
+                const historyResponse = await fetch('/tutor/history');
+                if (!historyResponse.ok) throw new Error('Failed to fetch history');
+                const courses = await historyResponse.json();
+
+                if (courses.length === 0) {
+                    listElement.innerHTML = '<li>No topics studied yet.</li>';
+                    document.getElementById('chart-loader').textContent = 'No data to display.';
+                    return;
+                }
+
+                // 2. Populate the "My Learning Topics" list
+                listElement.innerHTML = ''; // Clear loader
+                courses.forEach(course => {
+                    const li = document.createElement('li');
+                    const date = new Date(course.created_at).toLocaleDateString('en-US', {
+                        year: 'numeric', month: 'short', day: 'numeric'
+                    });
+                    li.innerHTML = `
+                        <strong>${course.topic}</strong>
+                        <span>Started: ${date}</span>
+                    `;
+                    listElement.appendChild(li);
+                });
+
+                // 3. Get performance data for the 5 most recent topics
+                // (Slice(0, 5) gets the 5 most recent since they are sorted desc)
+                const recentCourses = courses.slice(0, 5);
+
+                // Create an array of fetch promises
+                const messagePromises = recentCourses.map(course =>
+                    fetch(`/tutor/messages?session_id=${course.id}`)
+                        .then(res => res.json())
+                        .then(messages => ({
+                            topic: course.topic,
+                            count: messages.length // Total messages (user + AI)
+                        }))
+                );
+
+                // Wait for all message counts to be fetched
+                const performanceData = await Promise.all(messagePromises);
+
+                // 4. Render the chart
+                document.getElementById('chart-loader').style.display = 'none';
+                renderPerformanceChart(performanceData);
+
+            } catch (error) {
+                console.error('Error fetching course data:', error);
+                listElement.innerHTML = '<li>Error loading topics.</li>';
+                document.getElementById('chart-loader').textContent = 'Error loading analytics.';
+            }
+        }
+
+        /**
+         * Renders the bar chart using Chart.js
+         * @param {Array} data - Array of objects: [{ topic: "Name", count: 10 }]
+         */
+        function renderPerformanceChart(data) {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            
+            // Data is for the chart, but Promise.all doesn't preserve order,
+            // so we reverse it to show from oldest to newest of the recent 5
+            const reversedData = data.reverse(); 
+
+            const labels = reversedData.map(d => d.topic);
+            const messageCounts = reversedData.map(d => d.count);
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '# of Messages Exchanged',
+                        data: messageCounts,
+                        backgroundColor: 'var(--accent-color)',
+                        borderColor: 'var(--primary-color)',
+                        borderWidth: 2,
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Total Messages (User + AI)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false // Hide legend for a cleaner look
+                        },
+                        tooltip: {
+                            backgroundColor: 'var(--primary-color)',
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 12 },
+                            padding: 10
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
