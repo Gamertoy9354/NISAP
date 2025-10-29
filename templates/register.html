@@ -1,163 +1,325 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>NEP Assessment - Create Account</title>
-		<style>:xr-overlay
-			* { margin: 0; padding: 0; box-sizing: border-box; }
-			body {
-				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-				background: #f5f5f5;
-				min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
-			}
-			.page-container { max-width: 580px; width: 100%; }
-			.header { text-align: center; margin-bottom: 30px; }
-			.icon-circle { width: 70px; height: 70px; background: #dbe4f0; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 20px; }
-			.icon-circle svg { width: 32px; height: 32px; fill: #1e3a8a; }
-			h1 { color: #1a1a1a; font-size: 32px; margin-bottom: 8px; font-weight: 600; }
-			.subtitle { color: #6b7280; font-size: 16px; }
-			.card { background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.1); padding: 40px; }
-			.form-title { font-size: 24px; color: #1a1a1a; margin-bottom: 6px; font-weight: 600; }
-			.form-subtitle { color: #6b7280; font-size: 14px; margin-bottom: 30px; }
-			.form-group { margin-bottom: 20px; }
-			label { display: block; color: #1a1a1a; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
-			.input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-			.input-wrapper { position: relative; }
-			input { width: 100%; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; transition: all .2s; background: #fafafa; color: #374151; }
-			input::placeholder { color: #9ca3af; }
-			input:focus { outline: none; border-color: #3b82f6; background: #fff; box-shadow: 0 0 0 3px rgba(59,130,246,.1); }
-			.password-toggle { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #6b7280; display: flex; align-items: center; }
-			.password-toggle:hover { color: #374151; }
-			.create-account-btn { width: 100%; padding: 13px; background: #6b7f9c; color: #fff; border: 0; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background .2s; margin-top: 24px; }
-			.create-account-btn:hover { background: #5a6d89; }
-			.signin-link { text-align: center; margin-top: 24px; color: #374151; font-size: 14px; }
-			.signin-link a { color: #1e3a8a; text-decoration: none; font-weight: 500; }
-			.signin-link a:hover { text-decoration: underline; }
-			@media (max-width: 520px) { .input-row { grid-template-columns: 1fr; } }
-		</style>
-	</head>
-	<body>
-		<div class="page-container">
-			<div class="header">
-				<div class="icon-circle">
-					<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-						<path d="M12 3L1 9L5 11.18V17.18L12 21L19 17.18V11.18L21 10.09V17H23V9L12 3ZM18.82 9L12 12.72L5.18 9L12 5.28L18.82 9ZM17 15.99L12 18.72L7 15.99V12.27L12 15L17 12.27V15.99Z"/>
-					</svg>
-				</div>
-				<h1>Create Account</h1>
-				<p class="subtitle">Join the NEP Assessment Platform</p>
-			</div>
-
-			<div class="card">
-				<h2 class="form-title">Sign Up</h2>
-				<p class="form-subtitle">Create your account to access the platform</p>
-
-				<form id="signupForm" action="/register" method="POST">
-					<div class="input-row">
-						<div class="form-group">
-							<label for="firstname">First Name</label>
-							<input type="text" id="firstname" name="firstname" placeholder="Enter first name" required>
-						</div>
-						<div class="form-group">
-							<label for="lastname">Last Name</label>
-							<input type="text" id="lastname" name="lastname" placeholder="Enter last name" required>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label for="username">Username</label>
-						<input type="text" id="username" name="username" placeholder="Choose a username" required>
-					</div>
-
-					<div class="form-group">
-						<label for="email">Email</label>
-						<input type="email" id="email" name="email" placeholder="Enter your email" required>
-					</div>
-
-					<div class="input-row">
-						<div class="form-group">
-							<label for="password">Password</label>
-							<div class="input-wrapper">
-								<input type="password" id="password" name="password" placeholder="Create a password" required>
-								<span class="password-toggle" onclick="togglePassword('password')">
-									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-										<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-										<circle cx="12" cy="12" r="3"></circle>
-									</svg>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="confirm_password">Confirm Password</label>
-							<div class="input-wrapper">
-								<input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
-								<span class="password-toggle" onclick="togglePassword('confirm_password')">
-									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-										<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-										<circle cx="12" cy="12" r="3"></circle>
-									</svg>
-								</span>
-							</div>
-						</div>
-                        <div class="input-row">
-							<label for="confirm_password">Role</label>
-							<div class="input-wrapper">
-								<select id="select" class="select" name="role" required>
-									<option value="create">create</option>
-									<option value="join">join</option>
-								</select>
-							</div>
-						</div>
-                        <div class="input-row">
-							<div class="input-wrapper">
-                                <div id="role" style="display: none;">
-                                    <label for="school-name">enter your school name</label>
-                                    <input type="text" id="school-name" name="school-name" placeholder="Enter your school name">
-                                    <label for="code-enter">Code Enter</label>
-                                    <input type="text" id="code-enter" name="code-enter" placeholder="Enter Code (if joining)">
-                                </div>
-							</div>
-						</div>
-					</div>
-					<button type="submit" class="create-account-btn">Create Account</button>
-				</form>
-
-				<div class="signin-link">
-					Already have an account? <a href="{{ url_for('login') }}">Sign in</a>
-				</div>
-			</div>
-		</div>
-
-		<script>
-			function togglePassword(fieldId) {
-				var el = document.getElementById(fieldId);
-				el.type = el.type === 'password' ? 'text' : 'password';
-			}
-            document.addEventListener('DOMContentLoaded', (event) => {
-    // 1. Get references to the elements
-    const selectElement = document.getElementById('select');
-    const inputContainer = document.getElementById('role');
-
-    // 2. Define the function to show/hide the input
-    function toggleJoinInput() {
-        // Check if the currently selected value is 'join'
-        if (selectElement.value === 'join') {
-            // If it is 'join', set display to 'block' (or 'flex', 'grid', etc.)
-            inputContainer.style.display = 'block';
-        } else {
-            // Otherwise, keep it hidden
-            inputContainer.style.display = 'none';
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEP Assessment - Create Account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Light Theme Variables & Base --- */
+        :root {
+            --primary-color: #1a73e8; /* Professional Blue */
+            --text-dark: #202124;
+            --text-grey: #5f6368;
+            --bg-light: #f4f6f8;
+            --card-bg: #ffffff;
+            --input-border: #e0e0e0;
+            --border-radius: 12px; /* Consistent radius */
+            --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
         }
-    }
 
-    // 3. Attach the function to the 'change' event of the select tag
-    selectElement.addEventListener('change', toggleJoinInput);
+        /* Basic Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    // OPTIONAL: Run it once on page load to handle the initial state
-    // (In case the form preserves the state or 'join' is the default)
-    toggleJoinInput();
-});
-		</script>
-	</body>
+        body {
+            background-color: var(--bg-light); /* Light background */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .page-container {
+            max-width: 580px; /* Keep original max-width */
+            width: 100%;
+        }
+
+        /* --- Header --- */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .icon-circle {
+            width: 60px; /* Slightly smaller icon circle */
+            height: 60px;
+            background: #e6f0ff; /* Light blue background */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 15px; /* Adjusted margin */
+            border: 1px solid #c9daff; /* Subtle border */
+        }
+        .icon-circle svg {
+            width: 30px; /* Adjusted icon size */
+            height: 30px;
+            fill: var(--primary-color); /* Blue icon color */
+        }
+        h1 {
+            color: var(--text-dark);
+            font-size: 1.8rem; /* Adjusted size */
+            margin-bottom: 5px; /* Reduced margin */
+            font-weight: 700;
+        }
+        .subtitle {
+            color: var(--text-grey);
+            font-size: 1rem; /* Slightly larger */
+        }
+
+        /* --- Card Styling --- */
+        .card {
+            background: var(--card-bg); /* White card */
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-soft);
+            padding: 30px 40px; /* Adjusted padding */
+            border: 1px solid var(--input-border);
+        }
+        .form-title {
+            font-size: 1.5rem; /* Adjusted size */
+            color: var(--text-dark);
+            margin-bottom: 6px;
+            font-weight: 600;
+            text-align: center; /* Center form title */
+        }
+        .form-subtitle {
+            color: var(--text-grey);
+            font-size: 0.9rem; /* Adjusted size */
+            margin-bottom: 30px;
+            text-align: center; /* Center subtitle */
+        }
+
+        /* --- Form Elements --- */
+        .form-group { margin-bottom: 20px; }
+        label {
+            display: block;
+            color: var(--text-dark);
+            font-weight: 500; /* Regular weight */
+            margin-bottom: 6px; /* Reduced margin */
+            font-size: 0.9rem; /* Adjusted size */
+        }
+        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; } /* Increased gap */
+        .input-wrapper { position: relative; }
+
+        input, select { /* Apply styles to select as well */
+            width: 100%;
+            padding: 10px 12px; /* Adjusted padding */
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            font-size: 0.95rem; /* Adjusted size */
+            transition: all .2s;
+            background: #fdfdff; /* Slightly off-white background */
+            color: var(--text-dark);
+        }
+        input::placeholder { color: #9ca3af; }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: var(--card-bg);
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2); /* Subtle blue shadow */
+        }
+        /* Custom arrow for select */
+        select {
+             appearance: none;
+             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%235f6368' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+             background-repeat: no-repeat;
+             background-position: right 8px center;
+             background-size: 16px;
+             padding-right: 30px; /* Space for arrow */
+         }
+
+
+        .password-toggle {
+            position: absolute; right: 12px; top: 50%;
+            transform: translateY(-50%); cursor: pointer; color: var(--text-grey);
+            display: flex; align-items: center;
+        }
+        .password-toggle:hover { color: var(--text-dark); }
+        .password-toggle svg { width: 18px; height: 18px; } /* Adjusted icon size */
+
+        /* --- Role Specific Inputs --- */
+         #role { /* Style the container for role inputs */
+             margin-top: 20px;
+             padding-top: 20px;
+             border-top: 1px solid var(--input-border);
+         }
+         #role label { /* Style labels inside the role container */
+             margin-top: 10px; /* Add space above these labels */
+         }
+
+
+        /* --- Button --- */
+        .create-account-btn {
+            width: 100%;
+            padding: 12px; /* Adjusted padding */
+            background: var(--primary-color); /* Blue button */
+            color: #fff;
+            border: 0;
+            border-radius: 8px; /* Slightly more rounded */
+            font-size: 1rem; /* Adjusted size */
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .2s, box-shadow 0.2s;
+            margin-top: 24px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+        .create-account-btn:hover {
+            background: #145dbf; /* Darker blue */
+            box-shadow: 0 4px 8px rgba(0,0,0,.15);
+        }
+
+        /* --- Signin Link --- */
+        .signin-link {
+            text-align: center;
+            margin-top: 24px;
+            color: var(--text-grey); /* Grey text */
+            font-size: 0.9rem; /* Adjusted size */
+        }
+        .signin-link a {
+            color: var(--primary-color); /* Blue link */
+            text-decoration: none;
+            font-weight: 600; /* Bold link */
+        }
+        .signin-link a:hover { text-decoration: underline; }
+
+        /* Responsive */
+        @media (max-width: 520px) {
+            .input-row { grid-template-columns: 1fr; }
+            .card { padding: 25px; } /* Reduce padding on small screens */
+            h1 { font-size: 1.6rem; }
+            .form-title { font-size: 1.3rem; }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="header">
+            <div class="icon-circle">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3L1 9L5 11.18V17.18L12 21L19 17.18V11.18L21 10.09V17H23V9L12 3ZM18.82 9L12 12.72L5.18 9L12 5.28L18.82 9ZM17 15.99L12 18.72L7 15.99V12.27L12 15L17 12.27V15.99Z"/>
+                </svg>
+            </div>
+            <h1>Create Account</h1>
+            <p class="subtitle">Join the NEP Assessment Platform</p>
+        </div>
+
+        <div class="card">
+            <h2 class="form-title">Sign Up</h2>
+            <p class="form-subtitle">Create your account to access the platform</p>
+
+            <form id="signupForm" action="/register" method="POST">
+                <div class="input-row">
+                    <div class="form-group">
+                        <label for="firstname">First Name</label>
+                        <input type="text" id="firstname" name="firstname" placeholder="Enter first name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname">Last Name</label>
+                        <input type="text" id="lastname" name="lastname" placeholder="Enter last name" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Choose a username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="input-row">
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="password" name="password" placeholder="Create a password" required>
+                            <span class="password-toggle" onclick="togglePassword('password')">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path> <circle cx="12" cy="12" r="3"></circle> </svg>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_password">Confirm Password</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+                            <span class="password-toggle" onclick="togglePassword('confirm_password')">
+                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path> <circle cx="12" cy="12" r="3"></circle> </svg>
+                            </span>
+                        </div>
+                    </div>
+                 </div> <div class="form-group"> <label for="select">Role</label>
+                     <div class="input-wrapper"> <select id="select" name="role" required>
+                             <option value="create">Create (New School)</option>
+                             <option value="join">Join (Existing School)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="role" style="display: none;"> <div class="form-group">
+                         <label for="school-name">Enter your school name</label>
+                         <input type="text" id="school-name" name="school-name" placeholder="School name associated with code">
+                     </div>
+                     <div class="form-group">
+                         <label for="code-enter">Enter School Code</label>
+                         <input type="text" id="code-enter" name="code-enter" placeholder="Enter code provided by admin">
+                     </div>
+                </div>
+
+
+                <button type="submit" class="create-account-btn">Create Account</button>
+            </form>
+
+            <div class="signin-link">
+                Already have an account? <a href="{{ url_for('login') }}">Sign in</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword(fieldId) {
+            var el = document.getElementById(fieldId);
+            var iconSvg = el.nextElementSibling.querySelector('svg'); // Find the SVG inside the span
+            if (el.type === 'password') {
+                el.type = 'text';
+                // Optional: Change icon to 'eye-off' or similar
+                // iconSvg.innerHTML = '<path d="...eye-off path...">';
+            } else {
+                el.type = 'password';
+                 // Optional: Change icon back to 'eye'
+                 // iconSvg.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const selectElement = document.getElementById('select');
+            const inputContainer = document.getElementById('role');
+            const schoolNameInput = document.getElementById('school-name');
+            const codeEnterInput = document.getElementById('code-enter');
+
+            function toggleJoinInput() {
+                if (selectElement.value === 'join') {
+                    inputContainer.style.display = 'block';
+                    // Make join fields required when visible
+                    schoolNameInput.required = true;
+                    codeEnterInput.required = true;
+                } else {
+                    inputContainer.style.display = 'none';
+                    // Make join fields not required when hidden
+                     schoolNameInput.required = false;
+                     codeEnterInput.required = false;
+                     // Optional: Clear the values when switching back to 'create'
+                     // schoolNameInput.value = '';
+                     // codeEnterInput.value = '';
+                }
+            }
+            selectElement.addEventListener('change', toggleJoinInput);
+            toggleJoinInput(); // Run on page load
+        });
+    </script>
+</body>
 </html>
