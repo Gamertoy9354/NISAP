@@ -100,8 +100,26 @@
 								</span>
 							</div>
 						</div>
+                        <div class="input-row">
+							<label for="confirm_password">Role</label>
+							<div class="input-wrapper">
+								<select id="select" class="select" name="role" required>
+									<option value="create">create</option>
+									<option value="join">join</option>
+								</select>
+							</div>
+						</div>
+                        <div class="input-row">
+							<div class="input-wrapper">
+                                <div id="role" style="display: none;">
+                                    <label for="school-name">enter your school name</label>
+                                    <input type="text" id="school-name" name="school-name" placeholder="Enter your school name">
+                                    <label for="code-enter">Code Enter</label>
+                                    <input type="text" id="code-enter" name="code-enter" placeholder="Enter Code (if joining)">
+                                </div>
+							</div>
+						</div>
 					</div>
-
 					<button type="submit" class="create-account-btn">Create Account</button>
 				</form>
 
@@ -116,6 +134,30 @@
 				var el = document.getElementById(fieldId);
 				el.type = el.type === 'password' ? 'text' : 'password';
 			}
+            document.addEventListener('DOMContentLoaded', (event) => {
+    // 1. Get references to the elements
+    const selectElement = document.getElementById('select');
+    const inputContainer = document.getElementById('role');
+
+    // 2. Define the function to show/hide the input
+    function toggleJoinInput() {
+        // Check if the currently selected value is 'join'
+        if (selectElement.value === 'join') {
+            // If it is 'join', set display to 'block' (or 'flex', 'grid', etc.)
+            inputContainer.style.display = 'block';
+        } else {
+            // Otherwise, keep it hidden
+            inputContainer.style.display = 'none';
+        }
+    }
+
+    // 3. Attach the function to the 'change' event of the select tag
+    selectElement.addEventListener('change', toggleJoinInput);
+
+    // OPTIONAL: Run it once on page load to handle the initial state
+    // (In case the form preserves the state or 'join' is the default)
+    toggleJoinInput();
+});
 		</script>
 	</body>
 </html>
