@@ -8,18 +8,13 @@
     </head>
     <body>
         <!-- .circle div is removed to match the new clean UI -->
+         <a href="{{ url_for('profile') }}"><div class="profile" style="margin-left: 95%;">
+            <img class="pfp" style="width: 50px; height: 50px; border-radius: 50%; margin: 3px; cursor: pointer;" src="static\shis-2.png" alt="Profile Picture">
+            <p>{{ current_username }}</p>
+        </div></a>
 
         <header class="main-header">
-            <div class="navbar-wrapper">
-                <div class="navbar">
-                    <a href="{{ url_for('register') }}" class="nav-link">Register</a>
-                    <a href="{{ url_for('login') }}" class="nav-link">Login</a>
-                    <a href="{{ url_for('forgot_password') }}" class="nav-link hide-mobile">Forgot Password</a>
-                    <a href="{{ url_for('profile') }}" class="nav-link">Profile</a>
-                </div>
-            </div>
-            
-            <h1 class="main-heading">Welcome to SHALA!</h1>
+            <h1 class="main-heading">Welcome to NISAP!</h1>
             <p class="tagline">Explore our innovative educational tools and resources.</p>
         </header>
         
@@ -28,7 +23,7 @@
             <!-- Service Card 1 -->
             <a href="{{ url_for('sch_reg')}}" class="card-link">
                 <div class="service-card">
-                    <img class="card-img" src="static\school.jpg" alt="School Register Icon">
+                    <img class="card-img" src="static\school-2.jpg" alt="School Register Icon">
                     <h2 class="service-title">School Register</h2>
                     <p class="card-desc">Quickly register your institution to access all resources and connect with mentors and students.</p>
                 </div>
@@ -46,7 +41,7 @@
             <!-- Service Card 3 -->
             <a href="{{ url_for('AI') }}" class="card-link">
                 <div class="service-card">
-                    <img class="card-img" src="static\AI-PFP.png" alt="NISAP AI Icon">
+                    <img class="card-img" src="static\icon.png" alt="NISAP AI Icon">
                     <h2 class="service-title">NISAP AI</h2>
                     <p class="card-desc">Our smart AI assistant helps students and mentors with real-time doubt clearing and personalized learning paths.</p>
                 </div>
@@ -55,9 +50,23 @@
             <!-- Service Card 4 -->
             <a href="{{ url_for('ocr_page') }}" class="card-link">
                 <div class="service-card">
-                    <img class="card-img" src="static\NEP.png" alt="OCR Feature Icon">
+                    <img class="card-img" src="static\OCR-icon.png" alt="OCR Feature Icon">
                     <h2 class="service-title">OCR Feature</h2>
                     <p class="card-desc">Use Optical Character Recognition to quickly digitize notes, books, and documents. Upload and learn.</p>
+                </div>
+            </a>
+            <a href="{{ url_for('tutor_page')}}" class="card-link">
+                <div class="service-card">
+                    <img class="card-img" src="static\tutor-icon.jpg" alt="Tutor Icon">
+                    <h2 class="service-title">Tutor</h2>
+                    <p class="card-desc">Connect with experienced tutors to get personalized help and support.</p>
+                </div>
+            </a>
+            <a href="{{ url_for('student_dashboard_page')}}" class="card-link">
+                <div class="service-card">
+                    <img class="card-img" src="static\dashboard-icon.jpg" alt="School Register Icon">
+                    <h2 class="service-title">Student Dashboard</h2>
+                    <p class="card-desc">View your progress, assignments, and performance on a single dashboard.</p>
                 </div>
             </a>
         </section>
