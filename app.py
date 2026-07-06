@@ -35,8 +35,8 @@ app.secret_key = os.environ.get('FLASK_SECRET_KEY') or 'temporary-secret-key-for
 app.permanent_session_lifetime = timedelta(days=7)
 
 # Supabase creds (User's original values)
-SUPABASE_URL = "https://jhsdirmgjtqqgcymdtba.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impoc2Rpcm1nanRxcWdjeW1kdGJhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MTI2MTY5MywiZXhwIjoyMDc2ODM3NjkzfQ.rflfJj4wO1pDocWjM0Fz5Feu0IL7GXrvktWzF_mLzZs"
+SUPABASE_URL = ""
+SUPABASE_KEY = ""
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 
@@ -46,7 +46,7 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # --- (FIX 1: SECURE API KEY) ---
 # Load the API key from an environment variable. DO NOT paste it here.
-api_key = "AIzaSyCyxYp1kQKLSGGwFcRX_bdYkYVcHkAG0-A" # <<< FIX 2: Load key from environment
+api_key = "" # <<< FIX 2: Load key from environment
 if not api_key:
     print("CRITICAL ERROR: 'GEMINI_API_KEY' environment variable not set.")
     print("Please set it before running the app:")
@@ -63,7 +63,7 @@ GENERATION_MODEL = 'gemini-2.5-flash' # <<< FIX 3: Use a valid model name
 VISION_MODEL = 'gemini-2.5-flash' # <<< FIX 3: Use a valid model name
 
 groq_client = Groq(
-    api_key='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'  # or api_key="your_key_here"
+    api_key=''  # or api_key="your_key_here"
 )
 
 
