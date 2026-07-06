@@ -1,0 +1,9 @@
+Flask==3.1.1
+Flask-Cors==6.0.1
+python-dotenv==1.1.1
+supabase==2.17.0
+google-generativeai==0.8.5
+groq==0.31.0
+Pillow==11.3.0
+requests==2.32.4
+Werkzeug==3.1.3
